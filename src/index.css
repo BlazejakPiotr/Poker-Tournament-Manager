@@ -1,13 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Karla&family=Titillium+Web:wght@600&display=swap");
 body {
+  min-width: 350px;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-width: 350px;
+  font-family: "Karla", sans-serif !important;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+.nav-item {
+  font-family: "Titillium Web", sans-serif;
+  width: 25%;
+}
+.nav-item button {
+  width: 100%;
+  color: #242424;
+}
+
+.tab-content > .active {
+  padding: 2rem 3rem;
+  border: 1px solid #dddddd;
+  border-top: none;
+}
+
+.clock {
+  border: 1px solid black;
+  text-align: center;
+  padding: 1rem 0px;
+}
+.clock div > h1 {
+  font-size: 6rem;
+}
+
+.clock div > p {
+  margin-block-end: 0px;
+  /* font-size: 1.2rem; */
+}
+.controls svg {
+  margin: 0px 20px;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+@media only screen and (max-width: 650px) {
+  .small-screen {
+    display: none;
+  }
 }
