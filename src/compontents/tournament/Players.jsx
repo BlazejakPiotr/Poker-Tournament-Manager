@@ -1,10 +1,6 @@
 import { Row, Col } from "react-bootstrap";
-import {
-  AddPlayer,
-  PlayerListTable,
-  TableControls,
-  TableList,
-} from "./players/index.js";
+import { CreateNewPlayer } from "./players/functions.js";
+import { PlayerListTable } from "./players/index.js";
 
 const Players = () => {
   return (
@@ -12,7 +8,7 @@ const Players = () => {
       <Col>
         <Row className="mb-4">
           <Col className="d-flex justify-content-start">
-            <AddPlayer />
+            <CreateNewPlayer />
           </Col>
         </Row>
         <Row>
