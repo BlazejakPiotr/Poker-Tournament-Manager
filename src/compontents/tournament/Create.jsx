@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Modal, Form } from "react-bootstrap";
+import { Button, Modal, Form, Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { createNewTournament } from "../../redux/actions";
@@ -14,10 +14,13 @@ const Create = () => {
   const history = useHistory();
 
   const [tournament, setTournament] = useState({
-    name: String,
+    name: "EUROPEAN POKER TOUR EPT 2021",
     date: String,
     buyin: Number,
+    currency: "USD",
     type: "Freezout",
+    rebuy: null,
+    addon: null,
   });
 
   const handleInput = (e, propertyName) => {
@@ -51,6 +54,7 @@ const Create = () => {
                 type="text"
                 placeholder="European Poker Tour - EPT 2021"
                 required
+                value={tournament.name}
                 onChange={(e) => handleInput(e, "name")}
               />
             </Form.Group>
@@ -62,19 +66,63 @@ const Create = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="tournamentBuyin">
-              <Form.Label>Buy-in</Form.Label>
-              <Form.Control
-                type="number"
-                required
-                onChange={(e) => handleInput(e, "buyin")}
-              />
+              <Form.Label>Buy-in cost</Form.Label>
+              <Row>
+                <Col>
+                  <Form.Control
+                    type="number"
+                    required
+                    onChange={(e) => handleInput(e, "buyin")}
+                  />
+                </Col>
+                <Col>
+                  <Form.Select onChange={(e) => handleInput(e, "currency")}>
+                    <option value="USD">USD</option>
+                    <option value="GBP">GBP</option>
+                    <option value="EUR">EUR</option>
+                  </Form.Select>
+                </Col>
+              </Row>
             </Form.Group>
+
             <Form.Group className="mb-3" controlId="tournamentType">
               <Form.Label>Tournament Type</Form.Label>
               <Form.Select onChange={(e) => handleInput(e, "type")}>
-                <option value="0">Freezeout</option>
+                <option value="Freezeout">Freezeout</option>
+                <option value="Rebuys">Rebuys</option>
+                <option value="Rebuys + Add-on">Rebuys + Add-on</option>
               </Form.Select>
             </Form.Group>
+            {tournament.type === "Rebuys" && (
+              <Form.Group className="mb-3" controlId="tournamentRebuy">
+                <Form.Label>Rebuy cost</Form.Label>
+                <Form.Control
+                  type="number"
+                  required
+                  onChange={(e) => handleInput(e, "rebuy")}
+                />
+              </Form.Group>
+            )}
+            {tournament.type === "Rebuys + Add-on" && (
+              <>
+                <Form.Group className="mb-3" controlId="tournamentRebuy">
+                  <Form.Label>Rebuy cost</Form.Label>
+                  <Form.Control
+                    type="number"
+                    required
+                    onChange={(e) => handleInput(e, "rebuy")}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="tournamentAddon">
+                  <Form.Label>Add-on cost</Form.Label>
+                  <Form.Control
+                    type="number"
+                    required
+                    onChange={(e) => handleInput(e, "addon")}
+                  />
+                </Form.Group>
+              </>
+            )}
             <Button variant="primary" type="submit" onClick={handleClose}>
               Save Changes
             </Button>

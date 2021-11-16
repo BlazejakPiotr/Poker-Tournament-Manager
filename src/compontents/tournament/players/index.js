@@ -1,5 +1,4 @@
 import {
-  faUserPlus,
   faPlus,
   faTrash,
   faRandom,
@@ -9,12 +8,21 @@ import {
   faRetweet,
   faUserMinus,
   faCheck,
+  faHandHoldingUsd,
 } from "@fortawesome/fontawesome-free-solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect } from "react";
 import { Form, Table, Button, ListGroup, Dropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { removePlayer } from "../../../redux/actions";
-import { CalculatePlayerCosts } from "./functions";
+import {
+  addonPlayer,
+  bustoutPlayer,
+  buyinPlayer,
+  rebuyPlayer,
+  removePlayer,
+  setTotalPlayerCost,
+} from "../../../redux/actions";
+import { ChangePlayerStatus } from "./functions";
 
 export const PlayerListTable = () => {
   const players = useSelector((state) => state.tournament.players);
@@ -25,7 +33,7 @@ export const PlayerListTable = () => {
           <th className="small-screen">#</th>
           <th style={{ width: "25%" }}>Name</th>
           <th className="small-screen">Paid</th>
-          <th className="small-screen">Re-buy</th>
+          <th className="small-screen">Rebuy</th>
           <th className="small-screen">Add-on</th>
           <th>Total</th>
           <th>Status</th>
@@ -42,6 +50,8 @@ export const PlayerListTable = () => {
 };
 
 const PlayersListTableItem = ({ player, index }) => {
+  const dispatch = useDispatch();
+
   return (
     <tr>
       <td className="small-screen">{index + 1}.</td>
@@ -49,12 +59,10 @@ const PlayersListTableItem = ({ player, index }) => {
       <td className="small-screen">
         {player.buyin ? <FontAwesomeIcon icon={faCheck} /> : "-"}
       </td>
-      <td className="small-screen">
-        {player.rebuy ? <FontAwesomeIcon icon={faCheck} /> : "-"}
-      </td>
+      <td className="small-screen">{player.rebuy ? player.rebuy : "-"}</td>
       <td> {player.addon ? <FontAwesomeIcon icon={faCheck} /> : "-"}</td>
-      <td>{CalculatePlayerCosts(player)}</td>
-      <td>Playing</td>
+      <td>{player.cost} </td>
+      <td>{ChangePlayerStatus(player.status)}</td>
       <td>
         <PlayerMenu index={index} />
       </td>
@@ -113,8 +121,10 @@ export const TableList = () => {
   );
 };
 
-export const PlayerMenu = (index) => {
+export const PlayerMenu = ({ index }) => {
   const dispatch = useDispatch();
+  const data = useSelector((state) => state.tournament.data);
+  const players = useSelector((state) => state.tournament.players);
   return (
     <Dropdown>
       <Dropdown.Toggle
@@ -125,18 +135,49 @@ export const PlayerMenu = (index) => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu variant="dark">
-        <Dropdown.Item>
+        <Dropdown.Item
+          disabled={players[index].buyin}
+          onClick={() => dispatch(buyinPlayer(index))}
+        >
           <FontAwesomeIcon icon={faCoins} /> Buy-in
         </Dropdown.Item>
-        <Dropdown.Item disabled>
-          <FontAwesomeIcon icon={faRetweet} /> Re-buy
+        <Dropdown.Item
+          disabled={
+            !data.rebuy ||
+            !players[index].buyin ||
+            players[index].status === "Busted out"
+          }
+          onClick={() => dispatch(rebuyPlayer(index))}
+        >
+          <FontAwesomeIcon icon={faRetweet} /> Rebuy
         </Dropdown.Item>
-        <Dropdown.Item disabled>
+        <Dropdown.Item
+          disabled={
+            !data.addon ||
+            !players[index].buyin ||
+            players[index].addon ||
+            players[index].status === "Busted out"
+          }
+          onClick={() => dispatch(addonPlayer(index))}
+        >
+          <FontAwesomeIcon icon={faHandHoldingUsd} /> Add-on
+        </Dropdown.Item>
+        <Dropdown.Item
+          disabled={
+            !players[index].buyin || players[index].status === "Busted out"
+          }
+          onClick={() => dispatch(bustoutPlayer(index))}
+        >
           <FontAwesomeIcon icon={faUserMinus} /> Bust out
         </Dropdown.Item>
         <Dropdown.Item onClick={() => dispatch(removePlayer(index))}>
           <FontAwesomeIcon icon={faTrash} /> Delete
         </Dropdown.Item>
+        {/* <Dropdown.Item
+          onClick={() => dispatch(setTotalPlayerCost(index, data))}
+        >
+          CALCULATE
+        </Dropdown.Item> */}
       </Dropdown.Menu>
     </Dropdown>
   );

@@ -3,18 +3,19 @@ import { useDispatch } from "react-redux";
 import { createPlayer } from "../../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/fontawesome-free-solid";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Badge } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 export const CreateNewPlayer = () => {
   const dispatch = useDispatch();
   const [player, setPlayer] = useState({
     name: "",
-    buyin: true,
-    rebuy: false,
+    buyin: false,
+    rebuy: 0,
     addon: false,
-    status: null,
-    cost: null,
+    status: "Registered",
+    cost: 0,
+    place: 0,
   });
   const handleInput = (e) => {
     setPlayer({
@@ -29,9 +30,10 @@ export const CreateNewPlayer = () => {
     setPlayer({
       name: "",
       buyin: false,
-      rebuy: false,
+      rebuy: 0,
       addon: false,
-      status: null,
+      status: "Registered",
+      cost: 0,
     });
   };
 
@@ -51,17 +53,38 @@ export const CreateNewPlayer = () => {
   );
 };
 
-export const CalculatePlayerCosts = (player) => {
-  const data = useSelector((state) => state.tournament.data);
-  if (player.buyin && player.rebuy && player.addon) {
-    return data.buyin + data.rebuy + data.addon;
-  } else if (player.buyin && player.rebuy) {
-    return data.buyin + data.rebuy;
-  } else if (player.buyin && player.addon) {
-    return data.buyin + data.addon;
-  } else if (player.buyin) {
-    return data.buyin;
-  } else {
-    return 0;
-  }
+export const ChangePlayerStatus = (status) => {
+  if (status === "Registered")
+    return (
+      <Badge pill bg="warning" text="dark">
+        {status}
+      </Badge>
+    );
+  if (status === "Still in")
+    return (
+      <Badge pill bg="success" text="white">
+        {status}
+      </Badge>
+    );
+  if (status === "Busted out")
+    return (
+      <Badge pill bg="danger" text="white">
+        {status}
+      </Badge>
+    );
+};
+
+export const CalculatePlayersTotalCost = (index, data) => {
+  console.log(index, data);
+  // const buyin = parseInt(tournament.data.buyin);
+  // const rebuy = parseInt(tournament.data.rebuy);
+  // const addon = parseInt(tournament.data.addon);
+
+  // let cost = 0;
+  // if (tournament.players[index].buyin) cost += buyin;
+  // if (tournament.players[index].rebuy > 0)
+  //   cost += rebuy * tournament.players[index].rebuy;
+  // if (tournament.players[index].addon) cost += addon;
+
+  // return cost;
 };
