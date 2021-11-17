@@ -21,6 +21,7 @@ const Create = () => {
     type: "Freezout",
     rebuy: null,
     addon: null,
+    placements: [],
   });
 
   const handleInput = (e, propertyName) => {

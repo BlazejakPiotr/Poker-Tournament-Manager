@@ -9,6 +9,7 @@ import {
   faUserMinus,
   faCheck,
   faHandHoldingUsd,
+  faInfoCircle,
 } from "@fortawesome/fontawesome-free-solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
@@ -20,9 +21,8 @@ import {
   buyinPlayer,
   rebuyPlayer,
   removePlayer,
-  setTotalPlayerCost,
 } from "../../../redux/actions";
-import { ChangePlayerStatus } from "./functions";
+import { ChangePlayerStatus, renamePlayerPlace } from "./functions";
 
 export const PlayerListTable = () => {
   const players = useSelector((state) => state.tournament.players);
@@ -32,11 +32,12 @@ export const PlayerListTable = () => {
         <tr>
           <th className="small-screen">#</th>
           <th style={{ width: "25%" }}>Name</th>
+          <th>Status</th>
           <th className="small-screen">Paid</th>
           <th className="small-screen">Rebuy</th>
           <th className="small-screen">Add-on</th>
           <th>Total</th>
-          <th>Status</th>
+          <th>Place</th>
           <th style={{ width: "38px" }}></th>
         </tr>
       </thead>
@@ -50,19 +51,24 @@ export const PlayerListTable = () => {
 };
 
 const PlayersListTableItem = ({ player, index }) => {
-  const dispatch = useDispatch();
+  const data = useSelector((state) => state.tournament.data);
 
   return (
     <tr>
       <td className="small-screen">{index + 1}.</td>
-      <td className="small-screen">{player.name}</td>
+      <td>{player.name}</td>
+      <td>{ChangePlayerStatus(player.status)}</td>
       <td className="small-screen">
         {player.buyin ? <FontAwesomeIcon icon={faCheck} /> : "-"}
       </td>
       <td className="small-screen">{player.rebuy ? player.rebuy : "-"}</td>
-      <td> {player.addon ? <FontAwesomeIcon icon={faCheck} /> : "-"}</td>
-      <td>{player.cost} </td>
-      <td>{ChangePlayerStatus(player.status)}</td>
+      <td className="small-screen">
+        {player.addon ? <FontAwesomeIcon icon={faCheck} /> : "-"}
+      </td>
+      <td>
+        {player.cost} {data.currency}
+      </td>
+      <td>{renamePlayerPlace(player.place)}</td>
       <td>
         <PlayerMenu index={index} />
       </td>
@@ -135,11 +141,25 @@ export const PlayerMenu = ({ index }) => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu variant="dark">
+        <Dropdown.Item onClick={() => console.log("modal")}>
+          <div className="d-flex ">
+            <div style={{ width: "30px" }}>
+              <FontAwesomeIcon icon={faInfoCircle} />
+            </div>
+            <span>Details</span>
+          </div>
+        </Dropdown.Item>
+        <Dropdown.Divider />
         <Dropdown.Item
           disabled={players[index].buyin}
           onClick={() => dispatch(buyinPlayer(index))}
         >
-          <FontAwesomeIcon icon={faCoins} /> Buy-in
+          <div className="d-flex ">
+            <div style={{ width: "30px" }}>
+              <FontAwesomeIcon icon={faCoins} />
+            </div>
+            <span>Buy-in </span>
+          </div>
         </Dropdown.Item>
         <Dropdown.Item
           disabled={
@@ -149,7 +169,12 @@ export const PlayerMenu = ({ index }) => {
           }
           onClick={() => dispatch(rebuyPlayer(index))}
         >
-          <FontAwesomeIcon icon={faRetweet} /> Rebuy
+          <div className="d-flex ">
+            <div style={{ width: "30px" }}>
+              <FontAwesomeIcon icon={faRetweet} />
+            </div>
+            <span>Rebuy</span>
+          </div>
         </Dropdown.Item>
         <Dropdown.Item
           disabled={
@@ -160,24 +185,38 @@ export const PlayerMenu = ({ index }) => {
           }
           onClick={() => dispatch(addonPlayer(index))}
         >
-          <FontAwesomeIcon icon={faHandHoldingUsd} /> Add-on
+          <div className="d-flex ">
+            <div style={{ width: "30px" }}>
+              <FontAwesomeIcon icon={faHandHoldingUsd} />
+            </div>
+            <span>Add-on</span>
+          </div>
         </Dropdown.Item>
+        <Dropdown.Divider />
         <Dropdown.Item
           disabled={
             !players[index].buyin || players[index].status === "Busted out"
           }
           onClick={() => dispatch(bustoutPlayer(index))}
         >
-          <FontAwesomeIcon icon={faUserMinus} /> Bust out
+          <div className="d-flex ">
+            <div style={{ width: "30px" }}>
+              <FontAwesomeIcon icon={faUserMinus} />{" "}
+            </div>
+            <span>Bust out</span>
+          </div>
         </Dropdown.Item>
-        <Dropdown.Item onClick={() => dispatch(removePlayer(index))}>
-          <FontAwesomeIcon icon={faTrash} /> Delete
-        </Dropdown.Item>
-        {/* <Dropdown.Item
-          onClick={() => dispatch(setTotalPlayerCost(index, data))}
+        <Dropdown.Item
+          disabled={players[index].buyin}
+          onClick={() => dispatch(removePlayer(index))}
         >
-          CALCULATE
-        </Dropdown.Item> */}
+          <div className="d-flex ">
+            <div style={{ width: "30px" }}>
+              <FontAwesomeIcon icon={faTrash} />{" "}
+            </div>
+            <span>Delete</span>
+          </div>
+        </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );

@@ -1,91 +1,57 @@
-import { Row, Col } from "react-bootstrap";
+import { faCogs } from "@fortawesome/fontawesome-free-solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFastBackward,
-  faFastForward,
-  faPlay,
-} from "@fortawesome/fontawesome-free-solid";
+import { Row, Col, Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { resetTournamentState } from "../../redux/actions/index.js";
+import { ClockControls } from "./clock/index.js";
 
 const Clock = () => {
+  const tournament = useSelector((state) => state.tournament);
+  const dispatch = useDispatch();
   return (
-    <>
-      <Row className="justify-content-end mb-4">
-        <Col sm={4} className="d-flex justify-content-end"></Col>
-      </Row>
+    <Row className="py-5">
       <Row>
-        <Col className="clock">
-          <h2>EPT EUROPEAN POKER TOUR</h2>
+        <Col>
+          <h2>{tournament.data.name}</h2>
         </Col>
-      </Row>
-      <Row>
-        <Col className="clock">
-          <div>
-            <p>Ante</p>
-            <h2>100</h2>
-          </div>
-          <div>
-            <p>Small blind</p>
-            <h2>500</h2>
-          </div>
-          <div>
-            <p>Big blind</p>
-            <h2>1000</h2>
-          </div>
-        </Col>
-        <Col md={6} className="clock">
-          <div>
-            <h3 style={{ marginBottom: "0px" }}>Round 1</h3>
-            <h1>15:00</h1>
-            <div className="controls">
-              <FontAwesomeIcon icon={faFastBackward} size="2x" />
-              <FontAwesomeIcon icon={faPlay} size="2x" />
-              <FontAwesomeIcon icon={faFastForward} size="2x" />
-            </div>
-          </div>
-        </Col>
-        <Col className="clock">
-          <div>
-            <p>Current time</p>
-            <h2>21:00</h2>
-          </div>
-          <div>
-            <p>Elapsed time</p>
-            <h2>00:00</h2>
-          </div>
-          <div>
-            <p>Next break</p>
-            <h2>00:15</h2>
-          </div>
+        <Col className="d-flex justify-content-end">
+          <Button onClick={() => dispatch(resetTournamentState())}>
+            RESET
+          </Button>
+          <Button>
+            Settings <FontAwesomeIcon icon={faCogs} />{" "}
+          </Button>
         </Col>
       </Row>
       <Row>
-        <Col className="clock">
+        <Col className="d-flex flex-column justify-content-center" md={4}>
+          <p>{tournament.data.date}</p>
+          {/* <h6>
+            Buyin {tournament.data.buyin} {tournament.data.currency}
+          </h6>
+          <h6>
+            {tournament.data.rebuy > 0 &&
+              "Rebuy " + tournament.data.rebuy + tournament.data.currency}
+          </h6>
+          <h6>
+            {tournament.data.addon > 0 &&
+              "Add-on" + tournament.data.addon + tournament.data.currency}
+          </h6> */}
+        </Col>
+        <Col className="text-center" md={4}>
           <div>
-            <p>Players</p>
-            <h3>0/10</h3>
+            <h1 style={{ fontSize: "5rem" }}>15:00</h1>
+            <ClockControls />
           </div>
         </Col>
-        <Col className="clock">
-          <div>
-            <p>Avg stack</p>
-            <h3>1000</h3>
-          </div>
-        </Col>
-        <Col className="clock">
-          <div>
-            <p>Pot</p>
-            <h3>0$</h3>
-          </div>
-        </Col>
-        <Col className="clock">
-          <div>
-            <p>Next round</p>
-            <h3>1000/2000 (200)</h3>
-          </div>
+
+        <Col className="d-flex flex-column justify-content-center text-center">
+          <h4>Round 1</h4>
+          <h1>25/50 (-)</h1>
         </Col>
       </Row>
-    </>
+    </Row>
   );
 };
-
 export default Clock;

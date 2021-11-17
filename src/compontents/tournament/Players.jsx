@@ -1,5 +1,5 @@
 import { Row, Col } from "react-bootstrap";
-import { CreateNewPlayer } from "./players/functions.js";
+import { BuyinAllPlayers, CreateNewPlayer } from "./players/functions.js";
 import { PlayerListTable } from "./players/index.js";
 
 const Players = () => {
@@ -7,8 +7,9 @@ const Players = () => {
     <Row>
       <Col>
         <Row className="mb-4">
-          <Col className="d-flex justify-content-start">
+          <Col className="d-flex justify-content-between">
             <CreateNewPlayer />
+            <BuyinAllPlayers />
           </Col>
         </Row>
         <Row>

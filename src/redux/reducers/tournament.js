@@ -6,7 +6,11 @@ import {
   REBUY_PLAYER,
   ADDON_PLAYER,
   BUSTOUT_PLAYER,
-  SET_PLAYER_COST,
+  UPDATE_PLAYER_COST,
+  SET_PLAYER_PLACE,
+  RESET_TOURNAMENT_STATE,
+  SET_WINNER,
+  BUYIN_ALL_PLAYERS,
 } from "../actions";
 import { initialState } from "../store";
 
@@ -17,6 +21,28 @@ const tournamentReducer = (state = initialState.tournament, action) => {
       return {
         ...state,
         data: action.payload,
+      };
+    case RESET_TOURNAMENT_STATE:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          placements: [],
+        },
+        players: [
+          ...state.players.map(
+            (player) =>
+              (player = {
+                ...player,
+                buyin: false,
+                rebuy: false,
+                addon: false,
+                status: "Registered",
+                cost: 0,
+                place: null,
+              })
+          ),
+        ],
       };
 
     // PLAYER STATE
@@ -35,8 +61,18 @@ const tournamentReducer = (state = initialState.tournament, action) => {
         ...state,
         players: state.players.map((player, i) => {
           if (i !== action.payload) return player;
-          else return { ...player, buyin: true, status: "Still in" };
+          else
+            return {
+              ...player,
+              buyin: true,
+              status: "Still in",
+            };
         }),
+      };
+    case BUYIN_ALL_PLAYERS:
+      return {
+        ...state,
+        // players: state.players.map((player) =>  return {...player, buyin: true})
       };
     case REBUY_PLAYER:
       return {
@@ -59,16 +95,37 @@ const tournamentReducer = (state = initialState.tournament, action) => {
       return {
         ...state,
         players: state.players.map((player, i) => {
-          if (i !== action.payload) return player;
-          else return { ...player, place: 0, status: "Busted out" };
+          if (i !== action.payload.index) return player;
+          else
+            return {
+              ...player,
+              place: action.payload.place,
+              status: "Busted out",
+            };
         }),
       };
-    case SET_PLAYER_COST:
+    case SET_PLAYER_PLACE:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          placements: [...state.data.placements, { ...action.payload }],
+        },
+      };
+    case UPDATE_PLAYER_COST:
       return {
         ...state,
         players: state.players.map((player, i) => {
-          if (i !== action.payload) return player;
-          else return { ...player, cost: action.cost };
+          if (i !== action.payload.index) return player;
+          else return { ...player, cost: action.payload.cost };
+        }),
+      };
+    case SET_WINNER:
+      return {
+        ...state,
+        players: state.players.map((player) => {
+          if (player.place) return player;
+          else return { ...player, status: "Winner", place: 1 };
         }),
       };
     default:

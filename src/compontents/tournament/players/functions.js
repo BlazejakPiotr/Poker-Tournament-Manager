@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createPlayer } from "../../../redux/actions";
+import {
+  buyinAllPlayers,
+  createPlayer,
+  resetTournamentState,
+  setPlayerCost,
+} from "../../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserPlus } from "@fortawesome/fontawesome-free-solid";
+import { faCoins, faUserPlus } from "@fortawesome/fontawesome-free-solid";
 import { Form, Button, Badge } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
@@ -15,8 +20,9 @@ export const CreateNewPlayer = () => {
     addon: false,
     status: "Registered",
     cost: 0,
-    place: 0,
+    place: null,
   });
+
   const handleInput = (e) => {
     setPlayer({
       ...player,
@@ -34,22 +40,25 @@ export const CreateNewPlayer = () => {
       addon: false,
       status: "Registered",
       cost: 0,
+      place: null,
     });
   };
 
   return (
-    <Form onSubmit={handleSubmit} className="d-flex align-items-center">
-      <Form.Control
-        type="text"
-        placeholder="Add new player"
-        required
-        value={player.name}
-        onChange={(e) => handleInput(e)}
-      />
-      <Button type="submit">
-        <FontAwesomeIcon icon={faUserPlus} />
-      </Button>
-    </Form>
+    <>
+      <Form onSubmit={handleSubmit} className="d-flex align-items-center">
+        <Form.Control
+          type="text"
+          placeholder="Add new player"
+          required
+          value={player.name}
+          onChange={(e) => handleInput(e)}
+        />
+        <Button type="submit">
+          <FontAwesomeIcon icon={faUserPlus} />
+        </Button>
+      </Form>
+    </>
   );
 };
 
@@ -72,19 +81,71 @@ export const ChangePlayerStatus = (status) => {
         {status}
       </Badge>
     );
+  if (status === "Winner")
+    return (
+      <Badge pill bg="primary" text="white">
+        {status}
+      </Badge>
+    );
+  else return status;
 };
 
-export const CalculatePlayersTotalCost = (index, data) => {
-  console.log(index, data);
-  // const buyin = parseInt(tournament.data.buyin);
-  // const rebuy = parseInt(tournament.data.rebuy);
-  // const addon = parseInt(tournament.data.addon);
+export const renamePlayerPlace = (place) => {
+  switch (place) {
+    case 1:
+      return "1st";
+    case 2:
+      return "2nd";
+    case 3:
+      return "3rd";
+    case 4:
+      return "4th";
+    case 5:
+      return "5th";
+    case 6:
+      return "6th";
+    case 7:
+      return "7th";
+    case 8:
+      return "8th";
+    case 9:
+      return "9th";
+    case 10:
+      return "10th";
+    default:
+      return place;
+  }
+};
 
-  // let cost = 0;
-  // if (tournament.players[index].buyin) cost += buyin;
-  // if (tournament.players[index].rebuy > 0)
-  //   cost += rebuy * tournament.players[index].rebuy;
-  // if (tournament.players[index].addon) cost += addon;
+export const calculatePlayerCost = (index, state) => {
+  let buyin = parseInt(state.data.buyin);
+  let rebuy = parseInt(state.data.rebuy);
+  let addon = parseInt(state.data.addon);
+  let cost = 0;
 
-  // return cost;
+  if (state.players[index].buyin) cost += buyin;
+  if (state.players[index].rebuy) {
+    cost += rebuy * state.players[index].rebuy;
+  }
+  if (state.players[index].addon) cost += addon;
+  return cost;
+};
+
+export const calculatePlayersLeft = (tournament) => {
+  return (
+    tournament.players.length -
+    tournament.data.placements.length +
+    " / " +
+    tournament.players.length
+  );
+};
+
+export const BuyinAllPlayers = () => {
+  const dispatch = useDispatch();
+  return (
+    <Button onClick={() => dispatch(buyinAllPlayers())}>
+      Buy-in all
+      <FontAwesomeIcon icon={faCoins} />
+    </Button>
+  );
 };

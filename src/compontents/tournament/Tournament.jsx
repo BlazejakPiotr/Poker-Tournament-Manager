@@ -1,23 +1,25 @@
 import { Container, Tab, Tabs } from "react-bootstrap";
 import Players from "./Players";
-import Clock from "./Clock";
+import Board from "./Board";
 import Blinds from "./Blinds";
+import Clock from "./Clock";
 
 const Tournament = () => {
   return (
-    <Container fluid>
-      <Tabs defaultActiveKey="Clock" className="d-flex justify-content-evenly">
-        <Tab eventKey="Clock" title="Clock">
-          <Clock />
-        </Tab>
-
-        <Tab eventKey="Players" title="Players">
-          <Players />
+    <Container>
+      <Clock />
+      <Tabs defaultActiveKey="Board" className="d-flex justify-content-evenly">
+        <Tab eventKey="Board" title="Board">
+          <Board />
         </Tab>
         <Tab eventKey="Blinds" title="Blinds">
           <Blinds />
         </Tab>
-        <Tab eventKey="Settings" title="Settings">
+        <Tab eventKey="Players" title="Players">
+          <Players />
+        </Tab>
+
+        <Tab eventKey="Tables" title="Tables">
           {/* <TablesTab /> */}
         </Tab>
       </Tabs>
