@@ -11,6 +11,7 @@ import {
   RESET_TOURNAMENT_STATE,
   SET_WINNER,
   BUYIN_ALL_PLAYERS,
+  ADD_ROUND,
 } from "../actions";
 import { initialState } from "../store";
 
@@ -69,11 +70,11 @@ const tournamentReducer = (state = initialState.tournament, action) => {
             };
         }),
       };
-    case BUYIN_ALL_PLAYERS:
-      return {
-        ...state,
-        // players: state.players.map((player) =>  return {...player, buyin: true})
-      };
+    // case BUYIN_ALL_PLAYERS:
+    //   return {
+    //     ...state,
+    //      players: state.players.map((player) =>  return {...player, buyin: true})
+    //   };
     case REBUY_PLAYER:
       return {
         ...state,
@@ -127,6 +128,13 @@ const tournamentReducer = (state = initialState.tournament, action) => {
           if (player.place) return player;
           else return { ...player, status: "Winner", place: 1 };
         }),
+      };
+
+    // ROUND STATE
+    case ADD_ROUND:
+      return {
+        ...state,
+        rounds: [...state.rounds, action.payload],
       };
     default:
       return state;

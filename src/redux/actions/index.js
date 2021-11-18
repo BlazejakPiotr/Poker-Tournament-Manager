@@ -124,3 +124,10 @@ export const bustoutPlayer = (index) => {
 };
 
 // ROUNDS
+export const ADD_ROUND = "ADD_ROUND";
+export const ADD_BREAK = "ADD_BREAK";
+
+export const addRound = (round) => ({
+  type: ADD_ROUND,
+  payload: round,
+});
