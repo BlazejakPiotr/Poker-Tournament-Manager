@@ -1,8 +1,14 @@
-import { calculatePlayerCost } from "../../compontents/tournament/players/functions.js";
+import {
+  calculatePlayerCost,
+  setPlayerStatus,
+  setPlayerPlace,
+} from "../../compontents/tournament/players/functions.js";
 
 // TOURNAMENT SETTINGS
 export const CREATE_TOURNAMENT = "CREATE_TOURNAMENT";
 export const RESET_TOURNAMENT_STATE = "RESET_TOURNAMENT_STATE";
+export const START_TOURNAMENT = "START_TOURNAMENT";
+export const START_ALL_PLAYERS = "START_ALL_PLAYERS";
 
 export const createNewTournament = (data) => ({
   type: CREATE_TOURNAMENT,
@@ -13,16 +19,32 @@ export const resetTournamentState = () => ({
   type: RESET_TOURNAMENT_STATE,
 });
 
+export const startTournament = () => {
+  return (dispatch) => {
+    dispatch({
+      type: START_TOURNAMENT,
+      payload: "Running",
+    });
+    dispatch({
+      type: START_ALL_PLAYERS,
+      payload: "Still in",
+    });
+  };
+};
+
 // PLAYERS
 export const CREATE_PLAYER = "CREATE_PLAYER";
 export const REMOVE_PLAYER = "REMOVE_PLAYER";
 export const BUYIN_PLAYER = "BUYIN_PLAYER";
+export const SET_PLAYER_STATUS = "SET_PLAYER_STATUS";
+export const SET_ALL_PLAYERS_STATUS = "SET_ALL_PLAYERS_STATUS";
 export const BUYIN_ALL_PLAYERS = "BUYIN_ALL_PLAYERS";
 export const REBUY_PLAYER = "REBUY_PLAYER";
 export const ADDON_PLAYER = "ADDON_PLAYER";
 export const BUSTOUT_PLAYER = "BUSTOUT_PLAYER";
 export const SET_PLAYER_PLACE = "SET_PLAYER_PLACE";
 export const UPDATE_PLAYER_COST = "UPDATE_PLAYER_COST";
+export const UPDATE_ALL_PLAYERS_COST = "UPDATE_ALL_PLAYERS_COST";
 export const SET_WINNER = "SET_WINNER";
 
 export const createPlayer = (player) => ({
@@ -41,11 +63,19 @@ export const buyinPlayer = (index) => {
       type: BUYIN_PLAYER,
       payload: index,
     });
-    const state = getState().tournament;
-    const cost = calculatePlayerCost(index, state);
+    const tournament = getState().tournament;
+    const cost = calculatePlayerCost(index, tournament);
     dispatch({
       type: UPDATE_PLAYER_COST,
       payload: { index, cost },
+    });
+    const status = setPlayerStatus(
+      tournament.players[index],
+      tournament.data.state.status
+    );
+    dispatch({
+      type: SET_PLAYER_STATUS,
+      payload: { index, status },
     });
   };
 };
@@ -54,13 +84,20 @@ export const buyinAllPlayers = () => {
   return (dispatch, getState) => {
     dispatch({
       type: BUYIN_ALL_PLAYERS,
+      payload: true,
     });
-    // const state = getState().tournament;
-    // const cost = calculatePlayerCost(index, state);
     // dispatch({
-    //   type: UPDATE_PLAYER_COST,
-    //   payload: { index, cost },
+    //   type: SET_ALL_PLAYERS_STATUS,
+    //   payload: "Bought in",
     // });
+    const tournament = getState().tournament;
+    tournament.players.map((player, index) => {
+      const cost = calculatePlayerCost(index, tournament);
+      dispatch({
+        type: UPDATE_PLAYER_COST,
+        payload: { index, cost },
+      });
+    });
   };
 };
 
@@ -96,22 +133,21 @@ export const addonPlayer = (index) => {
 
 export const bustoutPlayer = (index) => {
   return (dispatch, getState) => {
-    const state = getState().tournament;
-    const place = state.players.length - state.data.placements.length;
-
+    const tournament = getState().tournament;
+    const place = setPlayerPlace(tournament);
     dispatch({
       type: BUSTOUT_PLAYER,
       payload: { index, place },
     });
-    const updatedState = getState().tournament;
 
+    const updatedState = getState().tournament;
     dispatch({
       type: SET_PLAYER_PLACE,
       payload: updatedState.players[index],
     });
 
     if (
-      updatedState.data.placements.length + 2 ===
+      updatedState.data.state.placements.length + 2 ===
       updatedState.players.length
     ) {
       console.log("winner");

@@ -21,7 +21,10 @@ const Create = () => {
     type: "Freezout",
     rebuy: null,
     addon: null,
-    placements: [],
+    state: {
+      status: "Scheduled",
+      placements: [],
+    },
   });
 
   const handleInput = (e, propertyName) => {

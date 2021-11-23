@@ -7,13 +7,27 @@ import {
   faEllipsisV,
   faRetweet,
   faUserMinus,
-  faCheck,
   faHandHoldingUsd,
   faInfoCircle,
+  faChevronDown,
+  faChevronRight,
 } from "@fortawesome/fontawesome-free-solid";
+import { RiCoinFill } from "react-icons/ri";
+import { GiTwoCoins } from "react-icons/gi";
+import { FaCoins, FaUserEdit, FaUserSlash } from "react-icons/fa";
+import { ImCheckmark } from "react-icons/im";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect } from "react";
-import { Form, Table, Button, ListGroup, Dropdown } from "react-bootstrap";
+import { useState } from "react";
+import {
+  Form,
+  Table,
+  Button,
+  ListGroup,
+  Dropdown,
+  Badge,
+  Col,
+  Row,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addonPlayer,
@@ -22,7 +36,6 @@ import {
   rebuyPlayer,
   removePlayer,
 } from "../../../redux/actions";
-import { ChangePlayerStatus, renamePlayerPlace } from "./functions";
 
 export const PlayerListTable = () => {
   const players = useSelector((state) => state.tournament.players);
@@ -30,15 +43,11 @@ export const PlayerListTable = () => {
     <Table striped bordered hover>
       <thead>
         <tr>
-          <th className="small-screen">#</th>
-          <th style={{ width: "25%" }}>Name</th>
-          <th>Status</th>
-          <th className="small-screen">Paid</th>
-          <th className="small-screen">Rebuy</th>
-          <th className="small-screen">Add-on</th>
-          <th>Total</th>
-          <th>Place</th>
-          <th style={{ width: "38px" }}></th>
+          <th style={{ width: "5%" }}>#</th>
+          <th style={{ width: "40%" }}>Name</th>
+          <th style={{ width: "30%" }}>Status</th>
+          <th className="small-screen">Total Cost</th>
+          <th style={{ width: "5%" }}></th>
         </tr>
       </thead>
       <tbody>
@@ -52,27 +61,222 @@ export const PlayerListTable = () => {
 
 const PlayersListTableItem = ({ player, index }) => {
   const data = useSelector((state) => state.tournament.data);
+  const [details, setDetails] = useState(false);
+  return (
+    <>
+      <tr onClick={() => setDetails(!details)}>
+        <td>{index + 1}.</td>
+        <td>{player.name}</td>
+        <td>{setPlayerStatusBadge(player.status)}</td>
+        <td className="small-screen">{`${player.cost} ${data.currency}`}</td>
+        <td>
+          {details ? (
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              onClick={() => setDetails(!details)}
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              onClick={() => setDetails(!details)}
+            />
+          )}
+
+          {/* <PlayerMenu index={index} /> */}
+        </td>
+      </tr>
+      {details ? (
+        <tr>
+          <td colSpan={6}>
+            <PlayerTableDetails player={player} index={index} data={data} />
+          </td>
+        </tr>
+      ) : (
+        ""
+      )}
+    </>
+  );
+};
+
+export const PlayerTableDetails = ({ player, index, data }) => {
+  const dispatch = useDispatch();
 
   return (
-    <tr>
-      <td className="small-screen">{index + 1}.</td>
-      <td>{player.name}</td>
-      <td>{ChangePlayerStatus(player.status)}</td>
-      <td className="small-screen">
-        {player.buyin ? <FontAwesomeIcon icon={faCheck} /> : "-"}
-      </td>
-      <td className="small-screen">{player.rebuy ? player.rebuy : "-"}</td>
-      <td className="small-screen">
-        {player.addon ? <FontAwesomeIcon icon={faCheck} /> : "-"}
-      </td>
-      <td>
-        {player.cost} {data.currency}
-      </td>
-      <td>{renamePlayerPlace(player.place)}</td>
-      <td>
-        <PlayerMenu index={index} />
-      </td>
-    </tr>
+    <>
+      <Row>
+        <Col xs={6} sm={3} md={3} lg={2}>
+          <ul style={{ listStyle: "none", paddingLeft: "0px" }}>
+            <li>Buy-in</li>
+            <li>Rebuy</li>
+            <li>Add-on</li>
+          </ul>
+        </Col>
+        <Col>
+          <ul style={{ listStyle: "none", paddingLeft: "0px" }}>
+            <li>{player.buyin && data.buyin + data.currency}</li>
+            <li>{player.rebuy && data.rebuy + data.currency}</li>
+            <li>{player.addon && data.addon + data.currency}</li>
+          </ul>
+        </Col>
+        <Col xs={6} sm={3} md={3} lg={2}>
+          <ul style={{ listStyle: "none", paddingLeft: "0px" }}>
+            <li>Rank</li>
+            <li>Round out</li>
+            <li>Winnings</li>
+          </ul>
+        </Col>
+        <Col>
+          <ul style={{ listStyle: "none", paddingLeft: "0px" }}>
+            <li>{player.place ? player.place : "In game"}</li>
+            <li>Round 56</li>
+            <li>120$</li>
+          </ul>
+        </Col>
+      </Row>
+      <Row className="justify-content-between">
+        <Col xs={6} sm={4} md={3} lg={2} className="mb-1">
+          <Button
+            variant="outline-primary"
+            onClick={() => dispatch(buyinPlayer(index))}
+            className="w-100 d-flex justify-content-evenly align-items-center"
+            disabled={player.buyin ? true : false}
+          >
+            <RiCoinFill /> Buy-in
+          </Button>
+        </Col>
+        <Col xs={6} sm={4} md={3} lg={2} className="mb-1">
+          <Button
+            variant="outline-primary"
+            onClick={() => dispatch(rebuyPlayer(index))}
+            className="w-100 d-flex justify-content-evenly align-items-center"
+            // disabled={player.buyin ? true : false}
+          >
+            <GiTwoCoins size={20} /> Rebuy
+          </Button>
+        </Col>
+        <Col xs={6} sm={4} md={3} lg={2} className="mb-1">
+          <Button
+            variant="outline-primary"
+            onClick={() => dispatch(addonPlayer(index))}
+            className="w-100 d-flex justify-content-evenly align-items-center"
+            disabled={player.addon ? true : false}
+          >
+            <FaCoins /> Add-on
+          </Button>
+        </Col>
+
+        <Col xs={6} sm={4} md={3} lg={2} className="mb-1">
+          <Button
+            variant="outline-danger"
+            disabled={!player.buyin || player.status === "Busted out"}
+            onClick={() => dispatch(bustoutPlayer(index))}
+            className="w-100 d-flex justify-content-evenly align-items-center"
+          >
+            <FaUserSlash size={21} /> Bust out
+          </Button>
+        </Col>
+        <Col xs={6} sm={4} md={3} lg={2} className="mb-1">
+          <Button
+            variant="outline-warning"
+            disabled={player.buyin}
+            onClick={() => dispatch(removePlayer(index))}
+            className="w-100 d-flex justify-content-evenly align-items-center mb-1"
+          >
+            <FontAwesomeIcon icon={faTrash} /> Delete
+          </Button>
+        </Col>
+      </Row>
+      {/* {/* <Row className="justify-content-between">
+        <Col xs={7} sm={6} md={5} lg={3}>
+          <Row>
+            <Col className="mb-1">
+              <Button
+                onClick={() => dispatch(buyinPlayer(index))}
+                className="w-100 d-flex justify-content-evenly align-items-center"
+                disabled={player.buyin ? true : false}
+              >
+                <RiCoinFill /> Buy-in
+              </Button>
+            </Col>
+            <Col
+              xs={3}
+              className="d-flex justify-content-center align-items-center"
+            >
+              {player.buyin && <ImCheckmark size={24} />}
+            </Col>
+          </Row>
+          <Row>
+            <Col className="mb-1">
+              <Button
+                onClick={() => dispatch(rebuyPlayer(index))}
+                className="w-100 d-flex justify-content-evenly align-items-center"
+                // disabled={player.buyin ? true : false}
+              >
+                <GiTwoCoins size={20} /> Rebuy
+              </Button>
+            </Col>
+            <Col
+              xs={3}
+              className="d-flex justify-content-center align-items-center"
+            >
+              <strong style={{ fontSize: "1.5rem" }}>
+                {player.rebuy ? player.rebuy : "0"}
+              </strong>
+            </Col>
+          </Row>
+          <Row className="d-flex  align-items-center">
+            <Col className="mb-1">
+              <Button
+                onClick={() => dispatch(addonPlayer(index))}
+                className="w-100 d-flex justify-content-evenly align-items-center"
+                disabled={player.addon ? true : false}
+              >
+                <FaCoins /> Add-on
+              </Button>
+            </Col>
+            <Col
+              xs={3}
+              className="d-flex  justify-content-center align-items-center"
+            >
+              {player.addon && <ImCheckmark size={24} />}
+            </Col>
+          </Row>
+          <Row>
+            <Col className="mb-1" xs={9}>
+              <Button
+                variant="warning"
+                disabled={!player.buyin || player.status === "Busted out"}
+                onClick={() => dispatch(bustoutPlayer(index))}
+                className="w-100 d-flex justify-content-evenly align-items-center"
+              >
+                <FaUserSlash size={21} /> Bust out
+              </Button>
+            </Col>
+            <Col
+              xs={3}
+              className="d-flex  justify-content-center align-items-center"
+            ></Col>
+          </Row> 
+          <Row>
+            <Col className="mb-1" xs={9}>
+              <Button
+                variant="danger"
+                disabled={player.buyin}
+                onClick={() => dispatch(removePlayer(index))}
+                className="w-100 d-flex justify-content-evenly align-items-center mb-1"
+              >
+                <FontAwesomeIcon icon={faTrash} /> Delete
+              </Button>
+            </Col>
+            <Col
+              xs={3}
+              className="d-flex  justify-content-center align-items-center"
+            ></Col>
+          </Row> 
+        </Col>
+        <Col xs={5} sm={6} lg={3}></Col>
+      </Row>*/}
+    </>
   );
 };
 
@@ -131,6 +335,7 @@ export const PlayerMenu = ({ index }) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.tournament.data);
   const players = useSelector((state) => state.tournament.players);
+
   return (
     <Dropdown>
       <Dropdown.Toggle
@@ -220,4 +425,38 @@ export const PlayerMenu = ({ index }) => {
       </Dropdown.Menu>
     </Dropdown>
   );
+};
+
+export const setPlayerStatusBadge = (status) => {
+  if (status === "Registered")
+    return (
+      <Badge pill bg="warning" text="dark">
+        {status}
+      </Badge>
+    );
+  if (status === "Bought in")
+    return (
+      <Badge pill bg="info" text="dark">
+        {status}
+      </Badge>
+    );
+  if (status === "Still in")
+    return (
+      <Badge pill bg="success" text="white">
+        {status}
+      </Badge>
+    );
+  if (status === "Busted out")
+    return (
+      <Badge pill bg="danger" text="white">
+        {status}
+      </Badge>
+    );
+  if (status === "Winner")
+    return (
+      <Badge pill bg="primary" text="white">
+        {status}
+      </Badge>
+    );
+  else return status;
 };

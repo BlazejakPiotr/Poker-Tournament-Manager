@@ -1,15 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  buyinAllPlayers,
-  createPlayer,
-  resetTournamentState,
-  setPlayerCost,
-} from "../../../redux/actions";
+import { buyinAllPlayers, createPlayer } from "../../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins, faUserPlus } from "@fortawesome/fontawesome-free-solid";
 import { Form, Button, Badge } from "react-bootstrap";
-import { useSelector } from "react-redux";
 
 export const CreateNewPlayer = () => {
   const dispatch = useDispatch();
@@ -62,35 +56,9 @@ export const CreateNewPlayer = () => {
   );
 };
 
-export const ChangePlayerStatus = (status) => {
-  if (status === "Registered")
-    return (
-      <Badge pill bg="warning" text="dark">
-        {status}
-      </Badge>
-    );
-  if (status === "Still in")
-    return (
-      <Badge pill bg="success" text="white">
-        {status}
-      </Badge>
-    );
-  if (status === "Busted out")
-    return (
-      <Badge pill bg="danger" text="white">
-        {status}
-      </Badge>
-    );
-  if (status === "Winner")
-    return (
-      <Badge pill bg="primary" text="white">
-        {status}
-      </Badge>
-    );
-  else return status;
-};
-
-export const renamePlayerPlace = (place) => {
+export const setPlayerPlace = (tournament) => {
+  const place =
+    tournament.players.length - tournament.data.state.placements.length;
   switch (place) {
     case 1:
       return "1st";
@@ -132,12 +100,23 @@ export const calculatePlayerCost = (index, state) => {
 };
 
 export const calculatePlayersLeft = (tournament) => {
-  return (
-    tournament.players.length -
-    tournament.data.placements.length +
-    " / " +
-    tournament.players.length
-  );
+  if (tournament.data.state.placements.length) {
+    return (
+      tournament.players.length -
+      tournament.data.state.placements.length +
+      " / " +
+      tournament.players.length
+    );
+  } else {
+    return "No players";
+  }
+};
+
+export const setPlayerStatus = (player, state) => {
+  if (player.buyin) {
+    if (!player.place && state === "Running") return "Still in";
+    if (!player.place) return "Bought in";
+  } else return "Busted out";
 };
 
 export const BuyinAllPlayers = () => {

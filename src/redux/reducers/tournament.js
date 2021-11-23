@@ -12,6 +12,10 @@ import {
   SET_WINNER,
   BUYIN_ALL_PLAYERS,
   ADD_ROUND,
+  SET_PLAYER_STATUS,
+  SET_ALL_PLAYERS_STATUS,
+  START_TOURNAMENT,
+  START_ALL_PLAYERS,
 } from "../actions";
 import { initialState } from "../store";
 
@@ -28,7 +32,11 @@ const tournamentReducer = (state = initialState.tournament, action) => {
         ...state,
         data: {
           ...state.data,
-          placements: [],
+          state: {
+            ...state.data.state,
+            status: "Scheduled",
+            placements: [],
+          },
         },
         players: [
           ...state.players.map(
@@ -44,6 +52,32 @@ const tournamentReducer = (state = initialState.tournament, action) => {
               })
           ),
         ],
+      };
+
+    // CLOCK
+    case START_TOURNAMENT:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          state: {
+            ...state.data.state,
+            status: "Running",
+          },
+        },
+      };
+
+    case START_ALL_PLAYERS:
+      return {
+        ...state,
+        players: state.players.map((player, i) => {
+          if (player.status !== "Bought in") return player;
+          else
+            return {
+              ...player,
+              status: action.payload,
+            };
+        }),
       };
 
     // PLAYER STATE
@@ -66,15 +100,47 @@ const tournamentReducer = (state = initialState.tournament, action) => {
             return {
               ...player,
               buyin: true,
-              status: "Still in",
             };
         }),
       };
-    // case BUYIN_ALL_PLAYERS:
-    //   return {
-    //     ...state,
-    //      players: state.players.map((player) =>  return {...player, buyin: true})
-    //   };
+    case SET_PLAYER_STATUS:
+      return {
+        ...state,
+        players: state.players.map((player, i) => {
+          if (i !== action.payload.index) return player;
+          else
+            return {
+              ...player,
+              status: action.payload.status,
+            };
+        }),
+      };
+    case SET_ALL_PLAYERS_STATUS:
+      return {
+        ...state,
+        players: state.players.map((player, i) => {
+          if (!player.buyin) return player;
+          else
+            return {
+              ...player,
+              status: action.payload,
+            };
+        }),
+      };
+    case BUYIN_ALL_PLAYERS:
+      return {
+        ...state,
+        players: state.players.map((player, i) => {
+          if (player.status !== "Registered") return player;
+          else {
+            return {
+              ...player,
+              buyin: action.payload,
+              status: "Bought in",
+            };
+          }
+        }),
+      };
     case REBUY_PLAYER:
       return {
         ...state,
@@ -110,7 +176,10 @@ const tournamentReducer = (state = initialState.tournament, action) => {
         ...state,
         data: {
           ...state.data,
-          placements: [...state.data.placements, { ...action.payload }],
+          state: {
+            ...state.data.state,
+            placements: [...state.data.state.placements, { ...action.payload }],
+          },
         },
       };
     case UPDATE_PLAYER_COST:
