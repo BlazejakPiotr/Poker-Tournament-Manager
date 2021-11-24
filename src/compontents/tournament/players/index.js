@@ -149,7 +149,7 @@ export const PlayerTableDetails = ({ player, index, data }) => {
             variant="outline-primary"
             onClick={() => dispatch(rebuyPlayer(index))}
             className="w-100 d-flex justify-content-evenly align-items-center"
-            // disabled={player.buyin ? true : false}
+            disabled={data.rebuy ? false : true}
           >
             <GiTwoCoins size={20} /> Rebuy
           </Button>
@@ -159,7 +159,7 @@ export const PlayerTableDetails = ({ player, index, data }) => {
             variant="outline-primary"
             onClick={() => dispatch(addonPlayer(index))}
             className="w-100 d-flex justify-content-evenly align-items-center"
-            disabled={player.addon ? true : false}
+            disabled={!data.addon ? true : false}
           >
             <FaCoins /> Add-on
           </Button>

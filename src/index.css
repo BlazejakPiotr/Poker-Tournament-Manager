@@ -25,7 +25,7 @@ code {
 }
 
 .tab-content > .active {
-  padding: 2rem 3rem;
+  padding: 1.25rem;
   border: 1px solid #dddddd;
   border-top: none;
 }

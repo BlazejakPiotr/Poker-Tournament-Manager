@@ -7,7 +7,7 @@ import {
 import { useDispatch } from "react-redux";
 import { startTournament } from "../../../redux/actions";
 
-export const ClockControls = () => {
+export const ClockButtons = () => {
   const dispatch = useDispatch();
   return (
     <div className="controls">

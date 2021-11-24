@@ -1,25 +1,36 @@
-import { useState } from "react";
-import { Row, Col, Form } from "react-bootstrap";
-import { AddBlind, AddBreak, BlindsListTable } from "./blinds/index.js";
+import { Row, Col } from "react-bootstrap";
+import {
+  BlindsButtons,
+  BlindsListTable,
+  NewRoundForm,
+} from "./blinds/index.js";
+import { ClockButtons } from "./clock/index.js";
 
 const Blinds = () => {
-  const [isBreak, setIsBreak] = useState(false);
-  const setBreak = () => setIsBreak(!isBreak);
-
   return (
     <>
-      <Row className="justify-content-end mb-4">
-        <Col md={6} className="d-flex justify-content-end align-items-center">
-          {isBreak ? <AddBreak /> : <AddBlind />}
-          <Form.Check
-            inline
-            label="Break"
-            name="isBreak"
-            value={isBreak}
-            onChange={() => setBreak()}
-          />
+      {/* <Row className="mb-4">
+        <Col xs={9} className="">
+          <h2>TOURNAMENT NAME</h2>
         </Col>
-      </Row>
+        <Col xs={3}>
+          <BlindsButtons />
+        </Col>
+        <Col sm={12} md={3}>
+          <h6>Round 1</h6>
+          <h4>10/20 (0)</h4>
+        </Col>
+        <Col sm={12} md={6} className="text-center">
+          <h1>15:00</h1>
+          <ClockButtons />
+        </Col>
+        <Col sm={12} md={3}>
+          <h6>Players</h6>
+          <h4>10/10</h4>
+
+          {/* <NewRoundForm /> 
+        </Col>
+      </Row> */}
       <Row>
         <Col>
           <BlindsListTable />

@@ -46,7 +46,7 @@ const Create = () => {
         Launch demo modal
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Create tournament</Modal.Title>
         </Modal.Header>

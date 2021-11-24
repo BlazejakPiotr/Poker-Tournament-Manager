@@ -160,10 +160,37 @@ export const bustoutPlayer = (index) => {
 };
 
 // ROUNDS
-export const ADD_ROUND = "ADD_ROUND";
-export const ADD_BREAK = "ADD_BREAK";
+export const CREATE_NEW_ROUND = "CREATE_NEW_ROUND";
+export const EDIT_ROUND = "EDIT_ROUND";
+export const SET_ROUND_TO_EDIT = "SET_ROUND_TO_EDIT";
+export const DELETE_ROUND = "DELETE_ROUND";
+export const CREATE_NEW_BREAK = "CREATE_NEW_BREAK ";
 
-export const addRound = (round) => ({
-  type: ADD_ROUND,
+export const createNewRound = (round) => ({
+  type: CREATE_NEW_ROUND,
+  payload: round,
+});
+
+export const editRound = (index, round) => {
+  return (dispatch) => {
+    dispatch({
+      type: EDIT_ROUND,
+      payload: { index, round },
+    });
+  };
+};
+
+export const enableRoundEdit = (index) => ({
+  type: SET_ROUND_TO_EDIT,
+  payload: index,
+});
+
+export const deleteRound = (index) => ({
+  type: DELETE_ROUND,
+  payload: index,
+});
+
+export const createBreak = (round) => ({
+  type: CREATE_NEW_BREAK,
   payload: round,
 });

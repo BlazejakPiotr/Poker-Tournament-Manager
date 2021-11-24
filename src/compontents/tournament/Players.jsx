@@ -7,17 +7,14 @@ const Players = () => {
   return (
     <Row>
       <Col>
-        <Row className="mb-4">
+        {/* <Row className="mb-4">
           <Col className="d-flex justify-content-between">
             <CreateNewPlayer />
             <BuyinAllPlayers />
           </Col>
-        </Row>
-        <Row>
-          <Col>
-            <PlayerListTable />
-          </Col>
-        </Row>
+        </Row> */}
+
+        <PlayerListTable />
       </Col>
       {/* 
       // TABLES
