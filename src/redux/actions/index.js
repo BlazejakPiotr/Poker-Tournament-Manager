@@ -46,6 +46,7 @@ export const SET_PLAYER_PLACE = "SET_PLAYER_PLACE";
 export const UPDATE_PLAYER_COST = "UPDATE_PLAYER_COST";
 export const UPDATE_ALL_PLAYERS_COST = "UPDATE_ALL_PLAYERS_COST";
 export const SET_WINNER = "SET_WINNER";
+export const EDIT_PLAYER = "EDIT_PLAYER";
 
 export const createPlayer = (player) => ({
   type: CREATE_PLAYER,
@@ -156,6 +157,15 @@ export const bustoutPlayer = (index) => {
         payload: "Winner",
       });
     }
+  };
+};
+
+export const editPlayer = (index, user) => {
+  return (dispatch) => {
+    dispatch({
+      type: EDIT_PLAYER,
+      payload: { index, user },
+    });
   };
 };
 

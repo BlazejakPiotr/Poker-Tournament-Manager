@@ -1,20 +1,19 @@
-import { faSave, faTimes } from "@fortawesome/fontawesome-free-solid";
+import {
+  faSave,
+  faTimes,
+  faEdit,
+  faChevronDown,
+} from "@fortawesome/fontawesome-free-solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import {
-  Table,
-  Button,
-  Form,
-  Col,
-  Row,
-  Dropdown,
-  DropdownButton,
-} from "react-bootstrap";
+import { Button, Form, Col, Row, ListGroup, Dropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  createBreak,
   createNewRound,
   deleteRound,
   editRound,
+  enableRoundEdit,
 } from "../../../redux/actions/index.js";
 
 export const NewRoundForm = ({ index, level }) => {
@@ -34,119 +33,234 @@ export const NewRoundForm = ({ index, level }) => {
       [propertyName]: e.target.value,
     });
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(editRound(index, round));
-  };
-  return (
-    <Form onSubmit={handleSubmit}>
-      <Row>
-        <Col className="p-0">
-          <Form.Control
-            size="sm"
-            type="number"
-            placeholder="ante"
-            value={round.ante}
-            onChange={(e) => handleInput(e, "ante")}
-            disabled={round.break}
-          />
-        </Col>
-        <Col className="p-0">
-          <Form.Control
-            size="sm"
-            type="number"
-            placeholder="small blind"
-            value={round.sb}
-            onChange={(e) => handleInput(e, "sb")}
-            disabled={round.break}
-            required
-          />
-        </Col>
-        <Col className="p-0">
-          <Form.Control
-            size="sm"
-            type="number"
-            placeholder="big blind"
-            value={round.bb}
-            onChange={(e) => handleInput(e, "bb")}
-            disabled={round.break}
-            required
-          />
-        </Col>
 
-        <Col className="p-0">
-          <Form.Control
-            size="sm"
-            type="number"
-            placeholder="20m"
-            required
-            value={round.duration}
-            onChange={(e) => handleInput(e, "duration")}
-          />
-        </Col>
-        <Col
-          xs={2}
-          className="p-0 d-flex align-items-center justify-content-evenly px-2"
+  return (
+    <>
+      <Col className="p-0"></Col>
+      <Col className="p-0">
+        <Form.Control
+          size="sm"
+          className="w-75"
+          type="number"
+          placeholder="ante"
+          value={round.ante}
+          onChange={(e) => handleInput(e, "ante")}
+          disabled={round.break}
+        />
+      </Col>
+      <Col className="p-0">
+        <Form.Control
+          size="sm"
+          className="w-75"
+          type="number"
+          placeholder="small blind"
+          value={round.sb}
+          onChange={(e) => handleInput(e, "sb")}
+          disabled={round.break}
+          required
+        />
+      </Col>
+      <Col className="p-0">
+        <Form.Control
+          size="sm"
+          className="w-75 m-0"
+          type="number"
+          placeholder="big blind"
+          value={round.bb}
+          onChange={(e) => handleInput(e, "bb")}
+          disabled={round.break}
+          required
+        />
+      </Col>
+      <Col className="p-0">
+        <Form.Control
+          size="sm"
+          className="w-75 m-0"
+          type="number"
+          placeholder="20m"
+          required
+          value={round.duration}
+          onChange={(e) => handleInput(e, "duration")}
+        />
+      </Col>
+      <Col className="px-0 d-flex">
+        <Button
+          style={{ padding: "0px 8px", marginLeft: "1rem" }}
+          onClick={() => dispatch(editRound(index, round))}
         >
-          <Button type="submit" style={{ padding: "0px 7px" }}>
-            <FontAwesomeIcon size="sm" icon={faSave} />
-          </Button>
-          <Button
-            variant="danger"
-            style={{ padding: "0px 7px" }}
-            onClick={() => dispatch(deleteRound(index))}
+          <FontAwesomeIcon icon={faSave} />
+        </Button>
+        <Button
+          variant="danger"
+          style={{ padding: "0px 10px", marginLeft: "1rem" }}
+          onClick={() => dispatch(deleteRound(index))}
+        >
+          <FontAwesomeIcon icon={faTimes} />
+        </Button>
+      </Col>
+    </>
+  );
+};
+
+export const RoundsContent = () => {
+  const dispatch = useDispatch();
+  const blinds = useSelector((state) => state.tournament.blinds);
+
+  return (
+    <Row>
+      <Col xs={12}>
+        <ListGroup>
+          <ListGroup.Item
+            className="d-flex"
+            style={{ fontWeight: "bold" }}
+            variant="secondary"
           >
-            <FontAwesomeIcon size="sm" icon={faTimes} />
-          </Button>
+            <Col className="p-0 small-screen">#</Col>
+            <Col className="p-0">Ante</Col>
+            <Col className="p-0">SB</Col>
+            <Col className="p-0">BB</Col>
+            <Col className="p-0">Duration</Col>
+            <Col className="p-0"></Col>
+          </ListGroup.Item>
+          {blinds.map((round, index) => (
+            <ListGroup.Item
+              className="d-flex"
+              key={index}
+              variant={round.break && "warning"}
+            >
+              {round.edit ? (
+                <NewRoundForm index={index} level={round} />
+              ) : (
+                <>
+                  {round.break ? (
+                    <>
+                      <Col className="small-screen">Break</Col>
+                      <Col></Col>
+                      <Col></Col>
+                      <Col></Col>
+                    </>
+                  ) : (
+                    <>
+                      <Col className="p-0 small-screen">Round {index + 1}</Col>
+                      <Col className="p-0">
+                        {round.ante && "$ " + round.ante}
+                      </Col>
+                      <Col className="p-0">$ {round.sb}</Col>
+                      <Col className="p-0">$ {round.bb}</Col>
+                    </>
+                  )}
+
+                  <Col className="p-0">{round.duration}m</Col>
+
+                  <Col className="p-0">
+                    <Button
+                      style={{
+                        padding: "3px 6px",
+                        marginLeft: "1rem",
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        onClick={() => dispatch(enableRoundEdit(index))}
+                      />
+                    </Button>
+                  </Col>
+                </>
+              )}
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      </Col>
+    </Row>
+  );
+};
+
+export const BlindsNav = () => {
+  const dispatch = useDispatch();
+
+  const [round, setRound] = useState({
+    name: "",
+    duration: "",
+    ante: "",
+    sb: "",
+    bb: "",
+    edit: true,
+    break: false,
+  });
+  return (
+    <Row className="justify-content-between">
+      <Col
+        xs={12}
+        sm={8}
+        md={6}
+        className="d-flex justify-content-end align-items-center"
+      >
+        <Col>
+          <ul style={{ paddingInline: "0px", lineHeight: "2rem" }}>
+            <li className="d-flex justify-content-between">
+              <Col>Levels</Col>
+              <Col>20</Col>
+            </li>
+            <li className="d-flex">
+              <Col>Rounds</Col>
+              <Col>20</Col>
+            </li>
+            <li className="d-flex">
+              <Col>Breaks</Col>
+              <Col>5</Col>
+            </li>
+          </ul>
         </Col>
-      </Row>
-    </Form>
-  );
-};
-
-export const BlindsButtons = () => {
-  return (
-    <Dropdown>
-      <Dropdown.Toggle variant="primary">Settings</Dropdown.Toggle>
-      <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
-  );
-};
-
-export const BlindsListTable = () => {
-  const rounds = useSelector((state) => state.tournament.blinds);
-  return (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Ante</th>
-          <th>SB</th>
-          <th>BB</th>
-          <th>Duration</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rounds.map((round, index) => (
-          <BlindsListTableItem key={index} round={round} index={index} />
-        ))}
-      </tbody>
-    </Table>
-  );
-};
-
-export const BlindsListTableItem = ({ round, index }) => {
-  return (
-    <tr>
-      <td>{round.break ? "Break" : "Round " + (index + 1)}</td>
-      <td>{round.break ? "" : "$" + round.ante}</td>
-      <td>{round.break ? "" : "$" + round.sb}</td>
-      <td>{round.break ? "" : "$" + round.bb}</td>
-      <td>{round.duration}min</td>
-    </tr>
+        <Col>
+          <ul style={{ paddingInline: "0px", lineHeight: "2rem" }}>
+            <li className="d-flex justify-content-between">
+              <Col>Length</Col>
+              <Col>20</Col>
+            </li>
+            <li className="d-flex">
+              <Col>Play</Col>
+              <Col>20</Col>
+            </li>
+            <li className="d-flex">
+              <Col>On break</Col>
+              <Col>20</Col>
+            </li>
+          </ul>
+        </Col>
+      </Col>
+      <Col
+        xs={12}
+        sm={4}
+        md={3}
+        className="d-flex flex-column justify-content-center"
+      >
+        <Button
+          className="mb-1"
+          onClick={() => dispatch(createNewRound(round))}
+        >
+          Add round
+        </Button>
+        <Button
+          className="mb-1"
+          onClick={() => dispatch(createBreak({ ...round, break: true }))}
+        >
+          Add break
+        </Button>
+        <Dropdown className="mb-1">
+          <Dropdown.Toggle variant="primary" className="w-100">
+            More tools
+            <FontAwesomeIcon icon={faChevronDown} />
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item>Rounds creator</Dropdown.Item>
+            <Dropdown.Item>Set all times</Dropdown.Item>
+            <Dropdown.Item>Delete all</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item>Save as template</Dropdown.Item>
+            <Dropdown.Item>Load template</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </Col>
+    </Row>
   );
 };

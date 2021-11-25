@@ -8,8 +8,6 @@ import {
   Button,
 } from "react-bootstrap";
 
-import RoundsSettings from "./tournament/blinds/RoundsSettings";
-
 const Menu = () => {
   return (
     <Navbar bg="dark" variant="dark">
@@ -18,7 +16,7 @@ const Menu = () => {
         <Nav className="mr-auto">
           <NavDropdown title="TOURNAMENT" align="end" menuVariant="dark">
             <NavDropdown.Item>General</NavDropdown.Item>
-            <RoundsSettings />
+
             <NavDropdown.Item>Players</NavDropdown.Item>
             <NavDropdown.Item>Tables</NavDropdown.Item>
             <NavDropdown.Divider />

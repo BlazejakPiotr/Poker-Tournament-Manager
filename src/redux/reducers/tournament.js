@@ -21,6 +21,7 @@ import {
   SET_ROUND_TO_EDIT,
   DELETE_ROUND,
   CREATE_NEW_BREAK,
+  EDIT_PLAYER,
 } from "../actions";
 import { initialState } from "../store";
 
@@ -204,6 +205,15 @@ const tournamentReducer = (state = initialState.tournament, action) => {
         }),
       };
 
+    case EDIT_PLAYER:
+      return {
+        ...state,
+        players: state.players.map((player, i) => {
+          console.log(action.payload.user);
+          if (i !== action.payload.index) return player;
+          else return { ...action.payload.user };
+        }),
+      };
     // ROUND STATE
     case CREATE_NEW_ROUND:
       return {

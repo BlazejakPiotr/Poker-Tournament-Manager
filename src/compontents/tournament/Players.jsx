@@ -1,22 +1,23 @@
 import { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { BuyinAllPlayers, CreateNewPlayer } from "./players/functions.js";
-import { PlayerListTable } from "./players/index.js";
+import { PlayerListTable, PlayersContent } from "./players/index.js";
 
 const Players = () => {
   return (
-    <Row>
-      <Col>
-        {/* <Row className="mb-4">
-          <Col className="d-flex justify-content-between">
-            <CreateNewPlayer />
-            <BuyinAllPlayers />
-          </Col>
-        </Row> */}
+    <>
+      <Row className="mb-3">
+        <Col className="d-flex justify-content-between">
+          <CreateNewPlayer />
+          <BuyinAllPlayers />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <PlayersContent />
+        </Col>
 
-        <PlayerListTable />
-      </Col>
-      {/* 
+        {/* 
       // TABLES
       <Col >
          <Row className=" mb-4 "> 
@@ -36,7 +37,8 @@ const Players = () => {
           </Col>
         </Row> 
       </Col>*/}
-    </Row>
+      </Row>
+    </>
   );
 };
 
