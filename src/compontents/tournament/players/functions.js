@@ -1,61 +1,3 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { buyinAllPlayers, createPlayer } from "../../../redux/actions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoins, faUserPlus } from "@fortawesome/fontawesome-free-solid";
-import { Form, Button, Badge } from "react-bootstrap";
-
-export const CreateNewPlayer = () => {
-  const dispatch = useDispatch();
-  const [player, setPlayer] = useState({
-    name: "",
-    buyin: false,
-    rebuy: 0,
-    addon: false,
-    status: "Registered",
-    cost: 0,
-    place: null,
-  });
-
-  const handleInput = (e) => {
-    setPlayer({
-      ...player,
-      name: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createPlayer(player));
-    setPlayer({
-      name: "",
-      buyin: false,
-      rebuy: 0,
-      addon: false,
-      status: "Registered",
-      cost: 0,
-      place: null,
-    });
-  };
-
-  return (
-    <>
-      <Form onSubmit={handleSubmit} className="d-flex align-items-center">
-        <Form.Control
-          type="text"
-          placeholder="Add new player"
-          required
-          value={player.name}
-          onChange={(e) => handleInput(e)}
-        />
-        <Button type="submit">
-          <FontAwesomeIcon icon={faUserPlus} />
-        </Button>
-      </Form>
-    </>
-  );
-};
-
 export const setPlayerPlace = (tournament) => {
   const place =
     tournament.players.length - tournament.data.state.placements.length;
@@ -119,12 +61,9 @@ export const setPlayerStatus = (player, state) => {
   } else return "Busted out";
 };
 
-export const BuyinAllPlayers = () => {
-  const dispatch = useDispatch();
-  return (
-    <Button onClick={() => dispatch(buyinAllPlayers())}>
-      Buy-in all
-      <FontAwesomeIcon icon={faCoins} />
-    </Button>
-  );
-};
+// export const BuyinAllPlayers = () => {
+//   const dispatch = useDispatch();
+//   return (
+//     <Button onClick={() => dispatch(buyinAllPlayers())}>Buy-in all</Button>
+//   );
+// };
