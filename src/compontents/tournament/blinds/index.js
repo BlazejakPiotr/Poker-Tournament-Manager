@@ -6,7 +6,15 @@ import {
 } from "@fortawesome/fontawesome-free-solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { Button, Form, Col, Row, ListGroup, Dropdown } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  Col,
+  Row,
+  ListGroup,
+  Dropdown,
+  Modal,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createBreak,
@@ -123,55 +131,52 @@ export const RoundsContent = () => {
             <Col className="p-0"></Col>
           </ListGroup.Item>
           {blinds.map((round, index) => (
-            <ListGroup.Item
-              className="d-flex"
-              key={index}
-              variant={round.break && "warning"}
-            >
-              {round.edit ? (
-                <NewRoundForm index={index} level={round} />
-              ) : (
-                <>
-                  {round.break ? (
-                    <>
-                      <Col className="small-screen">Break</Col>
-                      <Col></Col>
-                      <Col></Col>
-                      <Col></Col>
-                    </>
-                  ) : (
-                    <>
-                      <Col className="p-0 small-screen">Round {index + 1}</Col>
-                      <Col className="p-0">
-                        {round.ante && "$ " + round.ante}
-                      </Col>
-                      <Col className="p-0">$ {round.sb}</Col>
-                      <Col className="p-0">$ {round.bb}</Col>
-                    </>
-                  )}
-
-                  <Col className="p-0">{round.duration}m</Col>
-
-                  <Col className="p-0">
-                    <Button
-                      style={{
-                        padding: "3px 6px",
-                        marginLeft: "1rem",
-                      }}
-                    >
-                      <FontAwesomeIcon
-                        icon={faEdit}
-                        onClick={() => dispatch(enableRoundEdit(index))}
-                      />
-                    </Button>
-                  </Col>
-                </>
-              )}
-            </ListGroup.Item>
+            <RoundDetails key={index} level={round} index={index} />
           ))}
         </ListGroup>
       </Col>
     </Row>
+  );
+};
+
+export const RoundDetails = ({ round, index }) => {
+  const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => setShowModal(!showModal);
+  return (
+    <>
+      <ListGroup.Item action onClick={handleShowModal} className="d-flex">
+        <Col className="p-0 small-screen">Round {index + 1}</Col>
+        <Col className="p-0">{round.ante && "$ " + round.ante}</Col>
+        <Col className="p-0">$ {round.sb}</Col>
+        <Col className="p-0">$ {round.bb}</Col>
+
+        <Col className="p-0">{round.duration}m</Col>
+
+        <Col className="p-0">
+          <Button
+            style={{
+              padding: "3px 6px",
+              marginLeft: "1rem",
+            }}
+          >
+            <FontAwesomeIcon
+              icon={faEdit}
+              onClick={() => dispatch(enableRoundEdit(index))}
+            />
+          </Button>
+        </Col>
+      </ListGroup.Item>
+      <Modal show={showModal} onHide={handleShowModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Manage round</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <NewRoundForm index={index} round={round} />
+        </Modal.Body>
+        <Modal.Footer></Modal.Footer>
+      </Modal>
+    </>
   );
 };
 
@@ -184,7 +189,6 @@ export const BlindsNav = () => {
     ante: "",
     sb: "",
     bb: "",
-    edit: true,
     break: false,
   };
   return (
