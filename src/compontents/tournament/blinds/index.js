@@ -183,14 +183,14 @@ export const RoundDetails = ({ round, index }) => {
 export const BlindsNav = () => {
   const dispatch = useDispatch();
 
-  const round = {
+  const [round, setRound] = useState({
     name: "",
     duration: "",
     ante: "",
     sb: "",
     bb: "",
     break: false,
-  };
+  });
   return (
     <Row className="justify-content-between">
       <Col

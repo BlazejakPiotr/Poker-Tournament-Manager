@@ -81,26 +81,26 @@ export const buyinPlayer = (index) => {
   };
 };
 
-// export const buyinAllPlayers = () => {
-//   return (dispatch, getState) => {
-//     dispatch({
-//       type: BUYIN_ALL_PLAYERS,
-//       payload: true,
-//     });
-//     // dispatch({
-//     //   type: SET_ALL_PLAYERS_STATUS,
-//     //   payload: "Bought in",
-//     // });
-//     const tournament = getState().tournament;
-//     tournament.players.map((player, index) => {
-//       const cost = calculatePlayerCost(index, tournament);
-//       dispatch({
-//         type: UPDATE_PLAYER_COST,
-//         payload: { index, cost },
-//       });
-//     });
-//   };
-// };
+export const buyinAllPlayers = () => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: BUYIN_ALL_PLAYERS,
+      payload: true,
+    });
+    // dispatch({
+    //   type: SET_ALL_PLAYERS_STATUS,
+    //   payload: "Bought in",
+    // });
+    const tournament = getState().tournament;
+    tournament.players.map((player, index) => {
+      const cost = calculatePlayerCost(index, tournament);
+      dispatch({
+        type: UPDATE_PLAYER_COST,
+        payload: { index, cost },
+      });
+    });
+  };
+};
 
 export const rebuyPlayer = (index) => {
   return (dispatch, getState) => {

@@ -1,3 +1,4 @@
+import { act } from "react-dom/test-utils";
 import {
   CREATE_TOURNAMENT,
   CREATE_PLAYER,
