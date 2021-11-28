@@ -149,7 +149,9 @@ export const RoundsContent = () => {
             <Col className="p-0"></Col>
           </ListGroup.Item>
           {blinds.map((round, index) => (
+
             <RoundDetails key={index} round={round} index={index} />
+
           ))}
         </ListGroup>
       </Col>
@@ -163,6 +165,7 @@ export const RoundDetails = ({ round, index }) => {
   const handleShowModal = () => setShowModal(!showModal);
   return (
     <>
+
       <ListGroup.Item
         action
         onClick={handleShowModal}
@@ -206,7 +209,9 @@ export const RoundDetails = ({ round, index }) => {
           <Modal.Title>Manage round</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+
           {/* <NewRoundForm index={index} round={round} /> */}
+
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
@@ -223,7 +228,6 @@ export const BlindsNav = () => {
     ante: "",
     sb: "",
     bb: "",
-
     break: false,
   };
   return (
