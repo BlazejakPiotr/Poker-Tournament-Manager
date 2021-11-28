@@ -24,94 +24,112 @@ import {
   enableRoundEdit,
 } from "../../../redux/actions/index.js";
 
-export const NewRoundForm = ({ index, level }) => {
-  const dispatch = useDispatch();
-  const [round, setRound] = useState({
-    name: "",
-    duration: level.duration,
-    ante: level.ante,
-    sb: level.sb,
-    bb: level.bb,
-    break: level.break,
-    edit: true,
-  });
-  const handleInput = (e, propertyName) => {
-    setRound({
-      ...round,
-      [propertyName]: e.target.value,
-    });
-  };
+// export const RoundForm = () => {
+//   const dispatch = useDispatch();
+//   const [round, setRound] = useState({
+//     name: "",
+//     duration: "",
+//     ante:,
+//     sb:,
+//     bb:,
+//     break:,
+//   });
 
+//   const handleInput = (e, propertyName) => {
+//     setRound({
+//       ...round,
+//       [propertyName]: e.target.value,
+//     });
+//   };
+
+//   return (
+//     <>
+//       <Col className="p-0"></Col>
+//       <Col className="p-0">
+//         <Form.Control
+//           size="sm"
+//           className="w-75"
+//           type="number"
+//           placeholder="ante"
+//           value={round.ante}
+//           onChange={(e) => handleInput(e, "ante")}
+//           disabled={round.break}
+//         />
+//       </Col>
+//       <Col className="p-0">
+//         <Form.Control
+//           size="sm"
+//           className="w-75"
+//           type="number"
+//           placeholder="small blind"
+//           value={round.sb}
+//           onChange={(e) => handleInput(e, "sb")}
+//           disabled={round.break}
+//           required
+//         />
+//       </Col>
+//       <Col className="p-0">
+//         <Form.Control
+//           size="sm"
+//           className="w-75 m-0"
+//           type="number"
+//           placeholder="big blind"
+//           value={round.bb}
+//           onChange={(e) => handleInput(e, "bb")}
+//           disabled={round.break}
+//           required
+//         />
+//       </Col>
+//       <Col className="p-0">
+//         <Form.Control
+//           size="sm"
+//           className="w-75 m-0"
+//           type="number"
+//           placeholder="20m"
+//           required
+//           value={round.duration}
+//           onChange={(e) => handleInput(e, "duration")}
+//         />
+//       </Col>
+//       <Col className="px-0 d-flex">
+//         <Button
+//           style={{ padding: "0px 8px", marginLeft: "1rem" }}
+//           onClick={() => dispatch(editRound(index, round))}
+//         >
+//           <FontAwesomeIcon icon={faSave} />
+//         </Button>
+//         <Button
+//           variant="danger"
+//           style={{ padding: "0px 10px", marginLeft: "1rem" }}
+//           onClick={() => dispatch(deleteRound(index))}
+//         >
+//           <FontAwesomeIcon icon={faTimes} />
+//         </Button>
+//       </Col>
+//     </>
+//   );
+// };
+
+export const RoundModal = () => {
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => setShowModal(!showModal);
   return (
     <>
-      <Col className="p-0"></Col>
-      <Col className="p-0">
-        <Form.Control
-          size="sm"
-          className="w-75"
-          type="number"
-          placeholder="ante"
-          value={round.ante}
-          onChange={(e) => handleInput(e, "ante")}
-          disabled={round.break}
-        />
-      </Col>
-      <Col className="p-0">
-        <Form.Control
-          size="sm"
-          className="w-75"
-          type="number"
-          placeholder="small blind"
-          value={round.sb}
-          onChange={(e) => handleInput(e, "sb")}
-          disabled={round.break}
-          required
-        />
-      </Col>
-      <Col className="p-0">
-        <Form.Control
-          size="sm"
-          className="w-75 m-0"
-          type="number"
-          placeholder="big blind"
-          value={round.bb}
-          onChange={(e) => handleInput(e, "bb")}
-          disabled={round.break}
-          required
-        />
-      </Col>
-      <Col className="p-0">
-        <Form.Control
-          size="sm"
-          className="w-75 m-0"
-          type="number"
-          placeholder="20m"
-          required
-          value={round.duration}
-          onChange={(e) => handleInput(e, "duration")}
-        />
-      </Col>
-      <Col className="px-0 d-flex">
-        <Button
-          style={{ padding: "0px 8px", marginLeft: "1rem" }}
-          onClick={() => dispatch(editRound(index, round))}
-        >
-          <FontAwesomeIcon icon={faSave} />
-        </Button>
-        <Button
-          variant="danger"
-          style={{ padding: "0px 10px", marginLeft: "1rem" }}
-          onClick={() => dispatch(deleteRound(index))}
-        >
-          <FontAwesomeIcon icon={faTimes} />
-        </Button>
-      </Col>
+      <Button className="mb-1" onClick={handleShowModal}>
+        Add round
+      </Button>
+      <Modal show={showModal} onHide={handleShowModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create round</Modal.Title>
+        </Modal.Header>
+        <Modal.Body></Modal.Body>
+        <Modal.Footer></Modal.Footer>
+      </Modal>
     </>
   );
 };
 
 export const RoundsContent = () => {
-  const dispatch = useDispatch();
   const blinds = useSelector((state) => state.tournament.blinds);
 
   return (
@@ -131,7 +149,9 @@ export const RoundsContent = () => {
             <Col className="p-0"></Col>
           </ListGroup.Item>
           {blinds.map((round, index) => (
-            <RoundDetails key={index} level={round} index={index} />
+
+            <RoundDetails key={index} round={round} index={index} />
+
           ))}
         </ListGroup>
       </Col>
@@ -145,11 +165,28 @@ export const RoundDetails = ({ round, index }) => {
   const handleShowModal = () => setShowModal(!showModal);
   return (
     <>
-      <ListGroup.Item action onClick={handleShowModal} className="d-flex">
-        <Col className="p-0 small-screen">Round {index + 1}</Col>
-        <Col className="p-0">{round.ante && "$ " + round.ante}</Col>
-        <Col className="p-0">$ {round.sb}</Col>
-        <Col className="p-0">$ {round.bb}</Col>
+
+      <ListGroup.Item
+        action
+        onClick={handleShowModal}
+        className="d-flex"
+        variant={round.break && "warning"}
+      >
+        {round.break ? (
+          <>
+            <Col className="small-screen">Break</Col>
+            <Col></Col>
+            <Col></Col>
+            <Col></Col>
+          </>
+        ) : (
+          <>
+            <Col className="p-0 small-screen">Round {index + 1}</Col>
+            <Col className="p-0">{round.ante && "$ " + round.ante}</Col>
+            <Col className="p-0">$ {round.sb}</Col>
+            <Col className="p-0">$ {round.bb}</Col>
+          </>
+        )}
 
         <Col className="p-0">{round.duration}m</Col>
 
@@ -172,7 +209,9 @@ export const RoundDetails = ({ round, index }) => {
           <Modal.Title>Manage round</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <NewRoundForm index={index} round={round} />
+
+          {/* <NewRoundForm index={index} round={round} /> */}
+
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
@@ -238,12 +277,7 @@ export const BlindsNav = () => {
         md={3}
         className="d-flex flex-column justify-content-center"
       >
-        <Button
-          className="mb-1"
-          onClick={() => dispatch(createNewRound(round))}
-        >
-          Add round
-        </Button>
+        <RoundModal />
         <Button
           className="mb-1"
           onClick={() => dispatch(createBreak({ ...round, break: true }))}
