@@ -1,10 +1,9 @@
-import { faCog } from "@fortawesome/fontawesome-free-solid";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { resetTournamentState } from "../../redux/actions/index.js";
-import { ClockButtons } from "./clock/index.js";
+
+import { TournamentTimer } from "./clock/index.js";
 
 const Clock = () => {
   const tournament = useSelector((state) => state.tournament);
@@ -48,8 +47,7 @@ const Clock = () => {
       </Col>
       <Col className="text-center" md={4}>
         <div>
-          <h1 style={{ fontSize: "5rem" }}>15:00</h1>
-          <ClockButtons />
+          <TournamentTimer />
         </div>
       </Col>
 
