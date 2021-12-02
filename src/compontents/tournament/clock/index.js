@@ -6,6 +6,7 @@ import {
 } from "@fortawesome/fontawesome-free-solid";
 import { useDispatch } from "react-redux";
 import { startTournament } from "../../../redux/actions";
+import { useEffect, useState } from "react";
 
 export const ClockButtons = () => {
   const dispatch = useDispatch();
@@ -21,3 +22,5 @@ export const ClockButtons = () => {
     </div>
   );
 };
+
+export const TournamentTimer = () => {};

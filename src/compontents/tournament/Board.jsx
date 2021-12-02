@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { tournamentTimer } from "./clock/functions.js";
+import { CurrentLocalTime } from "./board/index.js";
+
 import { calculatePlayersLeft } from "./players/functions";
 
 const Board = () => {
   const tournament = useSelector((state) => state.tournament);
+  useEffect(() => {});
   return (
     <>
       <Row className="justify-content-end mb-4">
@@ -27,8 +32,7 @@ const Board = () => {
         <Col md={6} className="clock"></Col>
         <Col className="clock">
           <div>
-            <p>Current time</p>
-            <h2>21:00</h2>
+            <CurrentLocalTime />
           </div>
           <div>
             <p>Elapsed time</p>

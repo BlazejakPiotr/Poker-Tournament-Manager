@@ -14,6 +14,8 @@ import {
   ListGroup,
   Dropdown,
   Modal,
+  FormGroup,
+  FormLabel,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,10 +31,10 @@ import {
 //   const [round, setRound] = useState({
 //     name: "",
 //     duration: "",
-//     ante:,
-//     sb:,
-//     bb:,
-//     break:,
+//     ante: "",
+//     sb: "",
+//     bb: "",
+//     break: null,
 //   });
 
 //   const handleInput = (e, propertyName) => {
@@ -42,8 +44,11 @@ import {
 //     });
 //   };
 
-//   return (
-//     <>
+//   return {
+//     /*<Form onSubmit={} >
+//       <Button type="submit">Save</Button>
+//     </Form>
+
 //       <Col className="p-0"></Col>
 //       <Col className="p-0">
 //         <Form.Control
@@ -92,7 +97,7 @@ import {
 //         />
 //       </Col>
 //       <Col className="px-0 d-flex">
-//         <Button
+//         {/* <Button
 //           style={{ padding: "0px 8px", marginLeft: "1rem" }}
 //           onClick={() => dispatch(editRound(index, round))}
 //         >
@@ -105,29 +110,9 @@ import {
 //         >
 //           <FontAwesomeIcon icon={faTimes} />
 //         </Button>
-//       </Col>
-//     </>
-//   );
+//       </Col> */
+//   };
 // };
-
-export const RoundModal = () => {
-  const [showModal, setShowModal] = useState(false);
-  const handleShowModal = () => setShowModal(!showModal);
-  return (
-    <>
-      <Button className="mb-1" onClick={handleShowModal}>
-        Add round
-      </Button>
-      <Modal show={showModal} onHide={handleShowModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create round</Modal.Title>
-        </Modal.Header>
-        <Modal.Body></Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal>
-    </>
-  );
-};
 
 export const RoundsContent = () => {
   const blinds = useSelector((state) => state.tournament.blinds);
@@ -149,9 +134,7 @@ export const RoundsContent = () => {
             <Col className="p-0"></Col>
           </ListGroup.Item>
           {blinds.map((round, index) => (
-
             <RoundDetails key={index} round={round} index={index} />
-
           ))}
         </ListGroup>
       </Col>
@@ -163,9 +146,9 @@ export const RoundDetails = ({ round, index }) => {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const handleShowModal = () => setShowModal(!showModal);
+
   return (
     <>
-
       <ListGroup.Item
         action
         onClick={handleShowModal}
@@ -175,9 +158,6 @@ export const RoundDetails = ({ round, index }) => {
         {round.break ? (
           <>
             <Col className="small-screen">Break</Col>
-            <Col></Col>
-            <Col></Col>
-            <Col></Col>
           </>
         ) : (
           <>
@@ -209,9 +189,128 @@ export const RoundDetails = ({ round, index }) => {
           <Modal.Title>Manage round</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <RoundForm level={round} />
+        </Modal.Body>
+        <Modal.Footer></Modal.Footer>
+      </Modal>
+    </>
+  );
+};
 
-          {/* <NewRoundForm index={index} round={round} /> */}
+export const RoundForm = ({ level }) => {
+  const dispatch = useDispatch();
+  const [round, setRound] = useState({
+    name: level.name,
+    duration: level.duration,
+    ante: level.ante,
+    sb: level.sb,
+    bb: level.bb,
+    break: level.break,
+  });
 
+  const handleInput = (e, propertyName) => {
+    setRound({
+      ...round,
+      [propertyName]:
+        propertyName === "break" ? e.target.checked : e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(editRound({ round }));
+  };
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Row>
+        <Col>
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="checkbox"
+              label="Break?"
+              onChange={(e) => handleInput(e, "break")}
+            />
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row className="mb-3">
+        <Col xs={6} sm={3}>
+          <FormGroup>
+            <FormLabel>Ante</FormLabel>
+            <Form.Control
+              size="sm"
+              type="number"
+              placeholder="ante"
+              value={round.ante}
+              onChange={(e) => handleInput(e, "ante")}
+              disabled={round.break}
+            />
+          </FormGroup>
+        </Col>
+        <Col xs={6} sm={3}>
+          <FormGroup>
+            <FormLabel>Small Blind</FormLabel>
+            <Form.Control
+              size="sm"
+              type="number"
+              placeholder="SB"
+              value={round.sb}
+              onChange={(e) => handleInput(e, "sb")}
+              disabled={round.break}
+            />
+          </FormGroup>
+        </Col>
+        <Col xs={6} sm={3}>
+          <FormGroup>
+            <FormLabel>Big Blind</FormLabel>
+            <Form.Control
+              size="sm"
+              type="number"
+              placeholder="BB"
+              value={round.bb}
+              onChange={(e) => handleInput(e, "bb")}
+              disabled={round.break}
+            />
+          </FormGroup>
+        </Col>
+        <Col xs={6} sm={3}>
+          <FormGroup>
+            <FormLabel>Duration</FormLabel>
+            <Form.Control
+              size="sm"
+              type="number"
+              placeholder="minutes"
+              value={round.duration}
+              onChange={(e) => handleInput(e, "duration")}
+              disabled={round.break}
+            />
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col className="d-flex justify-content-end">
+          <Button type="submit">Edit round</Button>
+        </Col>
+      </Row>
+    </Form>
+  );
+};
+
+export const RoundModal = () => {
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => setShowModal(!showModal);
+  return (
+    <>
+      <Button className="mb-1" onClick={handleShowModal}>
+        Add round
+      </Button>
+      <Modal show={showModal} onHide={handleShowModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create round</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <RoundForm />
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
@@ -289,6 +388,7 @@ export const BlindsNav = () => {
             More tools
             <FontAwesomeIcon icon={faChevronDown} />
           </Dropdown.Toggle>
+          2
           <Dropdown.Menu>
             <Dropdown.Item>Rounds creator</Dropdown.Item>
             <Dropdown.Item>Set all times</Dropdown.Item>
