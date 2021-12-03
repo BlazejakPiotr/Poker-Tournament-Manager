@@ -40,15 +40,16 @@ export const CreateNewPlayer = () => {
 
   return (
     <>
-      <Form onSubmit={handleSubmit} className="d-flex align-items-center">
+      <h6>Create new player</h6>
+      <Form onSubmit={handleSubmit} className="d-flex mb-2">
         <Form.Control
           type="text"
-          placeholder="Add new player"
+          placeholder="Name"
           required
           value={player.name}
           onChange={(e) => handleInput(e)}
         />
-        <Button type="submit">
+        <Button type="submit" className="mx-1">
           <FontAwesomeIcon icon={faUserPlus} />
         </Button>
       </Form>

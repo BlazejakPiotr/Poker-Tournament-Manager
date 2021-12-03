@@ -172,11 +172,10 @@ export const editPlayer = (index, user) => {
 // ROUNDS
 export const CREATE_NEW_ROUND = "CREATE_NEW_ROUND";
 export const EDIT_ROUND = "EDIT_ROUND";
-export const SET_ROUND_TO_EDIT = "SET_ROUND_TO_EDIT";
 export const DELETE_ROUND = "DELETE_ROUND";
-export const CREATE_NEW_BREAK = "CREATE_NEW_BREAK ";
+export const SET_CURRENT_ROUND = "SET_CURRENT_ROUND";
 
-export const createNewRound = (round) => ({
+export const createRound = (round) => ({
   type: CREATE_NEW_ROUND,
   payload: round,
 });
@@ -190,17 +189,16 @@ export const editRound = (index, round) => {
   };
 };
 
-export const enableRoundEdit = (index) => ({
-  type: SET_ROUND_TO_EDIT,
-  payload: index,
-});
-
 export const deleteRound = (index) => ({
   type: DELETE_ROUND,
   payload: index,
 });
 
-export const createBreak = (round) => ({
-  type: CREATE_NEW_BREAK,
-  payload: round,
-});
+export const setCurrentRound = (round, index) => {
+  return (dispatch) => {
+    dispatch({
+      type: SET_CURRENT_ROUND,
+      payload: { round, index },
+    });
+  };
+};

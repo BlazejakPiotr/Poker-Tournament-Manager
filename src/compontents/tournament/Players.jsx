@@ -7,9 +7,8 @@ const Players = () => {
   return (
     <>
       <Row className="mb-3">
-        <Col className="d-flex justify-content-between">
+        <Col md={6} lg={5}>
           <CreateNewPlayer />
-          <BuyinAllPlayers />
         </Col>
       </Row>
       <Row>

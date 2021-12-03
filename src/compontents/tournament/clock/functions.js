@@ -19,3 +19,5 @@ export const useInterval = (callback, delay) => {
 };
 
 export const twoDigits = (num) => String(num).padStart(2, "0");
+
+export const convertMinutesToSeconds = (num) => num * 60;

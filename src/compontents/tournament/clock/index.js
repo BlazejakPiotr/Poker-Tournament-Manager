@@ -5,11 +5,10 @@ import {
   faPause,
   faPlay,
 } from "@fortawesome/fontawesome-free-solid";
-import { useDispatch } from "react-redux";
-import { startTournament } from "../../../redux/actions";
+import { setCurrentRound, startTournament } from "../../../redux/actions";
 import { useEffect, useState } from "react";
 import { twoDigits, useInterval } from "./functions";
-import Button from "@restart/ui/esm/Button";
+import { useSelector, useDispatch } from "react-redux";
 
 export const ClockButtons = () => {
   const dispatch = useDispatch();
@@ -28,13 +27,19 @@ export const ClockButtons = () => {
 
 const STATUS = {
   STARTED: "Started",
+  NEXT: "Next round",
   STOPPED: "Stopped",
 };
 
-const INITIAL_COUNT = 120;
+let CURRENT_ROUND_INDEX = 0;
 
 export const TournamentTimer = () => {
-  const [secondsRemaining, setSecondsRemaining] = useState(INITIAL_COUNT);
+  const rounds = useSelector((state) => state.tournament.blinds);
+  const dispatch = useDispatch();
+
+  const [secondsRemaining, setSecondsRemaining] = useState(
+    rounds[CURRENT_ROUND_INDEX].duration
+  );
   const [status, setStatus] = useState(STATUS.STOPPED);
 
   const secondsToDisplay = secondsRemaining % 60;
@@ -46,19 +51,35 @@ export const TournamentTimer = () => {
 
   useInterval(
     () => {
+      if (secondsRemaining === 0) {
+        if (CURRENT_ROUND_INDEX < rounds.length - 1) {
+          CURRENT_ROUND_INDEX++;
+          dispatch(
+            setCurrentRound(rounds[CURRENT_ROUND_INDEX], CURRENT_ROUND_INDEX)
+          );
+          setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
+
+          setStatus(STATUS.STARTED);
+        } else {
+          setCurrentRound(rounds[0]);
+          setStatus(STATUS.STARTED);
+          setStatus(STATUS.STOPPED);
+        }
+      }
       if (secondsRemaining > 0) {
         setSecondsRemaining(secondsRemaining - 1);
-      } else {
-        setStatus(STATUS.STOPPED);
       }
     },
     status === STATUS.STARTED ? 1000 : null
   );
+
   return (
     <>
-      <h1 style={{ fontSize: "5rem" }}>
-        {twoDigits(minutesToDisplay)}:{twoDigits(secondsToDisplay)}
-      </h1>
+      <h2 style={{ fontSize: "5rem" }}>
+        {status === STATUS.NEXT
+          ? "NEXT ROUND"
+          : twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
+      </h2>
       <div>
         {status === STATUS.STOPPED ? (
           <FontAwesomeIcon icon={faPlay} size="2x" onClick={handleStart} />

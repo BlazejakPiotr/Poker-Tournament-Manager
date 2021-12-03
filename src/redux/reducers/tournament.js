@@ -1,4 +1,3 @@
-import { act } from "react-dom/test-utils";
 import {
   CREATE_TOURNAMENT,
   CREATE_PLAYER,
@@ -18,10 +17,9 @@ import {
   START_ALL_PLAYERS,
   CREATE_NEW_ROUND,
   EDIT_ROUND,
-  SET_ROUND_TO_EDIT,
   DELETE_ROUND,
-  CREATE_NEW_BREAK,
   EDIT_PLAYER,
+  SET_CURRENT_ROUND,
 } from "../actions";
 import { initialState } from "../store";
 
@@ -225,27 +223,28 @@ const tournamentReducer = (state = initialState.tournament, action) => {
         ...state,
         blinds: state.blinds.map((round, i) => {
           if (i !== action.payload.index) return round;
-          else return { ...action.payload.round, edit: false };
+          else return { ...action.payload.round };
         }),
       };
-    case SET_ROUND_TO_EDIT:
-      return {
-        ...state,
-        blinds: state.blinds.map((round, i) => {
-          if (i !== action.payload) return round;
-          else return { ...round, edit: true };
-        }),
-      };
+
     case DELETE_ROUND:
       return {
         ...state,
         blinds: state.blinds.filter((round, i) => i !== action.payload),
       };
-
-    case CREATE_NEW_BREAK:
+    case SET_CURRENT_ROUND:
       return {
         ...state,
-        blinds: [...state.blinds, action.payload],
+        data: {
+          ...state.data,
+          state: {
+            ...state.data.state,
+            currentRound: {
+              ...action.payload.round,
+              name: action.payload.index,
+            },
+          },
+        },
       };
     default:
       return state;

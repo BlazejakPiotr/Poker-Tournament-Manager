@@ -7,6 +7,7 @@ import { TournamentTimer } from "./clock/index.js";
 
 const Clock = () => {
   const tournament = useSelector((state) => state.tournament);
+  const currentRound = tournament.data.state.currentRound;
   const dispatch = useDispatch();
   return (
     <Row className="py-3">
@@ -14,8 +15,10 @@ const Clock = () => {
         <h2>{tournament.data.name}</h2>
       </Col>
       <Col className="d-flex flex-column justify-content-end text-center">
-        <h4 style={{ marginBottom: "0px" }}>Round 1</h4>
-        <h1>25/50 (-)</h1>
+        <h4 style={{ marginBottom: "0px" }}>Round {currentRound.name + 1}</h4>
+        <h1>
+          {currentRound.sb}/{currentRound.bb} ({currentRound.ante})
+        </h1>
         {/*Row className="py-5">
       <Row>
         <Col>

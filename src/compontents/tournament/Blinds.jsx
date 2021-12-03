@@ -1,20 +1,16 @@
 import { Row, Col } from "react-bootstrap";
-import { BlindsNav, RoundsContent } from "./blinds/index.js";
+import { RoundsContent, RoundForm } from "./blinds/index.js";
 
 const Blinds = () => {
   return (
-    <>
-      <Row className="mb-3">
-        <Col>
-          <BlindsNav />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <RoundsContent />
-        </Col>
-      </Row>
-    </>
+    <Row>
+      <Col md={12} lg={7}>
+        <RoundForm />
+      </Col>
+      <Col xs={12}>
+        <RoundsContent />
+      </Col>
+    </Row>
   );
 };
 
