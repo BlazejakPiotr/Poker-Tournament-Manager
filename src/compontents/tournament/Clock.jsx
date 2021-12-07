@@ -1,39 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import {
-  resetTournamentState,
-  setCurrentRound,
-} from "../../redux/actions/index.js";
-import { SetClock } from "./clock/functions.js";
-
+import { DisplayCurrentRound } from "./clock/functions.js";
 import { TournamentTimer } from "./clock/index.js";
 import { calculatePlayersLeft } from "./players/functions.js";
 
 const Clock = () => {
   const tournament = useSelector((state) => state.tournament);
-  const currentRound = tournament.data.state.currentRound;
   const dispatch = useDispatch();
-  const rounds = useSelector((state) => state.tournament.blinds);
-
+  const currentRoundIndex = useSelector(
+    (state) => state.tournament.data.state.currentRound
+  );
+  useEffect(() => {});
   return (
     <Row className="py-3">
       <Col className="d-flex flex-column justify-content-end text-center">
-        {currentRound.sb && (
-          <>
-            <h4 style={{ marginBottom: "0px" }}>
-              {currentRound.break ? "Break" : `Round ${currentRound.name}`}
-            </h4>
-            <h1>
-              {currentRound && currentRound.break
-                ? ""
-                : `$${currentRound.sb} / $${currentRound.bb}`}
-            </h1>
-
-            <h2>{tournament.data.ante && `($${currentRound.ante})`}</h2>
-          </>
-        )}
+        <DisplayCurrentRound />
 
         {/*Row className="py-5">
       <Row>

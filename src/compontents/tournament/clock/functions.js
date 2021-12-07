@@ -32,3 +32,27 @@ export const SetClock = () => {
     <TournamentTimer />;
   }
 };
+
+export const DisplayCurrentRound = () => {
+  const ante = useSelector((state) => state.tournament.data.ante);
+  const round = useSelector((state) => state.tournament.blinds);
+  const currentRoundIndex = useSelector(
+    (state) => state.tournament.data.state.currentRound
+  );
+  return round[currentRoundIndex] ? (
+    <>
+      <h4 style={{ marginBottom: "0px" }}>
+        {round[currentRoundIndex].break
+          ? "Break"
+          : `Round ${currentRoundIndex + 1}`}
+      </h4>
+      <h1>
+        {!round[currentRoundIndex].break &&
+          `$${round[currentRoundIndex].sb} / $${round[currentRoundIndex].bb}`}
+      </h1>
+      <h2>{ante && `($${round[currentRoundIndex].ante})`}</h2>
+    </>
+  ) : (
+    "Set rounds!"
+  );
+};

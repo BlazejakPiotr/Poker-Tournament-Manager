@@ -317,9 +317,6 @@ export const RoundForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createRound(round));
-    if (!currentRound) {
-      dispatch(setCurrentRound(round));
-    }
     setRound({
       name: "",
       duration: "",

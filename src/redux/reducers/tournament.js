@@ -233,6 +233,13 @@ const tournamentReducer = (state = initialState.tournament, action) => {
     case DELETE_ROUND:
       return {
         ...state,
+        data: {
+          ...state.data,
+          state: {
+            ...state.data.state,
+            currentRound: action.payload - 1,
+          },
+        },
         blinds: state.blinds.filter((round, i) => i !== action.payload),
       };
     case SET_CURRENT_ROUND:
@@ -242,10 +249,7 @@ const tournamentReducer = (state = initialState.tournament, action) => {
           ...state.data,
           state: {
             ...state.data.state,
-            currentRound: {
-              ...action.payload.round,
-              name: action.payload.index + 1,
-            },
+            currentRound: action.payload,
           },
         },
       };

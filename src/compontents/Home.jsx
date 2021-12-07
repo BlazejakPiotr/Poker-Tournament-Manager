@@ -29,7 +29,7 @@ const Home = () => {
     state: {
       status: "Scheduled",
       placements: [],
-      currentRound: {},
+      currentRound: 0,
     },
   });
 

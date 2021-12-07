@@ -203,11 +203,7 @@ export const deleteRound = (index) => ({
   payload: index,
 });
 
-export const setCurrentRound = (round, index) => {
-  return (dispatch) => {
-    dispatch({
-      type: SET_CURRENT_ROUND,
-      payload: { round, index },
-    });
-  };
-};
+export const setCurrentRound = (index) => ({
+  type: SET_CURRENT_ROUND,
+  payload: index,
+});

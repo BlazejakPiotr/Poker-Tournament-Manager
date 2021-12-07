@@ -35,8 +35,8 @@ let CURRENT_ROUND_INDEX = 0;
 
 export const TournamentTimer = () => {
   const rounds = useSelector((state) => state.tournament.blinds);
+  const data = useSelector((state) => state.tournament.data);
   const dispatch = useDispatch();
-
   const [secondsRemaining, setSecondsRemaining] = useState(
     rounds[CURRENT_ROUND_INDEX].duration
   );
@@ -48,7 +48,9 @@ export const TournamentTimer = () => {
 
   const handleStart = () => {
     setStatus(STATUS.STARTED);
-    dispatch(startTournament());
+    if (data.state.status === "Scheduled") {
+      dispatch(startTournament());
+    }
   };
   const handleStop = () => setStatus(STATUS.STOPPED);
 
@@ -57,9 +59,7 @@ export const TournamentTimer = () => {
       if (secondsRemaining === 0) {
         if (CURRENT_ROUND_INDEX < rounds.length - 1) {
           CURRENT_ROUND_INDEX++;
-          dispatch(
-            setCurrentRound(rounds[CURRENT_ROUND_INDEX], CURRENT_ROUND_INDEX)
-          );
+          dispatch(setCurrentRound(CURRENT_ROUND_INDEX));
           setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
 
           setStatus(STATUS.STARTED);
