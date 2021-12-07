@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 import localStorage from "redux-persist/es/storage";
 import { encryptTransform } from "redux-persist-transform-encrypt";
+import userReducer from "../reducers/user.js";
 
 const composeEnchancers =
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -15,6 +16,7 @@ export const initialState = {
     blinds: [],
     tables: [],
   },
+  user: {},
 };
 
 const persistConfig = {
@@ -22,7 +24,7 @@ const persistConfig = {
   storage: localStorage,
   transforms: [
     encryptTransform({
-      secretKey: "1234",
+      secretKey: process.env.REACT_APP_SECRET_KEY,
       onError: (error) => {
         console.log(error);
       },
@@ -32,6 +34,7 @@ const persistConfig = {
 
 const bigReducer = combineReducers({
   tournament: tournamentReducer,
+  user: userReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, bigReducer);

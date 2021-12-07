@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
-import { BuyinAllPlayers, CreateNewPlayer } from "./players/functions.js";
-import { PlayerListTable, PlayersContent } from "./players/index.js";
+import { CreateNewPlayer } from "./players/functions.js";
+import { PlayersContent } from "./players/index.js";
 
 const Players = () => {
   return (

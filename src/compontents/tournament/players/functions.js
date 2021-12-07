@@ -1,21 +1,33 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { buyinAllPlayers, createPlayer } from "../../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins, faUserPlus } from "@fortawesome/fontawesome-free-solid";
 import { Form, Button, Badge } from "react-bootstrap";
 
+export let playerObj = {
+  name: "",
+  buyin: false,
+  rebuy: 0,
+  addon: false,
+  status: "Registered",
+  cost: 0,
+  place: null,
+};
+
 export const CreateNewPlayer = () => {
   const dispatch = useDispatch();
-  const [player, setPlayer] = useState({
-    name: "",
-    buyin: false,
-    rebuy: 0,
-    addon: false,
-    status: "Registered",
-    cost: 0,
-    place: null,
-  });
+  const user = useSelector((state) => state.user);
+  const players = useSelector((state) => state.tournament.players);
+  const [player, setPlayer] = useState(playerObj);
+
+  useEffect(() => {
+    if (players.length < 1) {
+      dispatch(
+        createPlayer((playerObj = { ...playerObj, name: user.username }))
+      );
+    }
+  }, []);
 
   const handleInput = (e) => {
     setPlayer({
@@ -27,15 +39,7 @@ export const CreateNewPlayer = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createPlayer(player));
-    setPlayer({
-      name: "",
-      buyin: false,
-      rebuy: 0,
-      addon: false,
-      status: "Registered",
-      cost: 0,
-      place: null,
-    });
+    setPlayer(playerObj);
   };
 
   return (
@@ -101,16 +105,10 @@ export const calculatePlayerCost = (index, state) => {
 };
 
 export const calculatePlayersLeft = (tournament) => {
-  if (tournament.data.state.placements.length) {
-    return (
-      tournament.players.length -
-      tournament.data.state.placements.length +
-      " / " +
-      tournament.players.length
-    );
-  } else {
-    return "No players";
-  }
+  const totalPlayers = tournament.players.length;
+  const playersBustedOut = tournament.data.state.placements.length;
+
+  return totalPlayers - playersBustedOut;
 };
 
 export const setPlayerStatus = (player, state) => {

@@ -7,26 +7,31 @@ import {
   Container,
   Button,
 } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 const Menu = () => {
+  const data = useSelector((state) => state.tournament.data);
+  const user = useSelector((state) => state.user);
   return (
-    <Navbar bg="dark" variant="dark">
-      <Container>
-        <Navbar.Brand href="/">PTM</Navbar.Brand>
-        <Nav className="mr-auto">
-          <NavDropdown title="TOURNAMENT" align="end" menuVariant="dark">
-            <NavDropdown.Item>General</NavDropdown.Item>
+    <>
+      <Navbar bg="dark" variant="dark">
+        <Container>
+          <Navbar.Brand href="/">Poker Tournament Manager</Navbar.Brand>
 
-            <NavDropdown.Item>Players</NavDropdown.Item>
-            <NavDropdown.Item>Tables</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">
-              Separated link
-            </NavDropdown.Item>
-          </NavDropdown>
-        </Nav>
-      </Container>
-    </Navbar>
+          <Nav className="mr-auto">
+            <NavDropdown title={user.username} align="end" menuVariant="dark">
+              <NavDropdown.Item>Profile</NavDropdown.Item>
+              <NavDropdown.Item href="/tournament">Tournament</NavDropdown.Item>
+              <NavDropdown.Item>Tables</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4">
+                Separated link
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        </Container>
+      </Navbar>
+    </>
   );
 };
 

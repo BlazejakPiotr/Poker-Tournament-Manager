@@ -7,7 +7,7 @@ import {
   faTrash,
 } from "@fortawesome/fontawesome-free-solid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Form,
@@ -24,6 +24,7 @@ import {
   createRound,
   deleteRound,
   editRound,
+  setCurrentRound,
 } from "../../../redux/actions/index.js";
 
 // export const RoundForm = () => {
@@ -166,6 +167,7 @@ export const RoundDetails = ({ round, index }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(editRound(index, level));
+
     setShowModal(false);
   };
 
@@ -292,6 +294,9 @@ export const RoundDetails = ({ round, index }) => {
 
 export const RoundForm = () => {
   const dispatch = useDispatch();
+  const currentRound = useSelector(
+    (state) => state.tournament.data.state.currentRound
+  );
   const [round, setRound] = useState({
     name: "",
     duration: "",
@@ -312,6 +317,9 @@ export const RoundForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createRound(round));
+    if (!currentRound) {
+      dispatch(setCurrentRound(round));
+    }
     setRound({
       name: "",
       duration: "",

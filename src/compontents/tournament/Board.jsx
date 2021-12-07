@@ -17,16 +17,27 @@ const Board = () => {
       <Row>
         <Col className="clock">
           <div>
-            <p>Ante</p>
-            <h2>100</h2>
+            <p>Buyin</p>
+            <h2>
+              {tournament.data.buyin} {tournament.data.currency}
+            </h2>
           </div>
           <div>
-            <p>Small blind</p>
-            <h2>500</h2>
+            <p>Rebuy</p>
+            <h2>
+              {tournament.data.rebuy
+                ? tournament.data.rebuy + tournament.data.currency
+                : "-"}
+            </h2>
           </div>
           <div>
-            <p>Big blind</p>
-            <h2>1000</h2>
+            <p>Add-on</p>
+            <h2>
+              {" "}
+              {tournament.data.addon
+                ? tournament.data.addon + tournament.data.currency
+                : "-"}
+            </h2>
           </div>
         </Col>
         <Col md={6} className="clock"></Col>
@@ -47,8 +58,8 @@ const Board = () => {
       <Row>
         <Col className="clock">
           <div>
-            <p>Players</p>
-            <h3>{calculatePlayersLeft(tournament)}</h3>
+            <p>Total pot</p>
+            <h3>pot</h3>
           </div>
         </Col>
         <Col className="clock">

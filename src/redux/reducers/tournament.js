@@ -28,8 +28,10 @@ const tournamentReducer = (state = initialState.tournament, action) => {
     // TOURNAMENT STATE
     case CREATE_TOURNAMENT:
       return {
-        ...state,
-        data: action.payload,
+        data: { ...action.payload.data },
+        players: [],
+        blinds: [],
+        tables: [],
       };
     case RESET_TOURNAMENT_STATE:
       return {
@@ -212,6 +214,7 @@ const tournamentReducer = (state = initialState.tournament, action) => {
           else return { ...action.payload.user };
         }),
       };
+
     // ROUND STATE
     case CREATE_NEW_ROUND:
       return {
@@ -241,7 +244,7 @@ const tournamentReducer = (state = initialState.tournament, action) => {
             ...state.data.state,
             currentRound: {
               ...action.payload.round,
-              name: action.payload.index,
+              name: action.payload.index + 1,
             },
           },
         },

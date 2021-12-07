@@ -4,15 +4,24 @@ import {
   setPlayerPlace,
 } from "../../compontents/tournament/players/functions.js";
 
+// USER
+
+export const CREATE_USER = "CREATE_USER";
+
+export const createNewUser = (username) => ({
+  type: CREATE_USER,
+  payload: username,
+});
+
 // TOURNAMENT SETTINGS
 export const CREATE_TOURNAMENT = "CREATE_TOURNAMENT";
 export const RESET_TOURNAMENT_STATE = "RESET_TOURNAMENT_STATE";
 export const START_TOURNAMENT = "START_TOURNAMENT";
 export const START_ALL_PLAYERS = "START_ALL_PLAYERS";
 
-export const createNewTournament = (data) => ({
+export const createNewTournament = (data, user) => ({
   type: CREATE_TOURNAMENT,
-  payload: data,
+  payload: { data },
 });
 
 export const resetTournamentState = () => ({

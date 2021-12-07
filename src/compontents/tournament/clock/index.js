@@ -46,7 +46,10 @@ export const TournamentTimer = () => {
   const minutesRemaining = (secondsRemaining - secondsToDisplay) / 60;
   const minutesToDisplay = minutesRemaining % 60;
 
-  const handleStart = () => setStatus(STATUS.STARTED);
+  const handleStart = () => {
+    setStatus(STATUS.STARTED);
+    dispatch(startTournament());
+  };
   const handleStop = () => setStatus(STATUS.STOPPED);
 
   useInterval(
