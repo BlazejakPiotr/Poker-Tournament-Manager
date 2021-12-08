@@ -14,44 +14,52 @@ export const createNewUser = (username) => ({
 });
 
 // TOURNAMENT SETTINGS
-export const CREATE_TOURNAMENT = "CREATE_TOURNAMENT";
-export const RESET_TOURNAMENT_STATE = "RESET_TOURNAMENT_STATE";
-export const START_TOURNAMENT = "START_TOURNAMENT";
-export const START_ALL_PLAYERS = "START_ALL_PLAYERS";
-export const SUM_TOTAL_POT = "SUM_TOTAL_POT";
 
-export const createNewTournament = (data, user) => ({
+export const SET_ROUND_TIME_LEFT = "SET_ROUND_TIME_LEFT";
+
+export const TOURNAMENT_STATUS = {
+  SCHEDULED: "Scheduled",
+  LIVE: "Live",
+  PAUSED: "Paused",
+  BREAK: "Break",
+  FINISHED: "Finished",
+};
+export const CREATE_TOURNAMENT = "CREATE_TOURNAMENT";
+export const createNewTournament = (data) => ({
   type: CREATE_TOURNAMENT,
   payload: { data },
 });
 
-export const resetTournamentState = () => ({
-  type: RESET_TOURNAMENT_STATE,
+export const SET_TOURNAMENT_STATUS = "SET_TOURNAMENT_STATUS";
+export const changeTournamentStatus = (status) => ({
+  type: SET_TOURNAMENT_STATUS,
+  payload: status,
 });
 
-export const startTournament = () => {
-  return (dispatch) => {
-    dispatch({
-      type: START_TOURNAMENT,
-      payload: "Running",
-    });
-    dispatch({
-      type: START_ALL_PLAYERS,
-      payload: "Still in",
-    });
-  };
-};
+export const SET_CURRENT_ROUND_INDEX = "SET_CURRENT_ROUND_INDEX";
+export const updateCurrentRoundIndex = (index) => ({
+  type: SET_CURRENT_ROUND_INDEX,
+  payload: index,
+});
 
-export const setCurrentTotalPot = (players) => {
+export const SET_TOTAL_POT = "SET_TOTAL_POT";
+export const updateTotalPot = (players) => {
   let playersCostArr = [];
   players.map((player) => playersCostArr.push(player.cost));
   return (dispatch) => {
     dispatch({
-      type: SUM_TOTAL_POT,
+      type: SET_TOTAL_POT,
       payload: playersCostArr,
     });
   };
 };
+
+export const SET_ELAPSED_TIME = "SET_ELAPSED_TIME";
+export const setTournamentDuration = (time) => ({
+  type: SET_ELAPSED_TIME,
+  payload: time,
+});
+
 // PLAYERS
 export const CREATE_PLAYER = "CREATE_PLAYER";
 export const REMOVE_PLAYER = "REMOVE_PLAYER";
@@ -220,10 +228,26 @@ export const setCurrentRound = (index) => ({
 });
 
 //TOURNAMENT ALERTS
+export const SHOW_DANGER_ALERT = "SHOW_DANGER_ALERT";
+export const displayDangerAlert = (alert) => ({
+  type: SHOW_DANGER_ALERT,
+  payload: alert,
+});
 
-export const ROUNDS_WARNING_ALERT = "ROUNDS_WARNING_ALERT";
+export const HIDE_DANGER_ALERT = "HIDE_DANGER_ALERT";
+export const hideDangerAlert = (alert) => ({
+  type: HIDE_DANGER_ALERT,
+  payload: alert,
+});
 
-export const warningNotEnoughRounds = (boolean) => ({
-  type: ROUNDS_WARNING_ALERT,
-  payload: boolean,
+export const SHOW_SUCCESS_ALERT = "SHOW_SUCCESS_ALERT";
+export const displaySuccessAlert = (alert) => ({
+  type: SHOW_SUCCESS_ALERT,
+  payload: alert,
+});
+
+export const HIDE_SUCCESS_ALERT = "HIDE_SUCCESS_ALERT";
+export const hideSuccessAlert = (alert) => ({
+  type: HIDE_SUCCESS_ALERT,
+  payload: alert,
 });

@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { buyinAllPlayers, createPlayer } from "../../../redux/actions";
+import {
+  buyinAllPlayers,
+  createPlayer,
+  TOURNAMENT_STATUS,
+} from "../../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCoins, faUserPlus } from "@fortawesome/fontawesome-free-solid";
 import { Form, Button, Badge } from "react-bootstrap";
@@ -113,7 +117,7 @@ export const calculatePlayersLeft = (tournament) => {
 
 export const setPlayerStatus = (player, state) => {
   if (player.buyin) {
-    if (!player.place && state === "Running") return "Still in";
+    if (!player.place) return "Still in";
     if (!player.place) return "Bought in";
   } else return "Busted out";
 };

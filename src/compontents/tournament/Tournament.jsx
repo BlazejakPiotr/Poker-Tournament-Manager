@@ -3,14 +3,15 @@ import Players from "./Players";
 import Board from "./Board";
 import Blinds from "./Blinds";
 import Clock from "./Clock";
-import { AlertSetPlayersWarning, AlertSetRoundsWarning } from "./alerts";
+import { DangerAlert, SuccessAlert } from "./alerts";
 
 const Tournament = () => {
   return (
     <>
       <Container>
-        <AlertSetRoundsWarning />
-        <AlertSetPlayersWarning />
+        {/* <AlertSetRoundsWarning /> */}
+        <DangerAlert />
+        <SuccessAlert />
         <Clock />
         <Tabs
           defaultActiveKey="Board"
@@ -19,7 +20,7 @@ const Tournament = () => {
           <Tab eventKey="Board" title="Board">
             <Board />
           </Tab>
-          <Tab eventKey="Blinds" title="Blinds">
+          <Tab eventKey="Rounds" title="Rounds">
             <Blinds />
           </Tab>
           <Tab eventKey="Players" title="Players">

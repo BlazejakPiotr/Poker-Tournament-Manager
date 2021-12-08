@@ -5,21 +5,24 @@ import { CalculateTotalPot, tournamentTimer } from "./clock/functions.js";
 import { CurrentLocalTime, TournamentElapsedTime } from "./board/index.js";
 
 import { calculatePlayersLeft } from "./players/functions";
+import { useDispatch } from "react-redux";
+import {
+  displaySuccessAlert,
+  hideSuccessAlert,
+} from "../../redux/actions/index.js";
 
 const Board = () => {
   const tournament = useSelector((state) => state.tournament);
-  useEffect(() => {});
+
   return (
     <>
-      <Row className="justify-content-end mb-4">
-        <Col sm={4} className="d-flex justify-content-end"></Col>
-      </Row>
       <Row>
         <Col className="clock">
           <div>
             <p>Buyin</p>
             <h2>
-              {tournament.data.buyin} {tournament.data.currency}
+              {tournament.data.buyin}
+              {tournament.data.currency}
             </h2>
           </div>
           <div>
@@ -40,43 +43,21 @@ const Board = () => {
             </h2>
           </div>
         </Col>
-        <Col md={6} className="clock"></Col>
+        <Col md={7} className="clock">
+          test
+        </Col>
         <Col className="clock">
+          <div>
+            <p>Scheduled</p>
+            <h2>{tournament.data.date.slice(0, 10)}</h2>
+          </div>
           <div>
             <CurrentLocalTime />
           </div>
           <div>
             <TournamentElapsedTime />
           </div>
-          <div>
-            <p>Next break</p>
-            <h2>00:15</h2>
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col className="clock">
-          <div>
-            <CalculateTotalPot />
-          </div>
-        </Col>
-        <Col className="clock">
-          <div>
-            <p>Avg stack</p>
-            <h3>1000</h3>
-          </div>
-        </Col>
-        <Col className="clock">
-          <div>
-            <p>Pot</p>
-            <h3>0$</h3>
-          </div>
-        </Col>
-        <Col className="clock">
-          <div>
-            <p>Next round</p>
-            <h3>1000/2000 (200)</h3>
-          </div>
+          <div></div>
         </Col>
       </Row>
     </>

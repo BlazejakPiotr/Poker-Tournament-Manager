@@ -2,7 +2,13 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useState } from "react";
-import { createNewTournament, createNewUser } from "../redux/actions";
+import {
+  createNewTournament,
+  createNewUser,
+  displaySuccessAlert,
+  hideSuccessAlert,
+  TOURNAMENT_STATUS,
+} from "../redux/actions";
 import { useSelector } from "react-redux";
 
 const Home = () => {
@@ -21,7 +27,7 @@ const Home = () => {
     addon: null,
     ante: false,
     state: {
-      status: "Scheduled",
+      status: TOURNAMENT_STATUS.SCHEDULED,
       placements: [],
       currentRound: 0,
     },

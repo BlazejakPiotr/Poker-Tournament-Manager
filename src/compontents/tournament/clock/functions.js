@@ -1,10 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setCurrentTotalPot,
-  warningNotEnoughRounds,
+  TOURNAMENT_STATUS,
+  updateTotalPot,
 } from "../../../redux/actions/index.js";
-import { TournamentTimer } from "./index.js";
 
 export const useInterval = (callback, delay) => {
   const savedCallback = useRef();
@@ -35,29 +34,28 @@ export const DisplayCurrentRound = () => {
   const currentRoundIndex = useSelector(
     (state) => state.tournament.data.state.currentRound
   );
-  useEffect(() => {
-    if (round.length === 0) {
-      dispatch(warningNotEnoughRounds(true));
-    } else {
-      dispatch(warningNotEnoughRounds(false));
-    }
-  }, [round]);
-  return round[currentRoundIndex] ? (
-    <>
-      <h4 style={{ marginBottom: "0px" }}>
-        {round[currentRoundIndex].break
-          ? "Break"
-          : `Round ${currentRoundIndex + 1}`}
-      </h4>
-      <h1>
-        {!round[currentRoundIndex].break &&
-          `$${round[currentRoundIndex].sb} / $${round[currentRoundIndex].bb}`}
-      </h1>
-      <h2>{ante && `($${round[currentRoundIndex].ante})`}</h2>
-    </>
-  ) : (
-    ""
-  );
+  const status = useSelector((state) => state.tournament.data.state.status);
+  if (status === TOURNAMENT_STATUS.SCHEDULED) {
+    return <h1>Waiting for start</h1>;
+  }
+  if (status === TOURNAMENT_STATUS.FINISHED) return <h1>FINISHED</h1>;
+  else
+    return round[currentRoundIndex] ? (
+      <>
+        <h4 style={{ marginBottom: "0px" }}>
+          {round[currentRoundIndex].break
+            ? "Break"
+            : `Round ${currentRoundIndex + 1}`}
+        </h4>
+        <h1>
+          {!round[currentRoundIndex].break &&
+            `${round[currentRoundIndex].sb} / ${round[currentRoundIndex].bb}`}
+        </h1>
+        <h2>{ante && `(${round[currentRoundIndex].ante})`}</h2>
+      </>
+    ) : (
+      ""
+    );
 };
 
 export const CalculateTotalPot = () => {
@@ -66,7 +64,7 @@ export const CalculateTotalPot = () => {
 
   useEffect(() => {
     tournament.players.map((player) => {
-      dispatch(setCurrentTotalPot(tournament.players));
+      dispatch(updateTotalPot(tournament.players));
     });
   }, [tournament.players]);
 
@@ -76,4 +74,13 @@ export const CalculateTotalPot = () => {
       <h2>{tournament.data.state.totalPot + tournament.data.currency}</h2>
     </>
   );
+};
+
+export const calculatePaidinPlayers = (players) => {
+  let paid = [];
+  players.map((player) => {
+    if (player.buyin) paid = [...paid, { player }];
+    else return;
+  });
+  return paid.length;
 };

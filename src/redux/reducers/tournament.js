@@ -8,90 +8,62 @@ import {
   BUSTOUT_PLAYER,
   UPDATE_PLAYER_COST,
   SET_PLAYER_PLACE,
-  RESET_TOURNAMENT_STATE,
   SET_WINNER,
   BUYIN_ALL_PLAYERS,
   SET_PLAYER_STATUS,
   SET_ALL_PLAYERS_STATUS,
-  START_TOURNAMENT,
-  START_ALL_PLAYERS,
   CREATE_NEW_ROUND,
   EDIT_ROUND,
   DELETE_ROUND,
   EDIT_PLAYER,
+  SET_TOTAL_POT,
+  SET_ELAPSED_TIME,
+  SET_TOURNAMENT_STATUS,
+  SET_CURRENT_ROUND_INDEX,
+  SHOW_DANGER_ALERT,
+  HIDE_DANGER_ALERT,
+  HIDE_SUCCESS_ALERT,
+  SHOW_SUCCESS_ALERT,
   SET_CURRENT_ROUND,
-  ROUNDS_WARNING_ALERT,
-  SUM_TOTAL_POT,
 } from "../actions";
 import { initialState } from "../store";
 
 const tournamentReducer = (state = initialState.tournament, action) => {
+  const reducer = (previousValue, currentValue) => previousValue + currentValue;
   switch (action.type) {
     // TOURNAMENT STATE
     case CREATE_TOURNAMENT:
       return {
-        ...state,
         data: { ...action.payload.data },
         players: [],
         blinds: [],
         tables: [],
+        alerts: {},
       };
-    case RESET_TOURNAMENT_STATE:
+    case SET_TOURNAMENT_STATUS:
       return {
         ...state,
         data: {
           ...state.data,
           state: {
             ...state.data.state,
-            status: "Scheduled",
-            placements: [],
+            status: action.payload,
           },
         },
-        players: [
-          ...state.players.map(
-            (player) =>
-              (player = {
-                ...player,
-                buyin: false,
-                rebuy: false,
-                addon: false,
-                status: "Registered",
-                cost: 0,
-                place: null,
-              })
-          ),
-        ],
       };
-
+    case SET_CURRENT_ROUND_INDEX:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          state: {
+            ...state.data.state,
+            currentRound: action.payload,
+          },
+        },
+      };
     // CLOCK
-    case START_TOURNAMENT:
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          state: {
-            ...state.data.state,
-            status: "Running",
-          },
-        },
-      };
-
-    case START_ALL_PLAYERS:
-      return {
-        ...state,
-        players: state.players.map((player, i) => {
-          if (player.status !== "Bought in") return player;
-          else
-            return {
-              ...player,
-              status: action.payload,
-            };
-        }),
-      };
-
-    case SUM_TOTAL_POT:
-      const reducer = (previousValue, currentValue) =>
-        previousValue + currentValue;
+    case SET_TOTAL_POT:
       return {
         ...state,
         data: {
@@ -99,6 +71,18 @@ const tournamentReducer = (state = initialState.tournament, action) => {
           state: {
             ...state.data.state,
             totalPot: action.payload.reduce(reducer),
+          },
+        },
+      };
+
+    case SET_ELAPSED_TIME:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          state: {
+            ...state.data.state,
+            elapsedTime: action.payload,
           },
         },
       };
@@ -250,13 +234,6 @@ const tournamentReducer = (state = initialState.tournament, action) => {
     case DELETE_ROUND:
       return {
         ...state,
-        data: {
-          ...state.data,
-          state: {
-            ...state.data.state,
-            currentRound: action.payload - 1,
-          },
-        },
         blinds: state.blinds.filter((round, i) => i !== action.payload),
       };
     case SET_CURRENT_ROUND:
@@ -271,15 +248,39 @@ const tournamentReducer = (state = initialState.tournament, action) => {
         },
       };
     // ALERTS
-
-    case ROUNDS_WARNING_ALERT:
+    case SHOW_DANGER_ALERT:
       return {
         ...state,
         alerts: {
           ...state.alerts,
-          roundsWarning: action.payload,
+          [action.payload]: true,
         },
       };
+    case HIDE_DANGER_ALERT:
+      return {
+        ...state,
+        alerts: {
+          ...state.alerts,
+          [action.payload]: false,
+        },
+      };
+    case SHOW_SUCCESS_ALERT:
+      return {
+        ...state,
+        alerts: {
+          ...state.alerts,
+          [action.payload]: true,
+        },
+      };
+    case HIDE_SUCCESS_ALERT:
+      return {
+        ...state,
+        alerts: {
+          ...state.alerts,
+          [action.payload]: false,
+        },
+      };
+
     default:
       return state;
   }
