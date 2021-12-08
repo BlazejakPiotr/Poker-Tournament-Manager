@@ -15,6 +15,9 @@ export const initialState = {
     players: [],
     blinds: [],
     tables: [],
+    alerts: {
+      roundsWarning: false,
+    },
   },
   user: {},
 };

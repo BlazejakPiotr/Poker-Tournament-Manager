@@ -37,10 +37,15 @@ export const TournamentTimer = () => {
   const rounds = useSelector((state) => state.tournament.blinds);
   const data = useSelector((state) => state.tournament.data);
   const dispatch = useDispatch();
-  const [secondsRemaining, setSecondsRemaining] = useState(
-    rounds[CURRENT_ROUND_INDEX].duration
-  );
+  const [secondsRemaining, setSecondsRemaining] = useState();
   const [status, setStatus] = useState(STATUS.STOPPED);
+
+  useEffect(() => {
+    if (rounds.length === 1) {
+      dispatch(setCurrentRound(0));
+      setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration * 60);
+    }
+  }, [rounds]);
 
   const secondsToDisplay = secondsRemaining % 60;
   const minutesRemaining = (secondsRemaining - secondsToDisplay) / 60;
@@ -60,8 +65,7 @@ export const TournamentTimer = () => {
         if (CURRENT_ROUND_INDEX < rounds.length - 1) {
           CURRENT_ROUND_INDEX++;
           dispatch(setCurrentRound(CURRENT_ROUND_INDEX));
-          setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
-
+          setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration * 60);
           setStatus(STATUS.STARTED);
         } else {
           setCurrentRound(rounds[0]);
@@ -79,9 +83,9 @@ export const TournamentTimer = () => {
   return (
     <>
       <h2 style={{ fontSize: "5rem" }}>
-        {status === STATUS.NEXT
-          ? "NEXT ROUND"
-          : twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
+        {rounds[CURRENT_ROUND_INDEX]
+          ? twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)
+          : "00:00"}
       </h2>
       <div>
         {status === STATUS.STOPPED ? (

@@ -228,7 +228,7 @@ export const PlayerDetails = ({ player, index }) => {
               <Button
                 onClick={() => dispatch(rebuyPlayer(index))}
                 className="w-100 mb-2"
-                disabled={tournament.data.rebuy && player.place}
+                disabled={!tournament.data.rebuy || player.place}
               >
                 Rebuy
               </Button>
@@ -378,7 +378,7 @@ export const PlayerTableDetails = ({ player, index, data }) => {
             variant="outline-primary"
             onClick={() => dispatch(rebuyPlayer(index))}
             className="w-100 d-flex justify-content-evenly align-items-center"
-            disabled={data.rebuy ? false : true}
+            disabled={data.rebuy}
           >
             <GiTwoCoins size={20} /> Rebuy
           </Button>
@@ -597,7 +597,7 @@ export const PlayerMenu = ({ index }) => {
         </Dropdown.Item>
         <Dropdown.Item
           disabled={
-            !data.rebuy ||
+            players[index].buyin ||
             !players[index].buyin ||
             players[index].status === "Busted out"
           }

@@ -20,6 +20,8 @@ import {
   DELETE_ROUND,
   EDIT_PLAYER,
   SET_CURRENT_ROUND,
+  ROUNDS_WARNING_ALERT,
+  SUM_TOTAL_POT,
 } from "../actions";
 import { initialState } from "../store";
 
@@ -28,6 +30,7 @@ const tournamentReducer = (state = initialState.tournament, action) => {
     // TOURNAMENT STATE
     case CREATE_TOURNAMENT:
       return {
+        ...state,
         data: { ...action.payload.data },
         players: [],
         blinds: [],
@@ -84,6 +87,20 @@ const tournamentReducer = (state = initialState.tournament, action) => {
               status: action.payload,
             };
         }),
+      };
+
+    case SUM_TOTAL_POT:
+      const reducer = (previousValue, currentValue) =>
+        previousValue + currentValue;
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          state: {
+            ...state.data.state,
+            totalPot: action.payload.reduce(reducer),
+          },
+        },
       };
 
     // PLAYER STATE
@@ -251,6 +268,16 @@ const tournamentReducer = (state = initialState.tournament, action) => {
             ...state.data.state,
             currentRound: action.payload,
           },
+        },
+      };
+    // ALERTS
+
+    case ROUNDS_WARNING_ALERT:
+      return {
+        ...state,
+        alerts: {
+          ...state.alerts,
+          roundsWarning: action.payload,
         },
       };
     default:

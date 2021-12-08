@@ -9,7 +9,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-width: 350px;
   font-family: "Karla", sans-serif !important;
+
+  min-height: 100vh;
+
+  background: rgb(157, 10, 10);
+  background: radial-gradient(circle, rgb(37, 36, 36) 0%, rgb(24, 23, 23) 100%);
+  color: #fff !important;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -23,6 +30,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.App {
+  min-height: 100vh;
+  min-width: 100wh;
+  display: block;
+  position: relative;
+}
+
+.App::after {
+  content: "";
+  background: url("./img/texture.jpg");
+  background-attachment: fixed;
+  background-position: top right;
+  background-repeat: repeat;
+  opacity: 0.12;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+}
+.home-title h1,
+h3 {
+  font-family: "Titillium Web", sans-serif;
+  font-size: 5rem;
+  text-transform: capitalize !important;
+}
+.home-img {
+  background-image: url("./img/bg5.png");
+  background-position: bottom center;
+  background-repeat: no-repeat;
+}
+
 .nav-item {
   font-family: "Titillium Web", sans-serif;
   width: 25%;
@@ -37,9 +78,15 @@ code {
   border: 1px solid #dddddd;
   border-top: none;
 }
-
+.modal-content {
+  color: #000;
+}
+/* .tab-content {
+  background-color: #fff;
+} */
 .clock {
-  border: 1px solid black;
+  /* border: 1px solid black; */
+
   text-align: center;
   padding: 1rem 0px;
 }
@@ -58,6 +105,11 @@ code {
 .dropdown-toggle::after {
   display: none !important;
 }
+
+.alert p {
+  margin-block-end: 0px;
+}
+
 @media only screen and (max-width: 650px) {
   .small-screen {
     display: none;

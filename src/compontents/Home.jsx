@@ -2,14 +2,8 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useState } from "react";
-import Create from "./tournament/Create";
-import {
-  assignUserAsPlayer,
-  createNewTournament,
-  createNewUser,
-} from "../redux/actions";
-import Menu from "./Menu";
-import { playerObj } from "./tournament/players/functions.js";
+import { createNewTournament, createNewUser } from "../redux/actions";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -50,10 +44,20 @@ const Home = () => {
 
   return (
     <>
-      <Container>
-        <Row>
-          <Col>text</Col>
-          <Col md={12} lg={4}>
+      <Container className=" p-5 mt-5">
+        {/* <Row>
+          <Col>
+            <h1 className="text-center">POKER TOURNAMENT MANAGER</h1>
+          </Col>
+        </Row> */}
+        <Row className="mt-5">
+          <Col xs={6} className="p-4 home-title">
+            <h3>Poker Tournament Manager</h3>
+
+            <p>
+              This web application was created for managing home-made poker
+              tournaments.
+            </p>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="tournamentName">
                 <Form.Label>Nickname</Form.Label>
@@ -79,6 +83,7 @@ const Home = () => {
                 <Form.Label>Date & Time</Form.Label>
                 <Form.Control
                   type="datetime-local"
+                  value={tournament.date}
                   onChange={(e) => handleInput(e, "date")}
                 />
               </Form.Group>
@@ -103,25 +108,21 @@ const Home = () => {
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="tournamentType">
-                <Row>
-                  <Col xs={8}>
-                    <Form.Label>Tournament Type</Form.Label>
+                <Form.Label>Tournament type</Form.Label>
 
-                    <Form.Select onChange={(e) => handleInput(e, "type")}>
-                      <option value="Freezeout">Freezeout</option>
-                      <option value="Rebuys">Rebuys</option>
-                      <option value="Rebuys + Add-on">Rebuys + Add-on</option>
-                    </Form.Select>
-                  </Col>
-                  <Col className="text-center">
-                    <Form.Label>Ante</Form.Label>
-                    <Form.Check
-                      type="checkbox"
-                      value={tournament.ante}
-                      onChange={(e) => handleInput(e, "ante")}
-                    />
-                  </Col>
-                </Row>
+                <Form.Select onChange={(e) => handleInput(e, "type")}>
+                  <option value="Freezeout">Freezeout</option>
+                  <option value="Rebuys">Rebuys</option>
+                  <option value="Rebuys + Add-on">Rebuys + Add-on</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="tournamentType">
+                <Form.Label>Ante</Form.Label>
+                <Form.Check
+                  type="checkbox"
+                  value={tournament.ante}
+                  onChange={(e) => handleInput(e, "ante")}
+                />
               </Form.Group>
               {tournament.type === "Rebuys" && (
                 <Form.Group className="mb-3" controlId="tournamentRebuy">
@@ -158,6 +159,7 @@ const Home = () => {
               </Button>
             </Form>
           </Col>
+          <Col className="home-img"></Col>
         </Row>
       </Container>
     </>

@@ -1,5 +1,9 @@
 import { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCurrentTotalPot,
+  warningNotEnoughRounds,
+} from "../../../redux/actions/index.js";
 import { TournamentTimer } from "./index.js";
 
 export const useInterval = (callback, delay) => {
@@ -24,21 +28,20 @@ export const twoDigits = (num) => String(num).padStart(2, "0");
 
 export const convertMinutesToSeconds = (num) => num * 60;
 
-export const SetClock = () => {
-  const tournament = useSelector((state) => state.tournament);
-  if (!tournament.blinds) {
-    return <h1>Create first round!</h1>;
-  } else {
-    <TournamentTimer />;
-  }
-};
-
 export const DisplayCurrentRound = () => {
+  const dispatch = useDispatch();
   const ante = useSelector((state) => state.tournament.data.ante);
   const round = useSelector((state) => state.tournament.blinds);
   const currentRoundIndex = useSelector(
     (state) => state.tournament.data.state.currentRound
   );
+  useEffect(() => {
+    if (round.length === 0) {
+      dispatch(warningNotEnoughRounds(true));
+    } else {
+      dispatch(warningNotEnoughRounds(false));
+    }
+  }, [round]);
   return round[currentRoundIndex] ? (
     <>
       <h4 style={{ marginBottom: "0px" }}>
@@ -53,6 +56,24 @@ export const DisplayCurrentRound = () => {
       <h2>{ante && `($${round[currentRoundIndex].ante})`}</h2>
     </>
   ) : (
-    "Set rounds!"
+    ""
+  );
+};
+
+export const CalculateTotalPot = () => {
+  const tournament = useSelector((state) => state.tournament);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    tournament.players.map((player) => {
+      dispatch(setCurrentTotalPot(tournament.players));
+    });
+  }, [tournament.players]);
+
+  return (
+    <>
+      <p>Total pot</p>
+      <h2>{tournament.data.state.totalPot + tournament.data.currency}</h2>
+    </>
   );
 };

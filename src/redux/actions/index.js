@@ -18,6 +18,7 @@ export const CREATE_TOURNAMENT = "CREATE_TOURNAMENT";
 export const RESET_TOURNAMENT_STATE = "RESET_TOURNAMENT_STATE";
 export const START_TOURNAMENT = "START_TOURNAMENT";
 export const START_ALL_PLAYERS = "START_ALL_PLAYERS";
+export const SUM_TOTAL_POT = "SUM_TOTAL_POT";
 
 export const createNewTournament = (data, user) => ({
   type: CREATE_TOURNAMENT,
@@ -41,6 +42,16 @@ export const startTournament = () => {
   };
 };
 
+export const setCurrentTotalPot = (players) => {
+  let playersCostArr = [];
+  players.map((player) => playersCostArr.push(player.cost));
+  return (dispatch) => {
+    dispatch({
+      type: SUM_TOTAL_POT,
+      payload: playersCostArr,
+    });
+  };
+};
 // PLAYERS
 export const CREATE_PLAYER = "CREATE_PLAYER";
 export const REMOVE_PLAYER = "REMOVE_PLAYER";
@@ -206,4 +217,13 @@ export const deleteRound = (index) => ({
 export const setCurrentRound = (index) => ({
   type: SET_CURRENT_ROUND,
   payload: index,
+});
+
+//TOURNAMENT ALERTS
+
+export const ROUNDS_WARNING_ALERT = "ROUNDS_WARNING_ALERT";
+
+export const warningNotEnoughRounds = (boolean) => ({
+  type: ROUNDS_WARNING_ALERT,
+  payload: boolean,
 });

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { tournamentTimer } from "./clock/functions.js";
-import { CurrentLocalTime } from "./board/index.js";
+import { CalculateTotalPot, tournamentTimer } from "./clock/functions.js";
+import { CurrentLocalTime, TournamentElapsedTime } from "./board/index.js";
 
 import { calculatePlayersLeft } from "./players/functions";
 
@@ -46,8 +46,7 @@ const Board = () => {
             <CurrentLocalTime />
           </div>
           <div>
-            <p>Elapsed time</p>
-            <h2>00:00</h2>
+            <TournamentElapsedTime />
           </div>
           <div>
             <p>Next break</p>
@@ -58,8 +57,7 @@ const Board = () => {
       <Row>
         <Col className="clock">
           <div>
-            <p>Total pot</p>
-            <h3>pot</h3>
+            <CalculateTotalPot />
           </div>
         </Col>
         <Col className="clock">
