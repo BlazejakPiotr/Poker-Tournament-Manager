@@ -10,12 +10,18 @@ import {
   displaySuccessAlert,
   hideSuccessAlert,
 } from "../../redux/actions/index.js";
+import Clock from "./Clock.jsx";
 
 const Board = () => {
   const tournament = useSelector((state) => state.tournament);
 
   return (
     <>
+      <Row>
+        <Col>
+          <h1>{tournament.data.name}</h1>
+        </Col>
+      </Row>
       <Row>
         <Col className="clock">
           <div>
@@ -44,7 +50,9 @@ const Board = () => {
           </div>
         </Col>
         <Col md={7} className="clock">
-          test
+          {/* <AlertSetRoundsWarning /> */}
+
+          <Clock />
         </Col>
         <Col className="clock">
           <div>

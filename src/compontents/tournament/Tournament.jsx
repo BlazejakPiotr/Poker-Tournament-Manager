@@ -8,14 +8,12 @@ import { DangerAlert, SuccessAlert } from "./alerts";
 const Tournament = () => {
   return (
     <>
-      <Container>
-        {/* <AlertSetRoundsWarning /> */}
-        <DangerAlert />
-        <SuccessAlert />
-        <Clock />
+      <Container fluid>
+        <h1 className="text-center">NAME</h1>
         <Tabs
           defaultActiveKey="Board"
           className="d-flex justify-content-evenly"
+          className="bg-secondary "
         >
           <Tab eventKey="Board" title="Board">
             <Board />

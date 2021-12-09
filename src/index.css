@@ -66,17 +66,41 @@ h3 {
 
 .nav-item {
   font-family: "Titillium Web", sans-serif;
+  background-color: #332f2f;
   width: 25%;
+}
+
+.nav-tabs > nav-link.active {
+  background-color: #1f1f1f !important;
+  border: 1px solid #000000;
 }
 .nav-item button {
   width: 100%;
-  color: #242424;
+  color: #ebebeb;
 }
 
 .tab-content > .active {
-  padding: 1.25rem;
-  border: 1px solid #dddddd;
-  border-top: none;
+  min-height: 80vh;
+  position: relative;
+  padding: 3rem;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+.tab-content > .active ::after {
+  content: "";
+
+  background: radial-gradient(
+    circle,
+    rgba(40, 91, 198, 1) 0%,
+    rgba(8, 40, 77, 0.418) 100%
+  );
+
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
 }
 .modal-content {
   color: #000;

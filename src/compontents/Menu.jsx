@@ -14,7 +14,7 @@ const Menu = () => {
   const user = useSelector((state) => state.user);
   return (
     <>
-      <Navbar variant="dark">
+      <Navbar variant="dark" bg="dark">
         <Container>
           <Navbar.Brand href="/">Poker Tournament Manager</Navbar.Brand>
 
