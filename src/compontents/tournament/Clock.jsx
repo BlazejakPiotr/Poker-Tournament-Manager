@@ -14,23 +14,23 @@ const Clock = () => {
   );
   useEffect(() => {});
   return (
-    <Row className="py-3">
-      <Col className="d-flex flex-column justify-content-end text-center">
+    <Row>
+      <Col md={3} className="d-flex flex-column text-center">
         <DisplayCurrentRound />
       </Col>
-      <Col className="text-center" md={4}>
+      <Col className="text-center" md={6}>
         <div>
           <TournamentTimer />
         </div>
       </Col>
 
-      <Col className="d-flex flex-column justify-content-end text-center">
+      <Col md={3} className="d-flex flex-column text-center">
         <h4 style={{ marginBottom: "0px" }}>Players</h4>
-        <h1>
+        <h2>
           {tournament.players.length > 0
             ? calculatePlayersLeft(tournament) + "/" + tournament.players.length
             : "Add players!"}
-        </h1>
+        </h2>
       </Col>
     </Row>
   );

@@ -1,15 +1,8 @@
-import { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { CalculateTotalPot, tournamentTimer } from "./clock/functions.js";
+
 import { CurrentLocalTime, TournamentElapsedTime } from "./board/index.js";
 
-import { calculatePlayersLeft } from "./players/functions";
-import { useDispatch } from "react-redux";
-import {
-  displaySuccessAlert,
-  hideSuccessAlert,
-} from "../../redux/actions/index.js";
 import Clock from "./Clock.jsx";
 
 const Board = () => {

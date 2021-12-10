@@ -73,6 +73,7 @@ export const TournamentTimer = () => {
 
   return (
     <>
+      <h4>{status}</h4>
       <h2 style={{ fontSize: "5rem" }}>
         {rounds[CURRENT_ROUND_INDEX]
           ? twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)

@@ -36,7 +36,7 @@ export const DisplayCurrentRound = () => {
   );
   const status = useSelector((state) => state.tournament.data.state.status);
   if (status === TOURNAMENT_STATUS.SCHEDULED) {
-    return <h1>Waiting for start</h1>;
+    return <h1>{status}</h1>;
   }
   if (status === TOURNAMENT_STATUS.FINISHED) return <h1>FINISHED</h1>;
   else
@@ -47,10 +47,10 @@ export const DisplayCurrentRound = () => {
             ? "Break"
             : `Round ${currentRoundIndex + 1}`}
         </h4>
-        <h1>
+        <h2>
           {!round[currentRoundIndex].break &&
             `${round[currentRoundIndex].sb} / ${round[currentRoundIndex].bb}`}
-        </h1>
+        </h2>
         <h2>{ante && `(${round[currentRoundIndex].ante})`}</h2>
       </>
     ) : (
