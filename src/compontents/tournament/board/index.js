@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setTournamentDuration, timeToNextBreak } from "../../../redux/actions";
+import {
+  setTournamentDuration,
+  TOURNAMENT_STATUS,
+} from "../../../redux/actions";
 import { useInterval } from "../clock/functions";
 
 export const CurrentLocalTime = () => {
@@ -33,7 +36,7 @@ export const TournamentElapsedTime = () => {
       if (elapsedSeconds < 59) {
         setElapsedSeconds(elapsedSeconds + 1);
       }
-      if (elapsedSeconds === 59) {
+      if (elapsedSeconds > 59) {
         setElapsedSeconds(0);
         setElapsedMinutes(elapsedMinutes + 1);
       }
@@ -41,7 +44,7 @@ export const TournamentElapsedTime = () => {
         setElapsedHours(elapsedHours + 1);
       }
     },
-    status === "Running" ? 1000 : null
+    status === TOURNAMENT_STATUS.LIVE ? 1000 : null
   );
 
   useEffect(() => {

@@ -28,34 +28,28 @@ export const twoDigits = (num) => String(num).padStart(2, "0");
 export const convertMinutesToSeconds = (num) => num * 60;
 
 export const DisplayCurrentRound = () => {
-  const dispatch = useDispatch();
   const ante = useSelector((state) => state.tournament.data.ante);
   const round = useSelector((state) => state.tournament.blinds);
   const currentRoundIndex = useSelector(
     (state) => state.tournament.data.state.currentRound
   );
-  const status = useSelector((state) => state.tournament.data.state.status);
-  if (status === TOURNAMENT_STATUS.SCHEDULED) {
-    return <h1>{status}</h1>;
-  }
-  if (status === TOURNAMENT_STATUS.FINISHED) return <h1>FINISHED</h1>;
-  else
-    return round[currentRoundIndex] ? (
-      <>
-        <h4 style={{ marginBottom: "0px" }}>
-          {round[currentRoundIndex].break
-            ? "Break"
-            : `Round ${currentRoundIndex + 1}`}
-        </h4>
-        <h2>
-          {!round[currentRoundIndex].break &&
-            `${round[currentRoundIndex].sb} / ${round[currentRoundIndex].bb}`}
-        </h2>
-        <h2>{ante && `(${round[currentRoundIndex].ante})`}</h2>
-      </>
-    ) : (
-      ""
-    );
+
+  return round[currentRoundIndex] ? (
+    <>
+      <h4 style={{ marginBottom: "0px" }}>
+        {round[currentRoundIndex].break
+          ? "Break"
+          : `Round ${currentRoundIndex + 1}`}
+      </h4>
+      <h2>
+        {!round[currentRoundIndex].break &&
+          `${round[currentRoundIndex].sb} / ${round[currentRoundIndex].bb}`}
+      </h2>
+      <h2>{ante && `(${round[currentRoundIndex].ante})`}</h2>
+    </>
+  ) : (
+    ""
+  );
 };
 
 export const CalculateTotalPot = () => {

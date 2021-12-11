@@ -8,11 +8,7 @@ import { calculatePlayersLeft } from "./players/functions.js";
 
 const Clock = () => {
   const tournament = useSelector((state) => state.tournament);
-  const dispatch = useDispatch();
-  const currentRoundIndex = useSelector(
-    (state) => state.tournament.data.state.currentRound
-  );
-  useEffect(() => {});
+
   return (
     <Row>
       <Col md={3} className="d-flex flex-column text-center">
