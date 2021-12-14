@@ -20,25 +20,25 @@ const Board = () => {
           <div>
             <p>Buyin</p>
             <h2>
-              {tournament.data.buyin}
-              {tournament.data.currency}
+              {/* {tournament.data.buyin}
+              {tournament.data.currency} */}
             </h2>
           </div>
           <div>
             <p>Rebuy</p>
             <h2>
-              {tournament.data.rebuy
+              {/* {tournament.data.rebuy
                 ? tournament.data.rebuy + tournament.data.currency
-                : "-"}
+                : "-"} */}
             </h2>
           </div>
           <div>
             <p>Add-on</p>
             <h2>
               {" "}
-              {tournament.data.addon
+              {/* {tournament.data.addon
                 ? tournament.data.addon + tournament.data.currency
-                : "-"}
+                : "-"} */}
             </h2>
           </div>
         </Col>
@@ -50,7 +50,7 @@ const Board = () => {
         <Col className="clock">
           <div>
             <p>Scheduled</p>
-            <h2>{tournament.data.date.slice(0, 10)}</h2>
+            {/* <h2>{tournament.data.date.slice(0, 10)}</h2> */}
           </div>
           <div>
             <CurrentLocalTime />

@@ -1,8 +1,14 @@
 import { useState } from "react";
 import { Button, Modal, Form, Row, Col } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { createNewTournament } from "../../redux/actions";
+import {
+  clearRounds,
+  createNewTournament,
+  createRound,
+} from "../../redux/actions";
+import { RoundsContent } from "./blinds/index.js";
 
 const Creator = () => {
   const dispatch = useDispatch();
@@ -10,15 +16,11 @@ const Creator = () => {
 
   const [tournament, setTournament] = useState({
     name: "EUROPEAN POKER TOUR EPT 2021",
-    // date: String,
-    buyin: Number,
-    currency: "USD",
     type: "Freezout",
-    rebuy: null,
-    addon: null,
-    roundDur: 0,
+    roundDur: 15,
     tournamentDur: 2,
     smallestChip: 5,
+    blinds: [],
     state: {
       status: "Scheduled",
       placements: [],
@@ -53,26 +55,6 @@ const Creator = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="tournamentBuyin">
-            <Form.Label>Buy-in cost</Form.Label>
-            <Row>
-              <Col>
-                <Form.Control
-                  type="number"
-                  required
-                  onChange={(e) => handleInput(e, "buyin")}
-                />
-              </Col>
-              <Col>
-                <Form.Select onChange={(e) => handleInput(e, "currency")}>
-                  <option value="USD">USD</option>
-                  <option value="GBP">GBP</option>
-                  <option value="EUR">EUR</option>
-                </Form.Select>
-              </Col>
-            </Row>
-          </Form.Group>
-
           <Form.Group className="mb-3" controlId="tournamentType">
             <Form.Label>Tournament Type</Form.Label>
             <Form.Select onChange={(e) => handleInput(e, "type")}>
@@ -81,38 +63,7 @@ const Creator = () => {
               <option value="Rebuys + Add-on">Rebuys + Add-on</option>
             </Form.Select>
           </Form.Group>
-          {tournament.type === "Rebuys" && (
-            <Form.Group className="mb-3" controlId="tournamentRebuy">
-              <Form.Label>Rebuy cost</Form.Label>
-              <Form.Control
-                type="number"
-                required
-                onChange={(e) => handleInput(e, "rebuy")}
-              />
-            </Form.Group>
-          )}
-          {tournament.type === "Rebuys + Add-on" && (
-            <>
-              <Form.Group className="mb-3" controlId="tournamentRebuy">
-                <Form.Label>Rebuy cost</Form.Label>
-                <Form.Control
-                  type="number"
-                  required
-                  onChange={(e) => handleInput(e, "rebuy")}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="tournamentAddon">
-                <Form.Label>Add-on cost</Form.Label>
-                <Form.Control
-                  type="number"
-                  required
-                  onChange={(e) => handleInput(e, "addon")}
-                />
-              </Form.Group>
-            </>
-          )}
-        </Col>
-        <Col lg={3}>
+
           <Form.Group className="mb-3">
             <Form.Label>Round duration(min)</Form.Label>
 
@@ -144,9 +95,44 @@ const Creator = () => {
             />
           </Form.Group>
         </Col>
+        <Col>
+          <Form.Label>Level structure</Form.Label>
+          {CalculateLevelStructure(
+            tournament.roundDur,
+            tournament.tournamentDur,
+            tournament.smallestChip
+          )}
+          <RoundsContent />
+        </Col>
       </Row>
     </Form>
   );
+};
+
+const CalculateLevelStructure = (roundDur, tournamentDur, smallestChip) => {
+  const dispatch = useDispatch();
+  // const blinds = useSelector((state) => state.tournament.blinds);
+  dispatch(clearRounds());
+  const [round, setRound] = useState({
+    duration: roundDur,
+    sb: smallestChip,
+    bb: smallestChip * 2,
+    break: false,
+  });
+  // Calculate number of rounds
+  const tournamentDurMins = parseInt(tournamentDur) * 60;
+  const roundNumber = Math.round(tournamentDurMins / parseInt(roundDur));
+
+  for (let i = 0; i < roundNumber; i++) {
+    //     if (blinds.length < 1) {
+    dispatch(createRound(round));
+    //     } else {
+    //       setRound({
+    //         sb: blinds[i - 1] * 2,
+    //         bb: round.sb * 2,
+    //       });
+    //     }
+  }
 };
 
 export default Creator;

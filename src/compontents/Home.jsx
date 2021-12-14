@@ -23,16 +23,15 @@ const Home = () => {
             </Button>
           </Col>
           <Col md={12} lg={6}>
-            <img src={backgroundimg} style={{ maxHeight: "400px" }} />
+            {/* <img src={backgroundimg} style={{ maxHeight: "400px" }} /> */}
           </Col>
         </Row>
         <Row className="creator py-5">
           <Col xs={12}>
             <h4>Tournament parameters</h4>
           </Col>
-          <Col>
-            <Creator />
-          </Col>
+
+          <Creator />
         </Row>
       </Container>
     </>

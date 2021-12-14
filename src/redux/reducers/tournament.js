@@ -13,6 +13,7 @@ import {
   SET_PLAYER_STATUS,
   SET_ALL_PLAYERS_STATUS,
   CREATE_NEW_ROUND,
+  CLEAR_ALL_ROUNDS,
   EDIT_ROUND,
   DELETE_ROUND,
   EDIT_PLAYER,
@@ -221,6 +222,12 @@ const tournamentReducer = (state = initialState.tournament, action) => {
       return {
         ...state,
         blinds: [...state.blinds, action.payload],
+      };
+
+    case CLEAR_ALL_ROUNDS:
+      return {
+        ...state,
+        blinds: [],
       };
     case EDIT_ROUND:
       return {

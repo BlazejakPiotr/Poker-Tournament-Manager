@@ -53,7 +53,15 @@ code {
   background: radial-gradient(circle, rgb(61, 60, 60) 0%, rgb(24, 23, 23) 100%);
 }
 
-.creator {
+.creator input {
+  background-color: #242424;
+  border-color: #747474;
+  color: #fff;
+}
+
+.creator select {
+  background-color: #242424;
+  color: #fff;
 }
 
 .home-title h1,

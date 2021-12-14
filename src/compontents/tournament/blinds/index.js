@@ -128,7 +128,6 @@ export const RoundsContent = () => {
             variant="secondary"
           >
             <Col className="p-0 small-screen">#</Col>
-            <Col className="p-0">Ante</Col>
             <Col className="p-0">SB</Col>
             <Col className="p-0">BB</Col>
             <Col className="p-0">Duration</Col>
@@ -184,12 +183,10 @@ export const RoundDetails = ({ round, index }) => {
             <Col className="small-screen">Break</Col>
             <Col></Col>
             <Col></Col>
-            <Col></Col>
           </>
         ) : (
           <>
             <Col className="p-0 small-screen">Round {index + 1}</Col>
-            <Col className="p-0">$ {round.ante && round.ante}</Col>
             <Col className="p-0">$ {round.sb}</Col>
             <Col className="p-0">$ {round.bb}</Col>
           </>
