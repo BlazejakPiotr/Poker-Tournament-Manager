@@ -1,171 +1,38 @@
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
-import { useState } from "react";
-import {
-  createNewTournament,
-  createNewUser,
-  displaySuccessAlert,
-  hideSuccessAlert,
-  TOURNAMENT_STATUS,
-} from "../redux/actions";
-import { useSelector } from "react-redux";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import backgroundimg from "../img/whiskey.png";
+import Creator from "./tournament/Creator";
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-
-  const [user, setUser] = useState({ username: "Piotr" });
-
-  const [tournament, setTournament] = useState({
-    name: "EUROPEAN POKER TOUR EPT 2021",
-    date: String,
-    buyin: Number,
-    currency: "USD",
-    type: "Freezout",
-    rebuy: null,
-    addon: null,
-    ante: false,
-    state: {
-      status: TOURNAMENT_STATUS.SCHEDULED,
-      placements: [],
-      currentRound: 0,
-    },
-  });
-
-  const handleInput = (e, propertyName) => {
-    setTournament({
-      ...tournament,
-      [propertyName]:
-        propertyName === "ante" ? e.target.checked : e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(createNewUser(user.username));
-    dispatch(createNewTournament(tournament));
-    history.push("/tournament");
-  };
-
   return (
     <>
-      <Container className=" p-5 mt-5">
-        {/* <Row>
+      <Container>
+        <Row className="welcome">
+          <Col
+            className="py-5 d-flex flex-column justify-content-center"
+            md={12}
+            lg={6}
+          >
+            <h1 className="my-3" style={{ fontWeight: "bold" }}>
+              Poker tournament manager
+            </h1>
+            <h4 className="my-3">
+              Manage your home-made poker tournament like a pro
+            </h4>
+            <Button className="my-3 px-4 w-50" style={{ fontSize: "1.5rem" }}>
+              START FOR FREE
+            </Button>
+          </Col>
+          <Col md={12} lg={6}>
+            <img src={backgroundimg} style={{ maxHeight: "400px" }} />
+          </Col>
+        </Row>
+        <Row className="creator py-5">
+          <Col xs={12}>
+            <h4>Tournament parameters</h4>
+          </Col>
           <Col>
-            <h1 className="text-center">POKER TOURNAMENT MANAGER</h1>
+            <Creator />
           </Col>
-        </Row> */}
-        <Row className="mt-5">
-          <Col xs={6} className="p-4 home-title">
-            <h3>Poker Tournament Manager</h3>
-
-            <p>
-              This web application was created for managing home-made poker
-              tournaments.
-            </p>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3" controlId="tournamentName">
-                <Form.Label>Nickname</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="User name"
-                  required
-                  value={user.username}
-                  onChange={(e) => setUser({ username: e.target.value })}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="tournamentName">
-                <Form.Label>Tournament name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="European Poker Tour - EPT 2021"
-                  required
-                  value={tournament.name}
-                  onChange={(e) => handleInput(e, "name")}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="tournamentDate">
-                <Form.Label>Date & Time</Form.Label>
-                <Form.Control
-                  type="datetime-local"
-                  value={tournament.date}
-                  onChange={(e) => handleInput(e, "date")}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="tournamentBuyin">
-                <Form.Label>Buy-in cost</Form.Label>
-                <Row>
-                  <Col>
-                    <Form.Control
-                      type="number"
-                      required
-                      onChange={(e) => handleInput(e, "buyin")}
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Select onChange={(e) => handleInput(e, "currency")}>
-                      <option value="USD">USD</option>
-                      <option value="GBP">GBP</option>
-                      <option value="EUR">EUR</option>
-                    </Form.Select>
-                  </Col>
-                </Row>
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="tournamentType">
-                <Form.Label>Tournament type</Form.Label>
-
-                <Form.Select onChange={(e) => handleInput(e, "type")}>
-                  <option value="Freezeout">Freezeout</option>
-                  <option value="Rebuys">Rebuys</option>
-                  <option value="Rebuys + Add-on">Rebuys + Add-on</option>
-                </Form.Select>
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="tournamentType">
-                <Form.Label>Ante</Form.Label>
-                <Form.Check
-                  type="checkbox"
-                  value={tournament.ante}
-                  onChange={(e) => handleInput(e, "ante")}
-                />
-              </Form.Group>
-              {tournament.type === "Rebuys" && (
-                <Form.Group className="mb-3" controlId="tournamentRebuy">
-                  <Form.Label>Rebuy cost</Form.Label>
-                  <Form.Control
-                    type="number"
-                    required
-                    onChange={(e) => handleInput(e, "rebuy")}
-                  />
-                </Form.Group>
-              )}
-              {tournament.type === "Rebuys + Add-on" && (
-                <>
-                  <Form.Group className="mb-3" controlId="tournamentRebuy">
-                    <Form.Label>Rebuy cost</Form.Label>
-                    <Form.Control
-                      type="number"
-                      required
-                      onChange={(e) => handleInput(e, "rebuy")}
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="tournamentAddon">
-                    <Form.Label>Add-on cost</Form.Label>
-                    <Form.Control
-                      type="number"
-                      required
-                      onChange={(e) => handleInput(e, "addon")}
-                    />
-                  </Form.Group>
-                </>
-              )}
-              <Button variant="primary" type="submit">
-                Create tournament
-              </Button>
-            </Form>
-          </Col>
-          <Col className="home-img"></Col>
         </Row>
       </Container>
     </>

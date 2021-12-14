@@ -9,11 +9,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-width: 350px;
   font-family: "Karla", sans-serif !important;
-
-  min-height: 100vh;
-
-  background: rgb(157, 10, 10);
-  background: radial-gradient(circle, rgb(37, 36, 36) 0%, rgb(24, 23, 23) 100%);
   color: #fff !important;
 }
 
@@ -34,11 +29,12 @@ code {
 .App {
   min-height: 100vh;
   min-width: 100wh;
+  background-color: rgb(24, 23, 23);
   display: block;
   position: relative;
 }
 
-.App::after {
+/* .App::after {
   content: "";
   background: url("./img/texture.jpg");
   background-attachment: fixed;
@@ -51,7 +47,15 @@ code {
   right: 0;
   position: absolute;
   z-index: -1;
+} */
+
+.welcome {
+  background: radial-gradient(circle, rgb(61, 60, 60) 0%, rgb(24, 23, 23) 100%);
 }
+
+.creator {
+}
+
 .home-title h1,
 h3 {
   font-family: "Titillium Web", sans-serif;
