@@ -1,3 +1,4 @@
+import { calculateNumberOfRounds } from "../../compontents/home/functions.js";
 import {
   calculatePlayerCost,
   setPlayerStatus,
@@ -59,6 +60,19 @@ export const setTournamentDuration = (time) => ({
   type: SET_ELAPSED_TIME,
   payload: time,
 });
+
+export const SET_BLINDS_STRUCTURE = "SET_BLINDS_STRUCTURE";
+export const CLEAR_BLINDS_STRUCTURE = "CLEAR_BLINDS_STRUCTURE";
+export const createBlindsStructure = ({ duration, roundLength }) => {
+  console.log("hi");
+  let roundsToCreate = calculateNumberOfRounds(duration, roundLength);
+  console.log(roundsToCreate);
+  return (dispatch) => {
+    dispatch({ type: CLEAR_BLINDS_STRUCTURE });
+  };
+};
+
+export const CLEAN_BLINDS_STRUCTURE = "CLEAN_BLINDS_STRUCTURE";
 
 // PLAYERS
 export const CREATE_PLAYER = "CREATE_PLAYER";

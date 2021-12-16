@@ -52,17 +52,6 @@ code {
   position: absolute;
   z-index: -1;
 }
-.home-title h1,
-h3 {
-  font-family: "Titillium Web", sans-serif;
-  font-size: 5rem;
-  text-transform: capitalize !important;
-}
-.home-img {
-  background-image: url("./img/bg5.png");
-  background-position: bottom center;
-  background-repeat: no-repeat;
-}
 
 .nav-item {
   font-family: "Titillium Web", sans-serif;
@@ -77,6 +66,10 @@ h3 {
 .nav-item button {
   width: 100%;
   color: #ebebeb;
+}
+
+.tournament-form {
+  font-size: 0.85rem;
 }
 
 .tab-content > .active {

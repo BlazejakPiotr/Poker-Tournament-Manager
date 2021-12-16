@@ -25,6 +25,7 @@ import {
   HIDE_SUCCESS_ALERT,
   SHOW_SUCCESS_ALERT,
   SET_CURRENT_ROUND,
+  CLEAR_BLINDS_STRUCTURE,
 } from "../actions";
 import { initialState } from "../store";
 
@@ -61,6 +62,12 @@ const tournamentReducer = (state = initialState.tournament, action) => {
             currentRound: action.payload,
           },
         },
+      };
+
+    case CLEAR_BLINDS_STRUCTURE:
+      return {
+        ...state,
+        blinds: [],
       };
     // CLOCK
     case SET_TOTAL_POT:
