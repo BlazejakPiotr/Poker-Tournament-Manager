@@ -308,7 +308,7 @@ export const Footer = () => {
           </p>
           <p>This application was created by Strive School student.</p>
         </Col>
-        <Col className="d-flex flex-column justify-content-between  tools-img">
+        <Col xs={12} className="d-flex justify-content-between  tools-img">
           <img
             src="https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/react/react-original.svg"
             alt="react logo"

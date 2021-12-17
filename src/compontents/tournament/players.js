@@ -20,27 +20,55 @@ import {
 } from "../../redux/actions/index.js";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faTrash } from "@fortawesome/fontawesome-free-solid";
+import {
+  faBars,
+  faCheck,
+  faDollarSign,
+  faTrash,
+  faUserPlus,
+} from "@fortawesome/fontawesome-free-solid";
 import { setPlayerStatusBadge } from "./players/index.js";
 
 export const PlayersList = () => {
   const tournament = useSelector((state) => state.tournament);
 
   return (
-    <Row>
-      <Col>
-        <ListGroup>
-          <ListGroup.Item
-            className="d-flex justify-content-between bg-light"
-            style={{ fontWeight: "bold" }}
+    <Row className="h-100">
+      <Col className="p-0 d-flex flex-column justify-content-between">
+        <div>
+          <div
+            className="px-3 py-1 text-light"
+            style={{ backgroundColor: "#1C1814" }}
           >
             <Col className="p-0">Players</Col>
-            <Col className="p-0">Status</Col>
-          </ListGroup.Item>
-          {tournament.players.map((player, index) => (
-            <PlayersListDetails key={index} player={player} index={index} />
-          ))}
-        </ListGroup>
+          </div>
+
+          <ListGroup>
+            {tournament.players.map((player, index) => (
+              <PlayersListDetails key={index} player={player} index={index} />
+            ))}
+          </ListGroup>
+        </div>
+        <div className="text-light align-items-end p-2">
+          <Button variant="danger p-1">
+            <FontAwesomeIcon
+              icon={faDollarSign}
+              style={{
+                height: "35px",
+                width: "40px",
+              }}
+            />
+          </Button>
+          <Button variant="danger p-1">
+            <FontAwesomeIcon
+              icon={faUserPlus}
+              style={{
+                height: "35px",
+                width: "40px",
+              }}
+            />
+          </Button>
+        </div>
       </Col>
     </Row>
   );
@@ -74,10 +102,16 @@ export const PlayersListDetails = ({ player, index }) => {
       <ListGroup.Item
         action
         onClick={handleShowModal}
-        className="d-flex justify-content-between"
+        className="d-flex justify-content-between bg-dark text-light"
       >
         <Col className="p-0">{player.name}</Col>
+        <Col className="p-0">
+          {player.cost + " " + tournament.data.currency}
+        </Col>
         <Col className="p-0">{setPlayerStatusBadge(player.status)}</Col>
+        <Col className="p-0" xs={1}>
+          <FontAwesomeIcon icon={faBars} />
+        </Col>
       </ListGroup.Item>
       <Modal show={showModal} onHide={handleShowModal}>
         <Modal.Header closeButton>

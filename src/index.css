@@ -63,7 +63,7 @@ code {
 
 .nav-tabs .nav-item {
   font-family: "Titillium Web", sans-serif;
-  background-color: #332f2f;
+  background-color: #1c1814;
   width: 25%;
 }
 
@@ -77,13 +77,17 @@ code {
   max-height: 24px;
 }
 
+.tournament-tabs > ul {
+  border-bottom: 0px !important;
+}
+
 .nav-tabs > nav-link.active {
-  background-color: #1f1f1f !important;
+  background-color: #811010 !important;
   border: 1px solid #000000;
 }
 .nav-item button {
   width: 100%;
-  color: #ebebeb;
+  color: #773131;
 }
 
 .header {
@@ -131,28 +135,25 @@ code {
 }
 
 .tab-content > .active {
-  min-height: 80vh;
   position: relative;
   padding: 3rem;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-bottom: 2rem;
+  background-color: #212529;
+  border: 1px solid #313131;
 }
-.tab-content > .active ::after {
-  content: "";
 
-  background: radial-gradient(
-    circle,
-    rgba(40, 91, 198, 1) 0%,
-    rgba(8, 40, 77, 0.418) 100%
-  );
-
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+  background-color: #212529 !important;
+  border: 1px solid #fff;
 }
+.active {
+  border: 1px solid #313131 !important;
+  border-bottom: #212529 !important ;
+}
+
 .footer {
   padding: 3rem 0px;
 }
@@ -173,18 +174,17 @@ code {
   background-color: #fff;
 } */
 .clock {
-  /* border: 1px solid black; */
-
-  /* text-align: center; */
-  padding: 1rem 0px;
+  border: 1px solid rgb(24, 24, 24);
+  border-collapse: collapse;
 }
-.clock div > h1 {
-  font-size: 6rem;
+.clock > div {
+  border: 1px solid rgb(34, 34, 34);
+  border-collapse: collapse;
 }
 
-.clock div > p {
-  margin-block-end: 0px;
-  /* font-size: 1.2rem; */
+.clock > div .bg-dark {
+  border: 1px solid rgb(34, 34, 34);
+  border-collapse: collapse;
 }
 .controls svg {
   margin: 0px 20px;
@@ -196,10 +196,4 @@ code {
 
 .alert p {
   margin-block-end: 0px;
-}
-
-@media only screen and (max-width: 650px) {
-  .small-screen {
-    display: none;
-  }
 }

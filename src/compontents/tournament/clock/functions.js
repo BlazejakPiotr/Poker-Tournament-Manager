@@ -64,7 +64,6 @@ export const CalculateTotalPot = () => {
 
   return (
     <>
-      <p>Total pot</p>
       <h2>{tournament.data.state.totalPot + tournament.data.currency}</h2>
     </>
   );

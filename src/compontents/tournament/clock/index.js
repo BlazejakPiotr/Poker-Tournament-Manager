@@ -86,7 +86,6 @@ export const TournamentTimer = () => {
     <>
       {status === TOURNAMENT_STATUS.FINISHED ? (
         <>
-          <h2 style={{ fontSize: "5rem" }}>FINISHED</h2>
           <FontAwesomeIcon
             icon={faRedo}
             size="2x"
@@ -96,7 +95,6 @@ export const TournamentTimer = () => {
         </>
       ) : (
         <>
-          <h4>{status}</h4>
           <h2 style={{ fontSize: "5rem" }}>
             {rounds[CURRENT_ROUND_INDEX]
               ? twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)

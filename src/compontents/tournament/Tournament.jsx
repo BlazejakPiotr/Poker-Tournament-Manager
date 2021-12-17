@@ -2,50 +2,47 @@ import { Container, Tab, Tabs, Row, Col, Table } from "react-bootstrap";
 import { PlayersList } from "./players.js";
 import Board from "./Board";
 import Blinds from "./Blinds";
+import Players from "./Players.jsx";
 import Clock from "./Clock";
 import { DangerAlert, SuccessAlert } from "./alerts";
 import { useSelector } from "react-redux";
 import { LevelsList } from "./levels.js";
+import { TournamentTimer } from "./clock/index.js";
+import { CurrentLocalTime, TournamentElapsedTime } from "./board/index.js";
+import {
+  calculatePaidinPlayers,
+  CalculateTotalPot,
+} from "./clock/functions.js";
 
 const Tournament = () => {
-  const blinds = useSelector((state) => state.tournament.blinds);
+  const tournament = useSelector((state) => state.tournament);
   return (
     <>
-      <Container className="bg-primary">
+      <Container className="mt-5 clock">
         <Row>
-          <Col md={12} lg={7} className="h-100">
+          <Col md={12} lg={8}>
             <Row>
-              <Col className="bg-dark">
-                Name
-                <h1>NAME</h1>
+              <Col className="p-0 " xs={12}>
+                <div
+                  className="px-3 py-1"
+                  style={{
+                    backgroundColor: "#1C1814",
+                  }}
+                >
+                  Event name
+                </div>
+                <h1 className="p-3 bg-dark m-0">{tournament.data.name}</h1>
               </Col>
-            </Row>
-            <Row>
-              <Col className="bg-dark">
-                Status <h3>Running</h3>
-              </Col>
-              <Col className="bg-dark">
-                Elapsed time<h3>00:00</h3>
-              </Col>
-              <Col className="bg-dark">
-                Current time <h3>07:42</h3>
-              </Col>
-            </Row>
-            <Row>
-              <Col className="bg-dark p-0">
-                <h2>Round 12</h2>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={4} className="bg-dark p-0">
+
+              <Col xs={12} md={3} className="bg-dark p-0">
                 <div
                   className="px-3 py-1"
                   style={{ backgroundColor: "#1C1814" }}
                 >
                   Small blind
                 </div>
-                <h1 style={{ fontSize: "5rem" }} className="text-center">
-                  100
+                <h1 style={{ fontSize: "3rem" }} className="p-3 text-center">
+                  {tournament.blinds[tournament.data.state.currentRound].sb}
                 </h1>
                 <div
                   className="px-3 py-1"
@@ -53,56 +50,115 @@ const Tournament = () => {
                 >
                   Big Blind
                 </div>
-                <h1 style={{ fontSize: "5rem" }} className="text-center">
-                  200
+                <h1 style={{ fontSize: "3rem" }} className="p-3 text-center">
+                  {tournament.blinds[tournament.data.state.currentRound].bb}
                 </h1>
               </Col>
-              <Col className="bg-dark">
-                <h1 style={{ fontSize: "8rem" }} className="text-center">
-                  15:00
-                </h1>
+              <Col sm={12} md={6} className="bg-dark p-0  text-center">
+                <div
+                  className="px-3 py-1"
+                  style={{ backgroundColor: "#1C1814" }}
+                >
+                  Level {tournament.data.state.currentRound + 1}
+                </div>
+                <div className=" d-flex flex-column justify-content-evenly h-75">
+                  <h2>{tournament.data.state.status}</h2>
+                  <TournamentTimer />
+                </div>
+              </Col>
+              <Col sm={12} md={3} className="bg-dark p-0">
+                <div>
+                  <div
+                    className="px-3 py-1"
+                    style={{ backgroundColor: "#1C1814" }}
+                  >
+                    Local time
+                  </div>
+
+                  <CurrentLocalTime />
+                </div>
+                <div>
+                  <div
+                    className="px-3 py-1"
+                    style={{ backgroundColor: "#1C1814" }}
+                  >
+                    Elapsed time
+                  </div>
+                  <TournamentElapsedTime />
+                </div>
               </Col>
             </Row>
             <Row>
               <Col className="bg-dark p-0">
                 <div
                   className="px-3 py-1"
-                  style={{ backgroundColor: "#1C1814" }}
+                  style={{ backgroundColor: "#1C1814", margin: "0px" }}
                 >
                   Players
                 </div>
-                <h2 className="text-center">0/9</h2>
+                <h1 className="p-3 text-center">
+                  {calculatePaidinPlayers(tournament.players)}/
+                  {tournament.players.length}
+                </h1>
               </Col>
-              <Col className="bg-dark">
-                Rebuys <h3>0</h3>
+
+              <Col className="bg-dark p-0 text-center">
+                <div
+                  className="px-3 py-1"
+                  style={{ backgroundColor: "#1C1814" }}
+                >
+                  Rebuys
+                </div>{" "}
+                <h1 className="p-3 text-center">0</h1>
               </Col>
-              <Col className="bg-dark">
-                Total pot <h3>10 USD</h3>
+
+              <Col className="bg-dark p-0">
+                <div
+                  className="px-3 py-1 text-center"
+                  style={{ backgroundColor: "#1C1814" }}
+                >
+                  Total Pot
+                </div>
+                <div className="p-3 text-center">{CalculateTotalPot()}</div>
+              </Col>
+
+              <Col className="bg-dark p-0">
+                <div
+                  className="px-3 py-1 text-center"
+                  style={{ backgroundColor: "#1C1814" }}
+                >
+                  Avg stack
+                </div>
+                <h2 className="p-3 text-center">1000</h2>
               </Col>
             </Row>
           </Col>
-          {/* <Col className="p-3 bg-dark text-dark" md={3}>
-            <LevelsList />
-          </Col> */}
-          <Col className="p-3 bg-dark text-dark">
+
+          <Col className="bg-dark text-dark">
             <PlayersList />
           </Col>
         </Row>
-        {/* <Tabs
-          defaultActiveKey="Board"
-          className="d-flex justify-content-evenly"
-          className="bg-secondary "
-        >
-          <Tab eventKey="Board" title="Board">
-            <Board />
-          </Tab>
-          <Tab eventKey="Rounds" title="Rounds">
-            <Blinds />
-          </Tab>
-          <Tab eventKey="Players" title="Players">
-            {/* <Players /> 
-          </Tab>
-        </Tabs> */}
+        <Row>
+          <Col className="p-0 tournament-tabs">
+            <Tabs
+              defaultActiveKey="Structure"
+              className="d-flex justify-content-start  p-0 "
+            >
+              <Tab eventKey="Structure" title="Structure">
+                <Blinds />
+              </Tab>
+              <Tab eventKey="Prizes" title="Prizes">
+                <Players />
+              </Tab>
+              <Tab eventKey="Players" title="Players">
+                <Players />
+              </Tab>
+              <Tab eventKey="Tables" title="Tables">
+                <Players />
+              </Tab>
+            </Tabs>
+          </Col>
+        </Row>
       </Container>
     </>
   );
