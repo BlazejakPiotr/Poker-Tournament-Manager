@@ -18,8 +18,9 @@ export const CurrentLocalTime = () => {
 
   return (
     <>
-      <p>Current time</p>
-      <h2>{currentTime}</h2>
+      <h1 style={{ fontSize: "2.2rem" }} className="py-4 text-center">
+        {currentTime}
+      </h1>
     </>
   );
 };
@@ -33,10 +34,10 @@ export const TournamentElapsedTime = () => {
 
   useInterval(
     () => {
-      if (elapsedSeconds < 59) {
+      if (elapsedSeconds < 60) {
         setElapsedSeconds(elapsedSeconds + 1);
       }
-      if (elapsedSeconds > 59) {
+      if (elapsedSeconds === 59) {
         setElapsedSeconds(0);
         setElapsedMinutes(elapsedMinutes + 1);
       }
@@ -59,10 +60,11 @@ export const TournamentElapsedTime = () => {
 
   return (
     <>
-      <p>Elapsed time</p>
-      <h2>{`${elapsedHours < 10 ? "0" + elapsedHours : elapsedHours}:${
-        elapsedMinutes < 10 ? "0" + elapsedMinutes : elapsedMinutes
-      }:${elapsedSeconds < 10 ? "0" + elapsedSeconds : elapsedSeconds}`}</h2>
+      <h1 style={{ fontSize: "2.2rem" }} className="py-4 text-center">{`${
+        elapsedHours < 10 ? "0" + elapsedHours : elapsedHours
+      }:${elapsedMinutes < 10 ? "0" + elapsedMinutes : elapsedMinutes}:${
+        elapsedSeconds < 10 ? "0" + elapsedSeconds : elapsedSeconds
+      }`}</h1>
     </>
   );
 };

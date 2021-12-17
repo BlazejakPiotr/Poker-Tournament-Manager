@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Karla&family=Titillium+Web:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Karla&family=Russo+One&family=Titillium+Web:wght@600&display=swap");
 body {
   min-width: 350px;
   margin: 0;
@@ -9,6 +9,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-width: 350px;
   font-family: "Karla", sans-serif !important;
+
+
+  min-height: 100vh;
+
+  background: rgb(157, 10, 10);
+  background: radial-gradient(circle, rgb(43, 39, 33) 0%, rgb(24, 23, 23) 100%);
+
   color: #fff !important;
 }
 
@@ -32,10 +39,20 @@ code {
   background-color: rgb(24, 23, 23);
   display: block;
   position: relative;
+  background: rgb(11, 10, 8);
+  background: linear-gradient(
+    270deg,
+    rgba(11, 10, 8, 1) 0%,
+    rgba(46, 33, 27, 0.28335084033613445) 50%,
+    rgba(11, 10, 8, 1) 100%
+  );
+  z-index: 3;
 }
 
-/* .App::after {
-  content: "";
+
+.App::after {
+  /* content: "";
+
   background: url("./img/texture.jpg");
   background-attachment: fixed;
   background-position: top right;
@@ -46,73 +63,116 @@ code {
   bottom: 0;
   right: 0;
   position: absolute;
-  z-index: -1;
-} */
 
-.welcome {
-  background: radial-gradient(circle, rgb(61, 60, 60) 0%, rgb(24, 23, 23) 100%);
+  z-index: -1; */
 }
 
-.creator input {
-  background-color: #242424;
-  border-color: #747474;
-  color: #fff;
-}
+.nav-tabs .nav-item {
 
-.creator select {
-  background-color: #242424;
-  color: #fff;
-}
-
-.home-title h1,
-h3 {
   font-family: "Titillium Web", sans-serif;
-  font-size: 5rem;
-  text-transform: capitalize !important;
-}
-.home-img {
-  background-image: url("./img/bg5.png");
-  background-position: bottom center;
-  background-repeat: no-repeat;
-}
-
-.nav-item {
-  font-family: "Titillium Web", sans-serif;
-  background-color: #332f2f;
+  background-color: #1c1814;
   width: 25%;
 }
 
+.nav-link {
+  color: #fff !important;
+}
+
+.navbar-nav img {
+  border-radius: 100%;
+  max-width: 24px;
+  max-height: 24px;
+}
+
+.tournament-tabs > ul {
+  border-bottom: 0px !important;
+}
+
 .nav-tabs > nav-link.active {
-  background-color: #1f1f1f !important;
+  background-color: #811010 !important;
   border: 1px solid #000000;
 }
 .nav-item button {
   width: 100%;
-  color: #ebebeb;
+  color: #773131;
 }
 
-.tab-content > .active {
-  min-height: 80vh;
+.header {
+  min-height: 50vh;
+  font-family: "Russo One", sans-serif;
+  background-image: url(./img/poker-game-on-table-top.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
   position: relative;
-  padding: 3rem;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
 }
-.tab-content > .active ::after {
+.header::after {
   content: "";
-
-  background: radial-gradient(
-    circle,
-    rgba(40, 91, 198, 1) 0%,
-    rgba(8, 40, 77, 0.418) 100%
+  background: rgb(11, 10, 8);
+  background: linear-gradient(
+    270deg,
+    rgba(11, 10, 8, 1) 0%,
+    rgba(46, 33, 27, 0.5) 30%,
+    rgba(46, 33, 27, 0) 50%,
+    rgba(46, 33, 27, 0.5) 70%,
+    rgba(11, 10, 8, 1) 100%
   );
-
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   position: absolute;
-  z-index: -1;
+}
+
+.creator {
+  border-top: 2px solid rgb(22, 22, 22);
+  padding: 3rem 0px;
+  /* -webkit-box-shadow: inset 0px 17px 31px 6px rgb(48, 47, 46);
+  -moz-box-shadow: inset 0px 17px 31px 6px rgb(41, 41, 41);
+  box-shadow: inset 0px 17px 31px 6px rgb(27, 26, 24); */
+  z-index: 2;
+}
+.tournament-form {
+  font-size: 0.85rem;
+}
+
+.btn {
+  background-color: #ab2c17 !important;
+  color: #fff !important;
+  padding: 0.5rem 2rem !important;
+}
+
+.tab-content > .active {
+  position: relative;
+  padding: 3rem;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  margin-bottom: 2rem;
+  background-color: #212529;
+  border: 1px solid #313131;
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+  background-color: #212529 !important;
+  border: 1px solid #fff;
+}
+.active {
+  border: 1px solid #313131 !important;
+  border-bottom: #212529 !important ;
+}
+
+.footer {
+  padding: 3rem 0px;
+}
+
+.footer .mePhoto {
+  border-radius: 100%;
+  max-width: 260px;
+}
+
+.footer .tools-img {
+  max-width: 200px;
+  height: 156px;
 }
 .modal-content {
   color: #000;
@@ -121,18 +181,17 @@ h3 {
   background-color: #fff;
 } */
 .clock {
-  /* border: 1px solid black; */
-
-  /* text-align: center; */
-  padding: 1rem 0px;
+  border: 1px solid rgb(24, 24, 24);
+  border-collapse: collapse;
 }
-.clock div > h1 {
-  font-size: 6rem;
+.clock > div {
+  border: 1px solid rgb(34, 34, 34);
+  border-collapse: collapse;
 }
 
-.clock div > p {
-  margin-block-end: 0px;
-  /* font-size: 1.2rem; */
+.clock > div .bg-dark {
+  border: 1px solid rgb(34, 34, 34);
+  border-collapse: collapse;
 }
 .controls svg {
   margin: 0px 20px;
@@ -144,10 +203,4 @@ h3 {
 
 .alert p {
   margin-block-end: 0px;
-}
-
-@media only screen and (max-width: 650px) {
-  .small-screen {
-    display: none;
-  }
 }

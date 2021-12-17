@@ -1,7 +1,10 @@
+import { useSelector } from "react-redux";
+import { calculateNumberOfRounds } from "../../compontents/home/functions.js";
 import {
   calculatePlayerCost,
   setPlayerStatus,
   setPlayerPlace,
+  playerObj,
 } from "../../compontents/tournament/players/functions.js";
 
 // USER
@@ -11,6 +14,13 @@ export const CREATE_USER = "CREATE_USER";
 export const createNewUser = (username) => ({
   type: CREATE_USER,
   payload: username,
+});
+
+export const LOGIN_USER = "LOGIN_USER";
+
+export const changeUserStatus = (bool) => ({
+  type: LOGIN_USER,
+  payload: bool,
 });
 
 // TOURNAMENT SETTINGS
@@ -24,6 +34,12 @@ export const TOURNAMENT_STATUS = {
   BREAK: "Break",
   FINISHED: "Finished",
 };
+
+export const CLEAN_ALL_DATA = "CLEAN_ALL_DATA";
+export const clearTournamentData = () => ({
+  type: CLEAN_ALL_DATA,
+});
+
 export const CREATE_TOURNAMENT = "CREATE_TOURNAMENT";
 export const createNewTournament = (data) => ({
   type: CREATE_TOURNAMENT,
@@ -60,6 +76,61 @@ export const setTournamentDuration = (time) => ({
   payload: time,
 });
 
+export const CLEAR_BLINDS_STRUCTURE = "CLEAR_BLINDS_STRUCTURE";
+export const clearBlindsStructure = () => ({ type: CLEAR_BLINDS_STRUCTURE });
+
+export const SET_BLINDS_STRUCTURE = "SET_BLINDS_STRUCTURE";
+export const createBlindsStructure = ({ duration, roundLength, initialSB }) => {
+  let roundsToCreate = calculateNumberOfRounds(duration, roundLength);
+  let initialLevel = {
+    name: "",
+    duration: parseInt(roundLength),
+    sb: parseInt(initialSB),
+    bb: initialSB * 2,
+    break: false,
+  };
+  let smallBlind = (initialLevel.sb += parseInt(initialSB));
+  let bigBlind = smallBlind * 2;
+  return (dispatch) => {
+    for (let i = 0; i < roundsToCreate; i++) {
+      dispatch({
+        type: CREATE_NEW_ROUND,
+        payload: (initialLevel = {
+          ...initialLevel,
+          sb: smallBlind,
+          bb: bigBlind,
+        }),
+      });
+      smallBlind += parseInt(initialSB);
+      bigBlind = smallBlind * 2;
+    }
+  };
+};
+
+export const CREATE_EXPECTED_PLAYERS = "CREATE_EXPECTED_PLAYERS";
+export const createExpectedPlayers = (num) => {
+  let initialPlayer = {
+    buyin: null,
+    rebuy: null,
+    status: PLAYER_STATUS.REGISTERED,
+    cost: 0,
+    place: null,
+  };
+  console.log(playerObj);
+  return (dispatch) => {
+    for (let i = 0; i < num; i++) {
+      let currentNumber = i + 1;
+      dispatch({
+        type: CREATE_EXPECTED_PLAYERS,
+        payload: (initialPlayer = {
+          ...initialPlayer,
+          name: "Player " + currentNumber,
+        }),
+      });
+    }
+  };
+};
+
 // PLAYERS
 export const CREATE_PLAYER = "CREATE_PLAYER";
 export const REMOVE_PLAYER = "REMOVE_PLAYER";
@@ -75,6 +146,14 @@ export const UPDATE_PLAYER_COST = "UPDATE_PLAYER_COST";
 export const UPDATE_ALL_PLAYERS_COST = "UPDATE_ALL_PLAYERS_COST";
 export const SET_WINNER = "SET_WINNER";
 export const EDIT_PLAYER = "EDIT_PLAYER";
+
+export const PLAYER_STATUS = {
+  REGISTERED: "Registered",
+  BOUGHT_IN: "Bought in",
+  STILL_IN: "Still in",
+  BUSTED_OUT: "Busted out",
+  WINNER: "Winner",
+};
 
 export const createPlayer = (player) => ({
   type: CREATE_PLAYER,

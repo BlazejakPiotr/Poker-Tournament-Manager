@@ -1,4 +1,4 @@
-import { CREATE_USER } from "../actions";
+import { CREATE_USER, LOGIN_USER } from "../actions";
 import { initialState } from "../store";
 
 const userReducer = (state = initialState.user, action) => {
@@ -8,8 +8,16 @@ const userReducer = (state = initialState.user, action) => {
         ...state,
         username: action.payload,
       };
-    default:
+
+    case LOGIN_USER:
+      return {
+        ...state,
+        logged: action.payload,
+      };
+
+    default: {
       return state;
+    }
   }
 };
 
