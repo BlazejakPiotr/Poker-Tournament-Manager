@@ -1,12 +1,22 @@
 import { Container } from "react-bootstrap";
-import { CreateNewTournament } from "./home/index.js";
+import { CreateNewTournament, Footer, HomepageHeader } from "./home/index.js";
 
 const Home = () => {
   return (
     <>
-      <div className="bg-dark">
+      <div className="header">
+        <Container>
+          <HomepageHeader />
+        </Container>
+      </div>
+      <div className="creator">
         <Container>
           <CreateNewTournament />
+        </Container>
+      </div>
+      <div className="footer bg-light text-dark">
+        <Container>
+          <Footer />
         </Container>
       </div>
     </>

@@ -33,10 +33,10 @@ export const TournamentElapsedTime = () => {
 
   useInterval(
     () => {
-      if (elapsedSeconds < 59) {
+      if (elapsedSeconds < 60) {
         setElapsedSeconds(elapsedSeconds + 1);
       }
-      if (elapsedSeconds > 59) {
+      if (elapsedSeconds === 59) {
         setElapsedSeconds(0);
         setElapsedMinutes(elapsedMinutes + 1);
       }

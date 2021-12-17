@@ -26,6 +26,8 @@ import {
   SHOW_SUCCESS_ALERT,
   SET_CURRENT_ROUND,
   CLEAR_BLINDS_STRUCTURE,
+  CREATE_EXPECTED_PLAYERS,
+  CLEAN_ALL_DATA,
 } from "../actions";
 import { initialState } from "../store";
 
@@ -33,13 +35,18 @@ const tournamentReducer = (state = initialState.tournament, action) => {
   const reducer = (previousValue, currentValue) => previousValue + currentValue;
   switch (action.type) {
     // TOURNAMENT STATE
+
+    case CLEAN_ALL_DATA:
+      return {
+        data: {},
+        players: [],
+        blinds: [...state.blinds],
+        tables: [],
+      };
     case CREATE_TOURNAMENT:
       return {
+        ...state,
         data: { ...action.payload.data },
-        players: [],
-        blinds: [],
-        tables: [],
-        alerts: {},
       };
     case SET_TOURNAMENT_STATUS:
       return {
@@ -69,6 +76,13 @@ const tournamentReducer = (state = initialState.tournament, action) => {
         ...state,
         blinds: [],
       };
+
+    case CREATE_EXPECTED_PLAYERS:
+      return {
+        ...state,
+        players: [...state.players, { ...action.payload }],
+      };
+
     // CLOCK
     case SET_TOTAL_POT:
       return {

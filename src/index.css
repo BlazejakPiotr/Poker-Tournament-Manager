@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Karla&family=Titillium+Web:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Karla&family=Russo+One&family=Titillium+Web:wght@600&display=swap");
 body {
   min-width: 350px;
   margin: 0;
@@ -13,7 +13,7 @@ body {
   min-height: 100vh;
 
   background: rgb(157, 10, 10);
-  background: radial-gradient(circle, rgb(37, 36, 36) 0%, rgb(24, 23, 23) 100%);
+  background: radial-gradient(circle, rgb(43, 39, 33) 0%, rgb(24, 23, 23) 100%);
   color: #fff !important;
 }
 
@@ -36,10 +36,18 @@ code {
   min-width: 100wh;
   display: block;
   position: relative;
+  background: rgb(11, 10, 8);
+  background: linear-gradient(
+    270deg,
+    rgba(11, 10, 8, 1) 0%,
+    rgba(46, 33, 27, 0.28335084033613445) 50%,
+    rgba(11, 10, 8, 1) 100%
+  );
+  z-index: 3;
 }
 
 .App::after {
-  content: "";
+  /* content: "";
   background: url("./img/texture.jpg");
   background-attachment: fixed;
   background-position: top right;
@@ -50,13 +58,23 @@ code {
   bottom: 0;
   right: 0;
   position: absolute;
-  z-index: -1;
+  z-index: -1; */
 }
 
-.nav-item {
+.nav-tabs .nav-item {
   font-family: "Titillium Web", sans-serif;
   background-color: #332f2f;
   width: 25%;
+}
+
+.nav-link {
+  color: #fff !important;
+}
+
+.navbar-nav img {
+  border-radius: 100%;
+  max-width: 24px;
+  max-height: 24px;
 }
 
 .nav-tabs > nav-link.active {
@@ -68,8 +86,48 @@ code {
   color: #ebebeb;
 }
 
+.header {
+  min-height: 50vh;
+  font-family: "Russo One", sans-serif;
+  background-image: url(./img/poker-game-on-table-top.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+}
+.header::after {
+  content: "";
+  background: rgb(11, 10, 8);
+  background: linear-gradient(
+    270deg,
+    rgba(11, 10, 8, 1) 0%,
+    rgba(46, 33, 27, 0.5) 30%,
+    rgba(46, 33, 27, 0) 50%,
+    rgba(46, 33, 27, 0.5) 70%,
+    rgba(11, 10, 8, 1) 100%
+  );
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
+
+.creator {
+  border-top: 2px solid rgb(22, 22, 22);
+  padding: 3rem 0px;
+  /* -webkit-box-shadow: inset 0px 17px 31px 6px rgb(48, 47, 46);
+  -moz-box-shadow: inset 0px 17px 31px 6px rgb(41, 41, 41);
+  box-shadow: inset 0px 17px 31px 6px rgb(27, 26, 24); */
+  z-index: 2;
+}
 .tournament-form {
   font-size: 0.85rem;
+}
+
+.btn {
+  background-color: #ab2c17 !important;
+  color: #fff !important;
+  padding: 0.5rem 2rem !important;
 }
 
 .tab-content > .active {
@@ -94,6 +152,19 @@ code {
   right: 0;
   position: absolute;
   z-index: -1;
+}
+.footer {
+  padding: 3rem 0px;
+}
+
+.footer .mePhoto {
+  border-radius: 100%;
+  max-width: 260px;
+}
+
+.footer .tools-img {
+  max-width: 200px;
+  height: 156px;
 }
 .modal-content {
   color: #000;

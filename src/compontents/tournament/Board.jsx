@@ -50,7 +50,7 @@ const Board = () => {
         <Col className="clock">
           <div>
             <p>Scheduled</p>
-            <h2>{tournament.data.date.slice(0, 10)}</h2>
+            {/* <h2>{tournament.data.date.slice(0, 10)}</h2> */}
           </div>
           <div>
             <CurrentLocalTime />
