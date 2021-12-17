@@ -278,6 +278,7 @@ export const editPlayer = (index, user) => {
 
 // ROUNDS
 export const CREATE_NEW_ROUND = "CREATE_NEW_ROUND";
+export const CLEAR_ALL_ROUNDS = "CLEAR_ALL_RUNDS";
 export const EDIT_ROUND = "EDIT_ROUND";
 export const DELETE_ROUND = "DELETE_ROUND";
 export const SET_CURRENT_ROUND = "SET_CURRENT_ROUND";
@@ -285,6 +286,10 @@ export const SET_CURRENT_ROUND = "SET_CURRENT_ROUND";
 export const createRound = (round) => ({
   type: CREATE_NEW_ROUND,
   payload: round,
+});
+
+export const clearRounds = () => ({
+  type: CLEAR_ALL_ROUNDS,
 });
 
 export const editRound = (index, round) => {

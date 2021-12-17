@@ -23,9 +23,11 @@ export const TournamentTimer = () => {
   const [status, setStatus] = useState(data.state.status);
 
   useEffect(() => {
+
     if (rounds[CURRENT_ROUND_INDEX]) {
       setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
     }
+
   }, []);
 
   const secondsToDisplay = secondsRemaining % 60;
@@ -34,7 +36,7 @@ export const TournamentTimer = () => {
 
   useEffect(() => {
     setStatus(data.state.status);
-  }, [data]);
+  }, []);
 
   const handleStart = () => {
     if (TOURNAMENT_STATUS.SCHEDULED) {

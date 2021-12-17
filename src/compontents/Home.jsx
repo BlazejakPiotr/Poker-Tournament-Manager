@@ -1,9 +1,12 @@
+
 import { Container } from "react-bootstrap";
 import { CreateNewTournament, Footer, HomepageHeader } from "./home/index.js";
+
 
 const Home = () => {
   return (
     <>
+
       <div className="header">
         <Container>
           <HomepageHeader />
@@ -19,6 +22,7 @@ const Home = () => {
           <Footer />
         </Container>
       </div>
+
     </>
   );
 };

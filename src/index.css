@@ -10,10 +10,12 @@ body {
   min-width: 350px;
   font-family: "Karla", sans-serif !important;
 
+
   min-height: 100vh;
 
   background: rgb(157, 10, 10);
   background: radial-gradient(circle, rgb(43, 39, 33) 0%, rgb(24, 23, 23) 100%);
+
   color: #fff !important;
 }
 
@@ -34,6 +36,7 @@ code {
 .App {
   min-height: 100vh;
   min-width: 100wh;
+  background-color: rgb(24, 23, 23);
   display: block;
   position: relative;
   background: rgb(11, 10, 8);
@@ -46,8 +49,10 @@ code {
   z-index: 3;
 }
 
+
 .App::after {
   /* content: "";
+
   background: url("./img/texture.jpg");
   background-attachment: fixed;
   background-position: top right;
@@ -58,10 +63,12 @@ code {
   bottom: 0;
   right: 0;
   position: absolute;
+
   z-index: -1; */
 }
 
 .nav-tabs .nav-item {
+
   font-family: "Titillium Web", sans-serif;
   background-color: #1c1814;
   width: 25%;

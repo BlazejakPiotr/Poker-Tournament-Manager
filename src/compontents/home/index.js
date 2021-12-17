@@ -1,3 +1,4 @@
+
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -29,10 +30,12 @@ export const CreateNewTournament = () => {
   const history = useHistory();
   const blinds = useSelector((state) => state.tournament.blinds);
 
+
   const [user, setUser] = useState({ username: "Piotr" });
 
   const [tournament, setTournament] = useState({
     name: "EUROPEAN POKER TOUR EPT 2021",
+
     currency: "USD",
     type: "Freezout",
     buyin: 0,
@@ -40,12 +43,14 @@ export const CreateNewTournament = () => {
     rebuyLast: 0,
     startingChips: 0,
     rebuyChips: 0,
+
     state: {
       status: TOURNAMENT_STATUS.SCHEDULED,
       placements: [],
       currentRound: 0,
     },
   });
+
 
   const [structure, setStructure] = useState({
     expectedPlayers: 0,
@@ -65,11 +70,13 @@ export const CreateNewTournament = () => {
     setStructure({
       ...structure,
       [propertyName]: e.target.value,
+
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     dispatch(clearTournamentData());
     dispatch(createNewTournament(tournament));
     dispatch(createExpectedPlayers(structure.expectedPlayers));
@@ -322,5 +329,6 @@ export const Footer = () => {
       </Row>
       <Row></Row>
     </>
+
   );
 };
