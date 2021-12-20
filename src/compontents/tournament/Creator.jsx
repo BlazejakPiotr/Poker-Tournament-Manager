@@ -17,6 +17,7 @@ const Creator = () => {
   const [tournament, setTournament] = useState({
     name: "EUROPEAN POKER TOUR EPT 2021",
     type: "Freezout",
+    date: "",
     roundDur: 15,
     tournamentDur: 2,
     smallestChip: 5,
@@ -115,8 +116,8 @@ const CalculateLevelStructure = (roundDur, tournamentDur, smallestChip) => {
   dispatch(clearRounds());
   const [round, setRound] = useState({
     duration: roundDur,
-    sb: smallestChip,
-    bb: smallestChip * 2,
+    sb: 0,
+    bb: smallestChip * 4,
     break: false,
   });
   // Calculate number of rounds
@@ -125,6 +126,7 @@ const CalculateLevelStructure = (roundDur, tournamentDur, smallestChip) => {
 
   for (let i = 0; i < roundNumber; i++) {
     //     if (blinds.length < 1) {
+    console.log(round);
     dispatch(createRound(round));
     //     } else {
     //       setRound({

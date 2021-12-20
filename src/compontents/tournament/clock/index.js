@@ -89,8 +89,7 @@ export const TournamentTimer = () => {
   return (
     <>
       <div>
-        <div>Level</div>
-        <h1 style={{ fontSize: "5vw" }}>
+        <h1 style={{ fontSize: "5vw", lineHeight: "1" }}>
           {twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
         </h1>
 
@@ -124,7 +123,7 @@ export const TournamentTimer = () => {
               onClick={() => {
                 if (CURRENT_ROUND_INDEX < rounds.length - 1) {
                   dispatch(updateCurrentRoundIndex(CURRENT_ROUND_INDEX + 1));
-                  setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
+                  setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].durationn);
                 }
               }}
             />

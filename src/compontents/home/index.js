@@ -1,4 +1,3 @@
-
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -13,14 +12,12 @@ import {
   TOURNAMENT_STATUS,
 } from "../../redux/actions";
 import mePhoto from "../../img/me.jpg";
-import reactLogo from "../../img/react-logo.png";
 import bootstrapLogo from "../../img/reactbootstrap-logo.png";
 
 export const HomepageHeader = () => {
   return (
     <Row className="p-3">
       <Col className="p-4" xs={12}></Col>
-      <Col>f</Col>
     </Row>
   );
 };
@@ -30,11 +27,10 @@ export const CreateNewTournament = () => {
   const history = useHistory();
   const blinds = useSelector((state) => state.tournament.blinds);
 
-
   const [user, setUser] = useState({ username: "Piotr" });
 
   const [tournament, setTournament] = useState({
-    name: "EUROPEAN POKER TOUR EPT 2021",
+    name: "",
 
     currency: "USD",
     type: "Freezout",
@@ -50,7 +46,6 @@ export const CreateNewTournament = () => {
       currentRound: 0,
     },
   });
-
 
   const [structure, setStructure] = useState({
     expectedPlayers: 0,
@@ -70,7 +65,6 @@ export const CreateNewTournament = () => {
     setStructure({
       ...structure,
       [propertyName]: e.target.value,
-
     });
   };
 
@@ -198,7 +192,7 @@ export const CreateNewTournament = () => {
                   </Form.Group>
                 </Col>
                 <Col>
-                  <Form.Group>
+                  {/* <Form.Group>
                     <Form.Label>Last round</Form.Label>
                     <Form.Control
                       type="number"
@@ -206,7 +200,7 @@ export const CreateNewTournament = () => {
                       required
                       onChange={(e) => handleInput(e, "rebuyLast")}
                     />
-                  </Form.Group>
+                  </Form.Group> */}
                 </Col>
               </Form.Group>
             )}
@@ -329,6 +323,5 @@ export const Footer = () => {
       </Row>
       <Row></Row>
     </>
-
   );
 };

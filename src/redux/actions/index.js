@@ -89,7 +89,8 @@ export const createBlindsStructure = ({ duration, roundLength, initialSB }) => {
     bb: initialSB * 2,
     break: false,
   };
-  let smallBlind = (initialLevel.sb += parseInt(initialSB));
+  console.log(initialSB);
+  let smallBlind = parseInt(initialSB);
   let bigBlind = smallBlind * 2;
   return (dispatch) => {
     for (let i = 0; i < roundsToCreate; i++) {
@@ -259,6 +260,10 @@ export const bustoutPlayer = (index) => {
       updatedState.players.length
     ) {
       console.log("winner");
+      dispatch({
+        type: SET_TOURNAMENT_STATUS,
+        payload: TOURNAMENT_STATUS.FINISHED,
+      });
       dispatch({
         type: SET_WINNER,
         payload: "Winner",
