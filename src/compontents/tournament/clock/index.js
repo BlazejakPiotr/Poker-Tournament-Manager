@@ -32,7 +32,7 @@ export const TournamentTimer = () => {
   const [status, setStatus] = useState(data.state.status);
 
   useEffect(() => {
-    setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
+    setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration * 60);
   }, []);
 
   useEffect(() => setStatus(data.state.status), [data.state.status]);
