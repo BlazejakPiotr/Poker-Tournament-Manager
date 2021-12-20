@@ -11,6 +11,7 @@ import { TournamentTimer } from "./clock/index.js";
 import { CurrentLocalTime, TournamentElapsedTime } from "./board/index.js";
 import {
   calculatePaidinPlayers,
+  calculateRebuys,
   CalculateTotalPot,
 } from "./clock/functions.js";
 
@@ -108,8 +109,10 @@ const Tournament = () => {
                   style={{ backgroundColor: "#1C1814" }}
                 >
                   Rebuys
-                </div>{" "}
-                <h1 className="p-3 text-center">0</h1>
+                </div>
+                <h1 className="p-3 text-center">
+                  {calculateRebuys(tournament.players)}
+                </h1>
               </Col>
 
               <Col className="bg-dark p-0">
@@ -120,16 +123,6 @@ const Tournament = () => {
                   Total Pot
                 </div>
                 <div className="p-3 text-center">{CalculateTotalPot()}</div>
-              </Col>
-
-              <Col className="bg-dark p-0">
-                <div
-                  className="px-3 py-1 text-center"
-                  style={{ backgroundColor: "#1C1814" }}
-                >
-                  Avg stack
-                </div>
-                <h2 className="p-3 text-center">1000</h2>
               </Col>
             </Row>
           </Col>

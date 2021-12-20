@@ -19,15 +19,6 @@ const Clock = () => {
           <TournamentTimer />
         </div>
       </Col>
-
-      <Col md={3} className="d-flex flex-column text-center">
-        <h4 style={{ marginBottom: "0px" }}>Players</h4>
-        <h2>
-          {tournament.players.length > 0
-            ? calculatePlayersLeft(tournament) + "/" + tournament.players.length
-            : "Add players!"}
-        </h2>
-      </Col>
     </Row>
   );
 };

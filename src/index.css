@@ -201,3 +201,36 @@ code {
 .alert p {
   margin-block-end: 0px;
 }
+
+.player-item {
+  border-color: rgb(59, 59, 59) !important;
+  border-collapse: collapse;
+}
+
+.player-item:hover {
+  background-color: #312b25 !important;
+  -webkit-box-shadow: inset 3px 3px 6px 0px rgba(41, 37, 32, 1);
+  -moz-box-shadow: inset 3px 3px 6px 0px rgba(41, 37, 32, 1);
+  box-shadow: inset 3px 3px 6px 0px rgba(41, 37, 32, 1);
+}
+
+.modal-header .btn-close {
+  background-color: #ab2c17;
+}
+
+.btn-delete {
+  background-color: #eeeeee !important;
+  color: #505050 !important;
+  padding: 0.5rem 2rem !important;
+}
+
+button.time-controls {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+  font-size: 1.5em;
+}
+
+button.time-controls:hover {
+  color: #ab2c17;
+}

@@ -72,8 +72,17 @@ export const CalculateTotalPot = () => {
 export const calculatePaidinPlayers = (players) => {
   let paid = [];
   players.map((player) => {
-    if (player.buyin) paid = [...paid, { player }];
+    if (player.buyin && player.status !== "Busted out")
+      paid = [...paid, { player }];
     else return;
   });
   return paid.length;
+};
+
+export const calculateRebuys = (players) => {
+  let rebuy = 0;
+  players.map((player) => {
+    rebuy += player.rebuy;
+  });
+  return rebuy;
 };
