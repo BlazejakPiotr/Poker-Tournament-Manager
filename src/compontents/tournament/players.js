@@ -87,6 +87,11 @@ export const PlayersListDetails = ({ player, index }) => {
     handleShowModal();
   };
 
+  const handleBustOut = () => {
+    dispatch(bustoutPlayer(index));
+    handleShowModal();
+  };
+
   return (
     <>
       <ListGroup.Item
@@ -190,7 +195,7 @@ export const PlayersListDetails = ({ player, index }) => {
                 <Button
                   variant="danger"
                   disabled={!player.buyin || player.status === "Busted out"}
-                  onClick={() => dispatch(bustoutPlayer(index))}
+                  onClick={handleBustOut}
                   className="w-100 mb-2"
                 >
                   Bust out
