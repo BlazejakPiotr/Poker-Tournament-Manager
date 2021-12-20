@@ -140,13 +140,8 @@ const Tournament = () => {
               <Tab eventKey="Structure" title="Structure">
                 <Blinds />
               </Tab>
-              <Tab eventKey="Prizes" title="Prizes">
-                <Players />
-              </Tab>
+
               <Tab eventKey="Players" title="Players">
-                <Players />
-              </Tab>
-              <Tab eventKey="Tables" title="Tables">
                 <Players />
               </Tab>
             </Tabs>

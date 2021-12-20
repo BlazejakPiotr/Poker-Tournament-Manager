@@ -69,9 +69,7 @@ export const PlayersContent = () => {
             <Col md={12} lg={1} className="d-none d-lg-block p-0">
               Rebuy
             </Col>
-            <Col md={12} lg={1} className="d-none d-lg-block p-0">
-              Add-on
-            </Col>
+
             <Col sm={3} lg={2} className="d-none d-md-block p-0">
               Total cost
             </Col>
@@ -130,16 +128,13 @@ export const PlayerDetails = ({ player, index }) => {
         <Col md={12} lg={1} className="d-none d-lg-block p-0">
           {player.rebuy > 0 && player.rebuy}
         </Col>
-        <Col md={12} lg={1} className="d-none d-lg-block p-0">
-          {player.addon && <FontAwesomeIcon icon={faCheck} />}
-        </Col>
         <Col
           xs={3}
           lg={2}
           className="d-none d-md-block p-0 "
         >{`${player.cost} ${tournament.data.currency}`}</Col>
         <Col xs={3} md={1} className="p-0">
-          Place
+          {player.place}
         </Col>
       </ListGroup.Item>
       <Modal show={showModal} onHide={handleShowModal}>

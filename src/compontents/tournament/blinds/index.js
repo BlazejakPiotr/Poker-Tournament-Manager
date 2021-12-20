@@ -149,7 +149,6 @@ export const RoundDetails = ({ round, index }) => {
   const [level, setlevel] = useState({
     name: "",
     duration: round.duration,
-    ante: round.ante,
     sb: round.sb,
     bb: round.bb,
     break: round.break,
@@ -201,19 +200,15 @@ export const RoundDetails = ({ round, index }) => {
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
             <Row className="mb-3">
-              <Col xs={6} sm={3}>
-                <FormGroup>
-                  <FormLabel>Ante</FormLabel>
-                  <Form.Control
-                    size="sm"
-                    type="number"
-                    placeholder="ante"
-                    value={level.ante}
-                    onChange={(e) => handleInput(e, "ante")}
-                    disabled={level.break}
-                    required
+              <Col xs={6} sm={3} className="d-flex align-items-end">
+                <Form.Group className="mb-3">
+                  <Form.Check
+                    type="checkbox"
+                    label="Break"
+                    value={level.break}
+                    onChange={(e) => handleInput(e, "break")}
                   />
-                </FormGroup>
+                </Form.Group>
               </Col>
               <Col xs={6} sm={3}>
                 <FormGroup>
@@ -260,24 +255,16 @@ export const RoundDetails = ({ round, index }) => {
             <Row>
               <Col className="d-flex justify-content-between">
                 <Col>
-                  <Form.Group className="mb-3">
-                    <Form.Check
-                      type="checkbox"
-                      label="Break"
-                      value={level.break}
-                      onChange={(e) => handleInput(e, "break")}
-                    />
-                  </Form.Group>
-                </Col>
-                <Col className="d-flex justify-content-end">
                   <Button
+                    variant="danger"
                     onClick={() => dispatch(deleteRound(index))}
-                    className="mx-3"
                   >
                     <FontAwesomeIcon icon={faTrash} />
                   </Button>
-                  <Button type="submit">
-                    <FontAwesomeIcon icon={faEdit} />
+                </Col>
+                <Col className="d-flex justify-content-end">
+                  <Button variant="danger" type="submit">
+                    Edit
                   </Button>
                 </Col>
               </Col>
@@ -317,7 +304,6 @@ export const RoundForm = () => {
     setRound({
       name: "",
       duration: "",
-      ante: "",
       sb: "",
       bb: "",
       break: false,
@@ -337,18 +323,6 @@ export const RoundForm = () => {
               onChange={(e) => handleInput(e, "break")}
             />
           </Form.Group>
-        </Col>
-        <Col xs={6} sm={2} className="p-0 mb-2">
-          <FormGroup style={{ paddingRight: "5px" }}>
-            <Form.Control
-              type="number"
-              placeholder="ante"
-              value={round.ante}
-              onChange={(e) => handleInput(e, "ante")}
-              disabled={round.break}
-              required
-            />
-          </FormGroup>
         </Col>
         <Col xs={6} sm={2} className="p-0 mb-2">
           <FormGroup style={{ paddingRight: "5px" }}>
@@ -387,8 +361,8 @@ export const RoundForm = () => {
         </Col>
 
         <Col xs={1} className="p-0">
-          <Button type="submit">
-            <FontAwesomeIcon icon={faPlus} />
+          <Button variant="danger" type="submit">
+            Create
           </Button>
         </Col>
       </Row>
