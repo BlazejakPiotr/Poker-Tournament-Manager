@@ -1,5 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPause, faPlay, faRedo } from "@fortawesome/fontawesome-free-solid";
+import {
+  faBackward,
+  faForward,
+  faPause,
+  faPlay,
+  faRedo,
+  faStop,
+  faVolumeUp,
+} from "@fortawesome/fontawesome-free-solid";
 import {
   changeTournamentStatus,
   displayDangerAlert,
@@ -8,6 +16,7 @@ import {
   TOURNAMENT_STATUS,
   updateCurrentRoundIndex,
 } from "../../../redux/actions";
+import { Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { calculatePaidinPlayers, twoDigits, useInterval } from "./functions";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,12 +32,10 @@ export const TournamentTimer = () => {
   const [status, setStatus] = useState(data.state.status);
 
   useEffect(() => {
-
-    if (rounds[CURRENT_ROUND_INDEX]) {
-      setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
-    }
-
+    setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
   }, []);
+
+  useEffect(() => setStatus(data.state.status), [data.state.status]);
 
   const secondsToDisplay = secondsRemaining % 60;
   const minutesRemaining = (secondsRemaining - secondsToDisplay) / 60;
@@ -39,20 +46,13 @@ export const TournamentTimer = () => {
   }, []);
 
   const handleStart = () => {
-    if (TOURNAMENT_STATUS.SCHEDULED) {
-      if (rounds.length < 1) {
-        return dispatch(displayDangerAlert("notEnoughRounds"));
-      }
-      if (calculatePaidinPlayers(players) < 2) {
-        dispatch(displayDangerAlert("notEnoughPlayers"));
-      } else {
-        dispatch(changeTournamentStatus(TOURNAMENT_STATUS.LIVE));
-      }
-    } else {
-    }
+    dispatch(changeTournamentStatus(TOURNAMENT_STATUS.LIVE));
   };
-  const handleStop = () =>
+  const handleStop = () => {
     dispatch(changeTournamentStatus(TOURNAMENT_STATUS.PAUSED));
+  };
+  const handleEnd = () =>
+    dispatch(changeTournamentStatus(TOURNAMENT_STATUS.FINISHED));
 
   const handleReset = () => {
     dispatch(changeTournamentStatus(TOURNAMENT_STATUS.SCHEDULED));
@@ -83,10 +83,68 @@ export const TournamentTimer = () => {
     },
     status === TOURNAMENT_STATUS.LIVE ? 1000 : null
   );
-
+  if (status === TOURNAMENT_STATUS.FINISHED) {
+    return "";
+  }
   return (
     <>
-      {status === TOURNAMENT_STATUS.FINISHED ? (
+      <div>
+        <div>Level</div>
+        <h1 style={{ fontSize: "5vw" }}>
+          {twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
+        </h1>
+
+        <div className="d-flex justify-content-center">
+          <button className="time-controls" onClick={handleReset}>
+            <FontAwesomeIcon icon={faRedo} />
+          </button>
+          <button
+            className="time-controls px-3"
+            onClick={() => {
+              if (CURRENT_ROUND_INDEX > 0) {
+                dispatch(updateCurrentRoundIndex(CURRENT_ROUND_INDEX - 1));
+              }
+            }}
+          >
+            <FontAwesomeIcon icon={faBackward} />
+          </button>
+
+          {status === TOURNAMENT_STATUS.LIVE ? (
+            <button className="time-controls px-3" onClick={handleStop}>
+              <FontAwesomeIcon icon={faPause} />
+            </button>
+          ) : (
+            <button className="time-controls px-3" onClick={handleStart}>
+              <FontAwesomeIcon icon={faPlay} />
+            </button>
+          )}
+          <button className="time-controls">
+            <FontAwesomeIcon
+              icon={faForward}
+              onClick={() => {
+                if (CURRENT_ROUND_INDEX < rounds.length - 1) {
+                  dispatch(updateCurrentRoundIndex(CURRENT_ROUND_INDEX + 1));
+                  setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
+                }
+              }}
+            />
+          </button>
+          <button className="time-controls">
+            <FontAwesomeIcon icon={faVolumeUp} />
+          </button>
+        </div>
+      </div>
+    </>
+  );
+};
+// {status === TOURNAMENT_STATUS.LIVE && (
+//   <>
+//     {twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
+//     <FontAwesomeIcon icon={faPause} size="2x" onClick={handleStop} />
+//   </>
+// )}
+{
+  /* {status === TOURNAMENT_STATUS.FINISHED ? (
         <>
           <FontAwesomeIcon
             icon={faRedo}
@@ -111,7 +169,7 @@ export const TournamentTimer = () => {
             )}
           </div>
         </>
-      )}
-    </>
-  );
-};
+      )} */
+  // </>
+  // );
+}
