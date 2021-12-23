@@ -35,8 +35,7 @@ export const CreateNewTournament = () => {
 
   const [tournament, setTournament] = useState({
     name: "",
-
-    currency: "USD",
+    currency: "EUR",
     type: "Freezout",
     buyin: 0,
     rebuy: 0,
@@ -164,9 +163,10 @@ export const CreateNewTournament = () => {
                     value={tournament.currency}
                     onChange={(e) => handleInput(e, "currency")}
                   >
+                    <option value="EUR">EUR</option>
+                    <option value="PLN">PLN</option>
                     <option value="USD">USD</option>
                     <option value="GBP">GBP</option>
-                    <option value="EUR">EUR</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
