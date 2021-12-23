@@ -200,10 +200,29 @@ code {
 /* .tab-content {
   background-color: #fff;
 } */
-.clock {
-  border: 1px solid rgb(24, 24, 24);
-  border-collapse: collapse;
+
+div .board {
+  text-align: center;
+  text-align: center;
+  padding: 0px;
 }
+.board > div {
+  padding: 0.25rem 1rem;
+  background-color: #1c1814;
+}
+
+.board > p {
+  padding: 1rem 0px 1rem 0px;
+  margin-bottom: 0px;
+  font-size: 2rem;
+}
+
+.board > h4 {
+  align-items: center;
+  font-size: 8rem;
+  margin-bottom: 0px;
+}
+
 .clock > div {
   border: 1px solid rgb(34, 34, 34);
   border-collapse: collapse;

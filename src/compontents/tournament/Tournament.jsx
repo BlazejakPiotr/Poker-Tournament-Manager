@@ -19,8 +19,8 @@ const Tournament = () => {
   const tournament = useSelector((state) => state.tournament);
   return (
     <>
-      <Container className="mt-5 clock">
-        <Row>
+      <Container className="clock bg-dark">
+        {/* <Row>
           <Col md={12} lg={8}>
             <Row>
               <Col className="p-0 " xs={12}>
@@ -130,7 +130,8 @@ const Tournament = () => {
           <Col className="bg-dark text-dark">
             <PlayersList />
           </Col>
-        </Row>
+        </Row> */}
+        <Board />
         <Row>
           <Col className="p-0 tournament-tabs">
             <Tabs

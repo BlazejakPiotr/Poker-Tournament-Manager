@@ -88,16 +88,13 @@ export const TournamentTimer = () => {
   }
   return (
     <>
-      <div>
-        <h1 style={{ fontSize: "4vw", lineHeight: "1" }}>
-          {twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
-        </h1>
+      {twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
 
-        <div className="d-flex justify-content-center">
-          {/* <button className="time-controls" onClick={handleReset}>
+      {/* <div className="d-flex justify-content-center"> */}
+      {/* <button className="time-controls" onClick={handleReset}>
             <FontAwesomeIcon icon={faRedo} />
           </button> */}
-          <button
+      {/* <button
             className="time-controls px-3"
             onClick={() => {
               if (CURRENT_ROUND_INDEX > 0) {
@@ -128,11 +125,9 @@ export const TournamentTimer = () => {
               }}
             />
           </button>
-          {/* <button className="time-controls">
-            <FontAwesomeIcon icon={faVolumeUp} />
-          </button> */}
+  
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

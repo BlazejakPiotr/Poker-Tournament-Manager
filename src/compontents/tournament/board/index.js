@@ -16,13 +16,7 @@ export const CurrentLocalTime = () => {
     }, 1000);
   });
 
-  return (
-    <>
-      <h1 style={{ fontSize: "2.2rem" }} className="py-4 text-center">
-        {currentTime}
-      </h1>
-    </>
-  );
+  return currentTime;
 };
 
 export const TournamentElapsedTime = () => {
@@ -60,11 +54,9 @@ export const TournamentElapsedTime = () => {
 
   return (
     <>
-      <h1 style={{ fontSize: "2.2rem" }} className="py-4 text-center">{`${
-        elapsedHours < 10 ? "0" + elapsedHours : elapsedHours
-      }:${elapsedMinutes < 10 ? "0" + elapsedMinutes : elapsedMinutes}:${
-        elapsedSeconds < 10 ? "0" + elapsedSeconds : elapsedSeconds
-      }`}</h1>
+      {`${elapsedHours < 10 ? "0" + elapsedHours : elapsedHours}:${
+        elapsedMinutes < 10 ? "0" + elapsedMinutes : elapsedMinutes
+      }:${elapsedSeconds < 10 ? "0" + elapsedSeconds : elapsedSeconds}`}
     </>
   );
 };
