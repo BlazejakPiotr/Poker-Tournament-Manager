@@ -17,7 +17,11 @@ import bootstrapLogo from "../../img/reactbootstrap-logo.png";
 export const HomepageHeader = () => {
   return (
     <Row className="p-3">
-      <Col className="p-4" xs={12}></Col>
+      <Col className="p-4" xs={12}>
+        <div className="title">
+          <h1>Poker Tournament Manager</h1>
+        </div>
+      </Col>
     </Row>
   );
 };
@@ -93,7 +97,7 @@ export const CreateNewTournament = () => {
 
       <Form onSubmit={handleSubmit}>
         <Row className="tournament-form">
-          <Col lg={5} className="d-flex flex-column">
+          <Col sm={8} lg={5} className="d-flex flex-column">
             {/* <Form.Group className="mb-3">
             <Form.Label>Nickname</Form.Label>
             <Form.Control
@@ -206,7 +210,7 @@ export const CreateNewTournament = () => {
             )}
           </Col>
 
-          <Col lg={3} xl={3} className="d-flex flex-column">
+          <Col sm={4} lg={2} className="d-flex flex-column">
             <Form.Group className="mb-3">
               <Form.Label>Expected players</Form.Label>
               <Form.Control
@@ -289,12 +293,12 @@ export const CreateNewTournament = () => {
 export const Footer = () => {
   return (
     <>
-      <Row className="footer mb-3">
+      <Row className="footer mb-3 align-items-center">
         <h2 style={{ marginBottom: "2rem" }}>About author</h2>
-        <Col xs={12} sm={6} md={5} lg={4} xl={3}>
-          <img src={mePhoto} alt="photo of me" className="mePhoto" />
+        <Col xs={12} sm={12} md={3} className="d-flex justify-content-center">
+          <img src={mePhoto} alt="photo of me" className="mePhoto mb-3" />
         </Col>
-        <Col xs={12} sm={6}>
+        <Col>
           <p>
             My name is Piotr Błażejak, I'm from Poland and I am Front-end
             webdeveloper!
@@ -309,7 +313,7 @@ export const Footer = () => {
           </p>
           <p>This application was created by Strive School student.</p>
         </Col>
-        <Col xs={12} className="d-flex justify-content-between  tools-img">
+        {/* <Col xs={12} className="d-flex justify-content-between  tools-img">
           <img
             src="https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/react/react-original.svg"
             alt="react logo"
@@ -319,7 +323,7 @@ export const Footer = () => {
             alt="redux logo"
           />
           <img src={bootstrapLogo} alt="react bootstrap logo" />
-        </Col>
+        </Col> */}
       </Row>
       <Row></Row>
     </>

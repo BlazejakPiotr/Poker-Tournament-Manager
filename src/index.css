@@ -95,12 +95,14 @@ code {
 }
 
 .header {
-  min-height: 35vh;
+  min-height: 40vh;
   font-family: "Russo One", sans-serif;
   background-image: url(./img/poker-game-on-table-top.jpg);
   background-repeat: no-repeat;
   background-position: center;
   position: relative;
+  display: flex;
+  justify-content: end;
 }
 .header::after {
   content: "";
@@ -119,8 +121,25 @@ code {
   right: 0;
   position: absolute;
 }
+.title {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  z-index: 1;
+  background-color: rgba(15, 12, 10, 0.5);
+}
+.title h1 {
+  padding: 1rem;
+  margin-top: auto;
+  margin-bottom: auto;
+  text-transform: uppercase;
+  text-align: center;
+  text-shadow: 1px 1px 5px rgb(0, 0, 0), 1px 1px 5px rgb(131, 45, 5);
+  font-size: 2.5rem;
+}
 
 .creator {
+  min-height: 60vh;
   border-top: 2px solid rgb(22, 22, 22);
   padding: 3rem 0px;
   /* -webkit-box-shadow: inset 0px 17px 31px 6px rgb(48, 47, 46);
@@ -159,12 +178,16 @@ code {
 }
 
 .footer {
-  padding: 3rem 0px;
+  padding: 1rem 0px;
 }
 
 .footer .mePhoto {
+  width: 75%;
+  height: auto;
+}
+
+.footer img {
   border-radius: 100%;
-  max-width: 260px;
 }
 
 .footer .tools-img {
