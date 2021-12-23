@@ -14,11 +14,13 @@ import {
   calculateRebuys,
   CalculateTotalPot,
 } from "./clock/functions.js";
+import TournamentNavbar from "./TournamentNavbar.jsx";
 
 const Tournament = () => {
   const tournament = useSelector((state) => state.tournament);
   return (
     <>
+      <TournamentNavbar />
       <Container className="clock bg-dark">
         {/* <Row>
           <Col md={12} lg={8}>
@@ -132,7 +134,7 @@ const Tournament = () => {
           </Col>
         </Row> */}
         <Board />
-        <Row>
+        {/* <Row>
           <Col className="p-0 tournament-tabs">
             <Tabs
               defaultActiveKey="Structure"
@@ -147,7 +149,7 @@ const Tournament = () => {
               </Tab>
             </Tabs>
           </Col>
-        </Row>
+        </Row> */}
       </Container>
     </>
   );

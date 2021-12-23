@@ -48,7 +48,7 @@ export const PlayersContent = () => {
   return (
     <Row>
       <Col xs={12}>
-        <ListGroup>
+        <ListGroup variant="dark">
           <ListGroup.Item
             className="d-flex"
             style={{ fontWeight: "bold" }}
@@ -112,7 +112,11 @@ export const PlayerDetails = ({ player, index }) => {
 
   return (
     <>
-      <ListGroup.Item action onClick={handleShowModal} className="d-flex">
+      <ListGroup.Item
+        action
+        onClick={handleShowModal}
+        className="d-flex bg-dark text-white"
+      >
         <Col sm={1} className="d-none d-md-block p-0">
           {index + 1}.
         </Col>

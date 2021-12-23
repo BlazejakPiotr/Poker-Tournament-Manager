@@ -1,8 +1,14 @@
 import { Row, Col, ProgressBar } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
-import { CurrentLocalTime, TournamentElapsedTime } from "./board/index.js";
-
+import {
+  CurrentLocalTime,
+  LevelsTable,
+  TournamentElapsedTime,
+  PrizesTable,
+  PlayersTable,
+} from "./board/index.js";
+import { PlayersContent } from "./players/index.js";
 import Clock from "./Clock.jsx";
 import { calculateRebuys } from "./clock/functions.js";
 import { TournamentTimer } from "./clock/index.js";
@@ -12,6 +18,7 @@ const Board = () => {
 
   return (
     <>
+      {/* TOP */}
       <Row>
         {/* TOP LEFT */}
         <Col xs={12} md={3} xl={2} className="board">
@@ -29,6 +36,7 @@ const Board = () => {
           <p>{tournament.data.state.status}</p>
         </Col>
       </Row>
+      {/* MIDDLE */}
       <Row>
         {/* MID LEFT*/}
         <Col xs={12} md={3} xl={2}>
@@ -76,7 +84,7 @@ const Board = () => {
           </Row>
         </Col>
       </Row>
-
+      {/* BOTTOM */}
       <Row>
         {/* BOT LEFT */}
         <Col xs={12} md={3} xl={2}>
@@ -92,13 +100,19 @@ const Board = () => {
           </Row>
         </Col>
         {/* BOT CENTER */}
-        <Col className="p-0 board">
+        <Col>
           <Row>
-            <Col className="board w-100">
+            <Col className="p-0 board w-100">
               <div>Rounds</div>
+              <div className="p-2 bg-dark h-100 ">
+                <LevelsTable />
+              </div>
             </Col>
             <Col className="board w-100">
               <div>Prizes</div>
+              <div className="p-2 bg-dark h-100 ">
+                <PrizesTable />
+              </div>
             </Col>
           </Row>
         </Col>
@@ -113,6 +127,16 @@ const Board = () => {
               <p>-</p>
             </Col>
           </Row>
+        </Col>
+      </Row>
+      {/* PLAYERS */}
+      <Row>
+        <Col className="board">
+          <div>Players</div>
+          <div className="bg-dark py-3">
+            <PlayersTable />
+            {/* <PlayersContent /> */}
+          </div>
         </Col>
       </Row>
     </>

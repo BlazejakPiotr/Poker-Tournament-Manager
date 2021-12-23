@@ -201,6 +201,15 @@ code {
   background-color: #fff;
 } */
 
+.board {
+  border: 1px solid #2e3336;
+  border-collapse: collapse;
+}
+
+.board :first-child {
+  border-bottom: 2px solid #2e3336;
+}
+
 div .board {
   text-align: center;
   text-align: center;
@@ -223,15 +232,10 @@ div .board {
   margin-bottom: 0px;
 }
 
-.clock > div {
-  border: 1px solid rgb(34, 34, 34);
-  border-collapse: collapse;
+table {
+  border: 1px solid #2e3336;
 }
 
-.clock > div .bg-dark {
-  border: 1px solid rgb(34, 34, 34);
-  border-collapse: collapse;
-}
 .controls svg {
   margin: 0px 20px;
 }
