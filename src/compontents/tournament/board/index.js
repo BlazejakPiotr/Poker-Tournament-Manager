@@ -64,10 +64,18 @@ export const TournamentElapsedTime = () => {
 
 export const LevelsTable = () => {
   return (
-    <Table striped borderless hover variant="dark" className="m-0">
+    <Table
+      striped
+      borderless
+      hover
+      variant="dark"
+      className="m-0"
+      style={{ border: "0px" }}
+    >
       <thead>
-        <tr>
-          <th>#</th>
+        <tr style={{ borderTop: "2px solid #212529" }}>
+          <th style={{ textAlign: "left" }}>#</th>
+          <th>A</th>
           <th>SB</th>
           <th>BB</th>
           <th>Duration</th>
@@ -75,22 +83,11 @@ export const LevelsTable = () => {
       </thead>
       <tbody>
         <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+          <td style={{ textAlign: "left" }}>Round 1</td>
+          <td>-</td>
+          <td>5</td>
+          <td>10</td>
+          <td>20'</td>
         </tr>
       </tbody>
     </Table>
@@ -99,40 +96,24 @@ export const LevelsTable = () => {
 
 export const LevelsTableItem = () => {};
 
-export const PrizesTable = () => {
-  return (
-    <Table striped borderless hover variant="dark" className="m-0">
-      <thead>
-        <tr variant="bg-primary">
-          <th>Place</th>
-          <th>Winnings</th>
-          <th>%</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1st place</td>
-          <td>Mark</td>
-          <td>Otto</td>
-        </tr>
-      </tbody>
-    </Table>
-  );
-};
-
 export const PlayersTable = () => {
   return (
-    <Table striped borderless hover variant="dark" className="m-0">
+    <Table
+      striped
+      borderless
+      hover
+      variant="dark"
+      className="m-0"
+      style={{ border: "0px" }}
+    >
       <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Status</th>
+        <tr style={{ borderTop: "2px solid #212529" }}>
+          <th style={{ textAlign: "left" }}>Name</th>
           <th>Buyin</th>
           <th>Rebuy</th>
+          <th>Add-on</th>
           <th>Cost</th>
-          <th>Place</th>
-          <th>Winnings</th>
+          <th>Status</th>
         </tr>
       </thead>
       <PlayersTableItem />
@@ -144,44 +125,20 @@ export const PlayersTableItem = () => {
   return (
     <tbody>
       <tr>
-        <td>#</td>
-        <td>Name</td>
-        <td>Status</td>
+        <td style={{ textAlign: "left" }}>Sir fuck you</td>
         <td>Buyin</td>
         <td>Rebuy</td>
-        <td>Total cost</td>
-        <td>Place</td>
-        <td>Winnings</td>
+        <td>Add-on</td>
+        <td>Cost</td>
+        <td>Status</td>
       </tr>
       <tr>
-        <td>#</td>
-        <td>Name</td>
-        <td>Status</td>
+        <td style={{ textAlign: "left" }}>Sir fuck you</td>
         <td>Buyin</td>
         <td>Rebuy</td>
-        <td>Total cost</td>
-        <td>Place</td>
-        <td>Winnings</td>
-      </tr>
-      <tr>
-        <td>#</td>
-        <td>Name</td>
+        <td>Add-on</td>
+        <td>Cost</td>
         <td>Status</td>
-        <td>Buyin</td>
-        <td>Rebuy</td>
-        <td>Total cost</td>
-        <td>Place</td>
-        <td>Winnings</td>
-      </tr>
-      <tr>
-        <td>#</td>
-        <td>Name</td>
-        <td>Status</td>
-        <td>Buyin</td>
-        <td>Rebuy</td>
-        <td>Total cost</td>
-        <td>Place</td>
-        <td>Winnings</td>
       </tr>
     </tbody>
   );

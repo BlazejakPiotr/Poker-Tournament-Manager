@@ -62,11 +62,7 @@ export const CalculateTotalPot = () => {
     });
   }, [tournament.players]);
 
-  return (
-    <>
-      <h2>{tournament.data.state.totalPot + tournament.data.currency}</h2>
-    </>
-  );
+  return <>{tournament.data.state.totalPot + " " + tournament.data.currency}</>;
 };
 
 export const calculatePaidinPlayers = (players) => {

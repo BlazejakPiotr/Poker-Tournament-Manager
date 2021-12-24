@@ -88,49 +88,50 @@ export const TournamentTimer = () => {
   }
   return (
     <>
-      {twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
+      <h4 className="d-flex flex-column justify-content-center align-items-center">
+        {twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
+      </h4>
 
-      {/* <div className="d-flex justify-content-center"> */}
-      {/* <button className="time-controls" onClick={handleReset}>
-            <FontAwesomeIcon icon={faRedo} />
-          </button> */}
-      {/* <button
-            className="time-controls px-3"
+      <div
+        className="d-flex justify-content-center"
+        style={{ backgroundColor: "#212529" }}
+      >
+        <button
+          className="time-controls px-3"
+          onClick={() => {
+            if (CURRENT_ROUND_INDEX > 0) {
+              dispatch(updateCurrentRoundIndex(CURRENT_ROUND_INDEX - 1));
+            }
+          }}
+        >
+          <FontAwesomeIcon icon={faBackward} />
+        </button>
+
+        {status === TOURNAMENT_STATUS.LIVE ? (
+          <button className="time-controls px-3" onClick={handleStop}>
+            <FontAwesomeIcon icon={faPause} />
+          </button>
+        ) : (
+          <button className="time-controls px-3" onClick={handleStart}>
+            <FontAwesomeIcon icon={faPlay} />
+          </button>
+        )}
+        <button className="time-controls">
+          <FontAwesomeIcon
+            icon={faForward}
             onClick={() => {
-              if (CURRENT_ROUND_INDEX > 0) {
-                dispatch(updateCurrentRoundIndex(CURRENT_ROUND_INDEX - 1));
+              if (CURRENT_ROUND_INDEX < rounds.length - 1) {
+                dispatch(updateCurrentRoundIndex(CURRENT_ROUND_INDEX + 1));
+                setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
               }
             }}
-          >
-            <FontAwesomeIcon icon={faBackward} />
-          </button>
-
-          {status === TOURNAMENT_STATUS.LIVE ? (
-            <button className="time-controls px-3" onClick={handleStop}>
-              <FontAwesomeIcon icon={faPause} />
-            </button>
-          ) : (
-            <button className="time-controls px-3" onClick={handleStart}>
-              <FontAwesomeIcon icon={faPlay} />
-            </button>
-          )}
-          <button className="time-controls">
-            <FontAwesomeIcon
-              icon={faForward}
-              onClick={() => {
-                if (CURRENT_ROUND_INDEX < rounds.length - 1) {
-                  dispatch(updateCurrentRoundIndex(CURRENT_ROUND_INDEX + 1));
-                  setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
-                }
-              }}
-            />
-          </button>
-  
-        </div>
-      </div> */}
+          />
+        </button>
+      </div>
     </>
   );
 };
+
 // {status === TOURNAMENT_STATUS.LIVE && (
 //   <>
 //     {twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}

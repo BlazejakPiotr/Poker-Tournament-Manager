@@ -135,7 +135,7 @@ code {
   text-transform: uppercase;
   text-align: center;
   text-shadow: 1px 1px 5px rgb(0, 0, 0), 1px 1px 5px rgb(131, 45, 5);
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
 
 .creator {
@@ -200,14 +200,12 @@ code {
 /* .tab-content {
   background-color: #fff;
 } */
-
+.clock {
+  border: 1px solid #2e3336;
+}
 .board {
   border: 1px solid #2e3336;
   border-collapse: collapse;
-}
-
-.board :first-child {
-  border-bottom: 2px solid #2e3336;
 }
 
 div .board {
@@ -223,12 +221,13 @@ div .board {
 .board > p {
   padding: 1rem 0px 1rem 0px;
   margin-bottom: 0px;
-  font-size: 2rem;
+  font-size: 3rem;
+  line-height: 3rem;
 }
 
 .board > h4 {
   align-items: center;
-  font-size: 8rem;
+  font-size: 7.5rem;
   margin-bottom: 0px;
 }
 
@@ -236,6 +235,11 @@ table {
   border: 1px solid #2e3336;
 }
 
+.board > div > table > thead > tr > th {
+  background-color: #161616;
+  padding: 0.25rem 0.5rem;
+  border-bottom: 2px solid #2e3336;
+}
 .controls svg {
   margin: 0px 20px;
 }

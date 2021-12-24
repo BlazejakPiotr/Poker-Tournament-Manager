@@ -1,4 +1,4 @@
-import { Row, Col, ProgressBar } from "react-bootstrap";
+import { Row, Col, ProgressBar, ListGroup } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 import {
@@ -7,10 +7,15 @@ import {
   TournamentElapsedTime,
   PrizesTable,
   PlayersTable,
+  TablesTable,
 } from "./board/index.js";
 import { PlayersContent } from "./players/index.js";
 import Clock from "./Clock.jsx";
-import { calculateRebuys } from "./clock/functions.js";
+import {
+  calculatePaidinPlayers,
+  calculateRebuys,
+  CalculateTotalPot,
+} from "./clock/functions.js";
 import { TournamentTimer } from "./clock/index.js";
 
 const Board = () => {
@@ -20,124 +25,130 @@ const Board = () => {
     <>
       {/* TOP */}
       <Row>
-        {/* TOP LEFT */}
-        <Col xs={12} md={3} xl={2} className="board">
-          <div>Round</div>
-          <p>Level {tournament.data.state.currentRound + 1}</p>
-        </Col>
-        {/* TOP CENTER */}
         <Col className="p-0 board">
-          <div>Event name</div>
-          <h1 className="p-3 m-0">{tournament.data.name}</h1>
-        </Col>
-        {/* TOP RIGHT */}
-        <Col xs={12} md={3} xl={2} className="p-0 board">
-          <div>Status</div>
-          <p>{tournament.data.state.status}</p>
+          <div style={{ textAlign: "left" }}>Event name</div>
+          <h1 className="p-3 m-0" style={{ textAlign: "left" }}>
+            {tournament.data.name}
+          </h1>
         </Col>
       </Row>
       {/* MIDDLE */}
       <Row>
         {/* MID LEFT*/}
-        <Col xs={12} md={3} xl={2}>
+        <Col xs={12} lg={4}>
           <Row>
-            <Col xs={6} md={12} className="board">
-              <div>Small blind</div>
+            <Col xs={12} className="p-0 board">
+              <div>Level</div>
+              <p>Round {tournament.data.state.currentRound + 1}</p>
+            </Col>
+
+            <Col xs={6} className="p-0 board">
+              <div>SB</div>
               <p>{tournament.blinds[tournament.data.state.currentRound].sb}</p>
             </Col>
-            <Col xs={6} md={12} className="board">
-              <div>Big blind</div>
+            <Col xs={6} className="p-0 board">
+              <div>BB</div>
               <p>{tournament.blinds[tournament.data.state.currentRound].bb}</p>
             </Col>
           </Row>
         </Col>
         {/* MID CENTER */}
-        <Col className="p-0 board d-flex flex-column">
-          <div>Timer</div>
-          <h4>
-            <TournamentTimer />
-          </h4>
-          <div className="bg-dark mb-2 px-5">
-            <ProgressBar
-              variant="secondary"
-              animated
-              now={45}
-              style={{ height: "10px" }}
-            />
-          </div>
-        </Col>
-        {/* MID RIGHT */}
-        <Col xs={12} md={3} xl={2}>
+
+        <Col>
           <Row>
-            <Col xs={6} md={12} className="board">
+            <Col xs={12} className="p-0 board" style={{ borderBottom: "none" }}>
+              <div>Timer</div>
+            </Col>
+            <Col className="d-flex flex-column justify-content-center">
+              <div className="board" style={{ border: "none" }}>
+                <TournamentTimer />
+              </div>
+            </Col>
+          </Row>
+        </Col>
+
+        {/* MID RIGHT */}
+        <Col xs={12} lg={4}>
+          <Row className=" h-100">
+            <Col xs={12} className="p-0 board">
+              <div>Status</div>
+              <p>{tournament.data.state.status}</p>
+            </Col>
+            <Col xs={6} className="board">
               <div>Local time</div>
-              <p>
+              <p style={{ fontSize: "2rem" }}>
                 <CurrentLocalTime />
               </p>
             </Col>
-            <Col xs={6} md={12} className="board">
-              <div>Elapsed time</div>
-              <p>
+
+            <Col xs={6} className="board">
+              <div>Length</div>
+              <p style={{ fontSize: "2rem" }}>
                 <TournamentElapsedTime />
               </p>
             </Col>
           </Row>
         </Col>
       </Row>
-      {/* BOTTOM */}
       <Row>
-        {/* BOT LEFT */}
-        <Col xs={12} md={3} xl={2}>
-          <Row>
-            <Col xs={6} md={12} className="board">
-              <div>Avg stack</div>
-              <p>-</p>
-            </Col>
-            <Col xs={6} md={12} className="board">
-              <div>Total chips</div>
-              <p>-</p>
-            </Col>
-          </Row>
+        <Col xs={6} md={4} lg={2} className="board">
+          <div>Rebuys</div>
+          <p className="d-flex justify-content-center align-items-center">-</p>
         </Col>
-        {/* BOT CENTER */}
-        <Col>
-          <Row>
-            <Col className="p-0 board w-100">
-              <div>Rounds</div>
-              <div className="p-2 bg-dark h-100 ">
-                <LevelsTable />
-              </div>
-            </Col>
-            <Col className="board w-100">
-              <div>Prizes</div>
-              <div className="p-2 bg-dark h-100 ">
-                <PrizesTable />
-              </div>
-            </Col>
-          </Row>
+        <Col xs={6} md={4} lg={2} className="board">
+          <div>Add-ons</div>
+          <p className="d-flex justify-content-center align-items-center">-</p>
         </Col>
-        <Col xs={12} md={3} xl={2}>
-          <Row>
-            <Col xs={6} md={12} className="board">
-              <div>Players</div>
-              <p>-</p>
-            </Col>
-            <Col xs={6} md={12} className="board">
-              <div>Total pot</div>
-              <p>-</p>
-            </Col>
-          </Row>
+        <Col xs={6} md={4} lg={2} className="board">
+          <div>Total pot</div>
+          <p className="d-flex justify-content-center align-items-center">
+            {CalculateTotalPot()}
+          </p>
+        </Col>
+        <Col xs={6} md={4} lg={2} className="board">
+          <div>Players</div>
+          <p>
+            {calculatePaidinPlayers(tournament.players)}/
+            {tournament.players.length}
+          </p>
+        </Col>
+        <Col xs={6} md={4} lg={2} className="board">
+          <div>Avg chips</div>
+          <p className="d-flex justify-content-center align-items-center">-</p>
+        </Col>
+        <Col xs={6} md={4} lg={2} className="board">
+          <div>Total chips</div>
+          <p className="d-flex justify-content-center align-items-center">-</p>
         </Col>
       </Row>
-      {/* PLAYERS */}
+
+      {/* BOTTOM */}
+
       <Row>
-        <Col className="board">
-          <div>Players</div>
-          <div className="bg-dark py-3">
-            <PlayersTable />
-            {/* <PlayersContent /> */}
+        <Col md={12} lg={4} className="p-0 board">
+          <div>Blinds structure</div>
+          <div className="p-0 bg-dark">
+            <LevelsTable />
           </div>
         </Col>
+        <Col md={12} lg={8} className="board pb-5">
+          <div>Players</div>
+          <div className="p-0 bg-dark">
+            <PlayersTable />
+          </div>
+        </Col>
+        {/* <Col md={12} lg={2} className="board">
+          <div>Tables</div>
+          <div className="p-0 bg-dark d-flex">
+            <TablesTable />
+          </div>
+        </Col>
+        <Col md={12} lg={2} className="board">
+          <div>Prizes</div>
+          <div className="p-0 bg-dark d-flex">
+            <TablesTable />
+          </div>
+        </Col> */}
       </Row>
     </>
   );
