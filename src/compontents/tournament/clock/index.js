@@ -75,12 +75,9 @@ export const TournamentTimer = () => {
 
   const blindsUp = () => {
     setRoundEndSwitch(true);
-    playA();
     setSecondsRemaining(5);
     if (secondsRemaining === 0) {
-      setRoundEndSwitch(false);
-      dispatch(setCurrentRound(CURRENT_ROUND_INDEX + 1));
-      setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
+      return "";
     }
     if (secondsRemaining > 0) {
       setSecondsRemaining(secondsRemaining - 1);
@@ -90,8 +87,10 @@ export const TournamentTimer = () => {
   useInterval(
     () => {
       if (secondsRemaining === 0) {
-        blindsUp();
+        setRoundEndSwitch(false);
         if (CURRENT_ROUND_INDEX < rounds.length - 1) {
+          dispatch(setCurrentRound(CURRENT_ROUND_INDEX + 1));
+          setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
         }
         if (data.state.currentRound === rounds.length - 1) {
           dispatch(changeTournamentStatus(TOURNAMENT_STATUS.FINISHED));
@@ -100,7 +99,12 @@ export const TournamentTimer = () => {
 
       if (secondsRemaining > 0) {
         setSecondsRemaining(secondsRemaining - 1);
-        if (secondsRemaining <= 11 && secondsRemaining > 0) {
+        if (secondsRemaining === 1 && !roundEndSwitch) {
+          setRoundEndSwitch(true);
+          playA();
+          setSecondsRemaining(5);
+        }
+        if (secondsRemaining <= 11 && !roundEndSwitch) {
           play();
         }
       }
