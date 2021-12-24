@@ -47,6 +47,7 @@ export const CreateNewTournament = () => {
       status: TOURNAMENT_STATUS.SCHEDULED,
       placements: [],
       currentRound: 0,
+      currentRoundEnd: false,
     },
   });
 

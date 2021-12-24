@@ -20,6 +20,9 @@ import { Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { calculatePaidinPlayers, twoDigits, useInterval } from "./functions";
 import { useSelector, useDispatch } from "react-redux";
+import useSound from "use-sound";
+import beep from "../../../sfx/beep.mp3";
+import bell from "../../../sfx/bell.wav";
 
 export const TournamentTimer = () => {
   const dispatch = useDispatch();
@@ -30,9 +33,13 @@ export const TournamentTimer = () => {
 
   const [secondsRemaining, setSecondsRemaining] = useState();
   const [status, setStatus] = useState(data.state.status);
+  const [roundEndSwitch, setRoundEndSwitch] = useState(false);
+
+  const [play, { stop }] = useSound(beep);
+  const [playA] = useSound(bell);
 
   useEffect(() => {
-    setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration * 60);
+    setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
   }, []);
 
   useEffect(() => setStatus(data.state.status), [data.state.status]);
@@ -66,19 +73,36 @@ export const TournamentTimer = () => {
     );
   };
 
+  const blindsUp = () => {
+    setRoundEndSwitch(true);
+    playA();
+    setSecondsRemaining(5);
+    if (secondsRemaining === 0) {
+      setRoundEndSwitch(false);
+      dispatch(setCurrentRound(CURRENT_ROUND_INDEX + 1));
+      setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
+    }
+    if (secondsRemaining > 0) {
+      setSecondsRemaining(secondsRemaining - 1);
+    }
+  };
+
   useInterval(
     () => {
       if (secondsRemaining === 0) {
+        blindsUp();
         if (CURRENT_ROUND_INDEX < rounds.length - 1) {
-          dispatch(setCurrentRound(CURRENT_ROUND_INDEX + 1));
-          setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
         }
         if (data.state.currentRound === rounds.length - 1) {
           dispatch(changeTournamentStatus(TOURNAMENT_STATUS.FINISHED));
         }
       }
+
       if (secondsRemaining > 0) {
         setSecondsRemaining(secondsRemaining - 1);
+        if (secondsRemaining <= 11 && secondsRemaining > 0) {
+          play();
+        }
       }
     },
     status === TOURNAMENT_STATUS.LIVE ? 1000 : null
@@ -88,9 +112,15 @@ export const TournamentTimer = () => {
   }
   return (
     <>
-      <h4 className="d-flex flex-column justify-content-center align-items-center">
-        {twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
-      </h4>
+      {roundEndSwitch ? (
+        <h1 className="d-flex flex-column justify-content-center align-items-center">
+          Blinds up
+        </h1>
+      ) : (
+        <h4 className="d-flex flex-column justify-content-center align-items-center">
+          {twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
+        </h4>
+      )}
 
       <div
         className="d-flex justify-content-center"
