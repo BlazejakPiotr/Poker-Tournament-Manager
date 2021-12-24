@@ -35,84 +35,62 @@ const Board = () => {
       {/* MIDDLE */}
       <Row>
         {/* MID LEFT*/}
-        <Col xs={12} md={3} xl={2}>
+        <Col xs={12} md={12} lg={3} xl={3}>
           <Row className="h-100">
-            <Col xs={12} className="p-0 board">
+            <Col sm={12} md={6} lg={12} className="p-0 board">
               <div>Round</div>
               <p>Round {tournament.data.state.currentRound + 1}</p>
             </Col>
-            <Col xs={4} md={12} className="p-0 board">
+
+            <Col xs={4} md={6} lg={12} className="p-0 board">
+              <div>SB</div>
+              <p>{tournament.blinds[tournament.data.state.currentRound].sb}</p>
+            </Col>
+            <Col xs={4} md={6} lg={12} className="p-0 board">
+              <div>BB</div>
+              <p>{tournament.blinds[tournament.data.state.currentRound].bb}</p>
+            </Col>
+            <Col xs={4} md={6} lg={12} className="p-0 board">
               <div>Ante</div>
               <p>-</p>
             </Col>
-            <Col xs={4} md={12} className="p-0 board">
-              <div>SB</div>
-              <p>{tournament.blinds[tournament.data.state.currentRound].sb}</p>
-            </Col>
-            <Col xs={4} md={12} className="p-0 board">
-              <div>BB</div>
-              <p>{tournament.blinds[tournament.data.state.currentRound].bb}</p>
-            </Col>
-            {/* <Col xs={12} className="p-0 board">
-              <div>Level</div>
-              <h1>Round {tournament.data.state.currentRound + 1}</h1>
-              <h2 style={{ fontSize: "4rem" }}>
-                {tournament.blinds[tournament.data.state.currentRound].sb} /{" "}
-                {tournament.blinds[tournament.data.state.currentRound].bb}{" "}
-              </h2>
-            </Col> */}
-
-            {/* <Col xs={6} className="p-0 board">
-              <div>SB</div>
-              <p>{tournament.blinds[tournament.data.state.currentRound].sb}</p>
-            </Col>
-            <Col xs={6} className="p-0 board">
-              <div>BB</div>
-              <p>{tournament.blinds[tournament.data.state.currentRound].bb}</p>
-            </Col> */}
           </Row>
         </Col>
         {/* MID CENTER */}
 
-        <Col md={12} md={6} xl={8}>
-          <Row>
-            <Col xs={12} className="p-0 board" style={{ borderBottom: "none" }}>
-              <div>Timer</div>
-            </Col>
-            <Col className="d-flex flex-column justify-content-center">
-              <div className="board" style={{ border: "none" }}>
-                <TournamentTimer />
-              </div>
-            </Col>
+        <Col md={12} lg={6}>
+          <Row className="h-100">
+            <TournamentTimer />
           </Row>
         </Col>
 
         {/* MID RIGHT */}
-        <Col xs={12} md={3} lg={3} xl={2}>
-          <Row className=" h-100">
-            <Col xs={12} className="p-0 board">
-              <div>Status</div>
-              <p style={{ fontSize: "2rem" }}>{tournament.data.state.status}</p>
-            </Col>
-            <Col xs={6} md={12} className="board">
+        <Col xs={12} md={12} lg={3} xl={3}>
+          <Row className="h-100">
+            <Col sm={6} md={6} lg={12} className="board">
               <div>Local time</div>
               <p>
                 <CurrentLocalTime />
               </p>
             </Col>
 
-            <Col xs={6} md={12} className="board">
+            <Col sm={6} md={6} lg={12} className="board">
               <div>Elapsed time</div>
               <p>
                 <TournamentElapsedTime />
               </p>
             </Col>
-            <Col xs={6} md={12} className="board">
+
+            <Col xs={6} md={6} lg={12} className="board">
               <div>Players</div>
               <p>
                 {calculatePaidinPlayers(tournament.players)}/
                 {tournament.players.length}
               </p>
+            </Col>
+            <Col xs={6} md={6} lg={12} className="p-0 board">
+              <div>Total pot</div>
+              <p> {CalculateTotalPot()}</p>
             </Col>
           </Row>
         </Col>
@@ -152,25 +130,27 @@ const Board = () => {
       {/* BOTTOM */}
 
       <Row>
-        <Col md={12} lg={4} className="p-0 board">
+        <Col md={12} lg={3} className="p-0 board">
           <div>Blinds structure</div>
-          <div className="p-0 bg-dark">
-            <LevelsTable />
+          <div className="flex-content">
+            <div className="p-0 bg-dark scrollable-content-wrapper">
+              <LevelsTable />
+            </div>
           </div>
         </Col>
-        <Col md={12} lg={8} className="board pb-5">
+        <Col md={12} lg={6} className="board pb-5 ">
           <div>Players</div>
           <div className="p-0 bg-dark">
             <PlayersTable />
           </div>
         </Col>
-        {/* <Col md={12} lg={2} className="board">
-          <div>Tables</div>
+        <Col md={12} lg={3} className="board">
+          <div>Prizes</div>
           <div className="p-0 bg-dark d-flex">
-            <TablesTable />
+            <PrizesTable />
           </div>
         </Col>
-        <Col md={12} lg={2} className="board">
+        {/* <Col md={12} lg={2} className="board">
           <div>Prizes</div>
           <div className="p-0 bg-dark d-flex">
             <TablesTable />

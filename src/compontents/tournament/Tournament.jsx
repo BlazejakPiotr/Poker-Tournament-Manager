@@ -20,7 +20,7 @@ const Tournament = () => {
   const tournament = useSelector((state) => state.tournament);
   return (
     <>
-      <TournamentNavbar />
+      {/* <TournamentNavbar /> */}
       <Container className="clock bg-dark">
         {/* <Row>
           <Col md={12} lg={8}>

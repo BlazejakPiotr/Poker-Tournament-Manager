@@ -1,6 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBackward,
+  faCog,
+  faCogs,
   faForward,
   faPause,
   faPlay,
@@ -16,7 +18,7 @@ import {
   TOURNAMENT_STATUS,
   updateCurrentRoundIndex,
 } from "../../../redux/actions";
-import { Button } from "react-bootstrap";
+import { Button, Col } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { calculatePaidinPlayers, twoDigits, useInterval } from "./functions";
 import { useSelector, useDispatch } from "react-redux";
@@ -39,8 +41,8 @@ export const TournamentTimer = () => {
   const [playA] = useSound(bell);
 
   useEffect(() => {
-    setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration);
-  }, []);
+    setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration * 60);
+  }, [CURRENT_ROUND_INDEX]);
 
   useEffect(() => setStatus(data.state.status), [data.state.status]);
 
@@ -71,17 +73,6 @@ export const TournamentTimer = () => {
         seconds: 0,
       })
     );
-  };
-
-  const blindsUp = () => {
-    setRoundEndSwitch(true);
-    setSecondsRemaining(5);
-    if (secondsRemaining === 0) {
-      return "";
-    }
-    if (secondsRemaining > 0) {
-      setSecondsRemaining(secondsRemaining - 1);
-    }
   };
 
   useInterval(
@@ -115,23 +106,37 @@ export const TournamentTimer = () => {
     return "";
   }
   return (
-    <>
-      {roundEndSwitch ? (
-        <h1 className="d-flex flex-column justify-content-center align-items-center">
-          Blinds up
-        </h1>
-      ) : (
-        <h4 className="d-flex flex-column justify-content-center align-items-center">
-          {twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
-        </h4>
-      )}
+    <Col xs={12} className="p-0  d-flex flex-column justify-content-between">
+      <div className="p-0 board" style={{ borderBottom: "0px" }}>
+        <div>Timer</div>
 
+        <p style={{ fontSize: "4rem", margin: "0px" }}>{data.state.status}</p>
+      </div>
       <div
-        className="d-flex justify-content-center"
-        style={{ backgroundColor: "#212529" }}
+        className="board m-0 p-0 h-50 d-flex justify-content-center align-items-center"
+        style={{ borderTop: "0px", borderBottom: "0px", fontSize: "10rem" }}
       >
+        {roundEndSwitch
+          ? " Blinds up"
+          : twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
+      </div>
+      <p
+        className="p-3 board m-0 p-0 h-25 d-flex justify-content-evenly "
+        style={{
+          backgroundColor: "inherit",
+          borderTop: "0px",
+          fontSize: "1.5rem",
+        }}
+      >
+        <button className="time-controls">
+          <FontAwesomeIcon
+            icon={faVolumeUp}
+            onClick={handleStart}
+            onClick={handleReset}
+          />
+        </button>
         <button
-          className="time-controls px-3"
+          className="time-controls"
           onClick={() => {
             if (CURRENT_ROUND_INDEX > 0) {
               dispatch(updateCurrentRoundIndex(CURRENT_ROUND_INDEX - 1));
@@ -142,11 +147,11 @@ export const TournamentTimer = () => {
         </button>
 
         {status === TOURNAMENT_STATUS.LIVE ? (
-          <button className="time-controls px-3" onClick={handleStop}>
+          <button className="time-controls " onClick={handleStop}>
             <FontAwesomeIcon icon={faPause} />
           </button>
         ) : (
-          <button className="time-controls px-3" onClick={handleStart}>
+          <button className="time-controls " onClick={handleStart}>
             <FontAwesomeIcon icon={faPlay} />
           </button>
         )}
@@ -161,8 +166,15 @@ export const TournamentTimer = () => {
             }}
           />
         </button>
-      </div>
-    </>
+        <button className="time-controls">
+          <FontAwesomeIcon
+            icon={faCogs}
+            onClick={handleStart}
+            onClick={handleReset}
+          />
+        </button>
+      </p>
+    </Col>
   );
 };
 
@@ -200,5 +212,5 @@ export const TournamentTimer = () => {
         </>
       )} */
   // </>
-  // );
+  // ); */}
 }

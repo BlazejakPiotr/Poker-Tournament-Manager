@@ -63,38 +63,52 @@ export const TournamentElapsedTime = () => {
 };
 
 export const LevelsTable = () => {
+  const blinds = useSelector((state) => state.tournament.blinds);
+  const currentLevel = useSelector(
+    (state) => state.tournament.data.state.currentRound
+  );
   return (
     <Table
       striped
       borderless
       hover
       variant="dark"
-      className="m-0"
-      style={{ border: "0px" }}
+      className="m-0 scrollable-content"
     >
       <thead>
         <tr style={{ borderTop: "2px solid #212529" }}>
           <th style={{ textAlign: "left" }}>#</th>
-          <th>A</th>
+          {blinds.ante && <th>A</th>}
           <th>SB</th>
           <th>BB</th>
           <th>Duration</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td style={{ textAlign: "left" }}>Round 1</td>
-          <td>-</td>
-          <td>5</td>
-          <td>10</td>
-          <td>20'</td>
-        </tr>
+        {blinds.map((round, index) => (
+          <LevelsTableItem
+            index={index}
+            round={round}
+            key={index}
+            currentLevel={currentLevel}
+          />
+        ))}
       </tbody>
     </Table>
   );
 };
 
-export const LevelsTableItem = () => {};
+export const LevelsTableItem = ({ index, round, currentLevel }) => {
+  return (
+    <tr className={index === currentLevel ? "currentLevel" : ""}>
+      <td style={{ textAlign: "left" }}>Round {index + 1}</td>
+      {round.ante && <td>A</td>}
+      <td>{round.sb}</td>
+      <td>{round.bb}</td>
+      <td>{round.duration} '</td>
+    </tr>
+  );
+};
 
 export const PlayersTable = () => {
   return (
@@ -141,5 +155,35 @@ export const PlayersTableItem = () => {
         <td>Status</td>
       </tr>
     </tbody>
+  );
+};
+
+export const PrizesTable = () => {
+  const data = useSelector((state) => state.tournament.data);
+
+  return (
+    <Table
+      striped
+      borderless
+      hover
+      variant="dark"
+      className="m-0 scrollable-content"
+      style={{ border: "0px" }}
+    >
+      <thead>
+        <tr style={{ borderTop: "2px solid #212529" }}>
+          <th style={{ textAlign: "left" }}>Place</th>
+          <th>Winnings</th>
+          <th>%</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style={{ textAlign: "left" }}>1st</td>
+          <td>50 EUR</td>
+          <td>50%</td>
+        </tr>
+      </tbody>
+    </Table>
   );
 };

@@ -6,7 +6,7 @@ import Tournament from "./compontents/tournament/Tournament";
 function App() {
   return (
     <div className="App">
-      {/* <Menu /> */}
+      <Menu />
       <Router>
         <Switch>
           <Route exact path="/" component={Home} />
