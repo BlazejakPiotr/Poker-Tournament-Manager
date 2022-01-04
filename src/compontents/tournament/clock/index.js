@@ -41,10 +41,13 @@ export const TournamentTimer = () => {
   const [playA] = useSound(bell);
 
   useEffect(() => {
-    setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration * 60);
+    if(rounds.length > 0){
+    setSecondsRemaining(rounds[CURRENT_ROUND_INDEX].duration * 60);}
   }, [CURRENT_ROUND_INDEX]);
 
   useEffect(() => setStatus(data.state.status), [data.state.status]);
+
+ 
 
   const secondsToDisplay = secondsRemaining % 60;
   const minutesRemaining = (secondsRemaining - secondsToDisplay) / 60;

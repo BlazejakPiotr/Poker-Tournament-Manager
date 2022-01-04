@@ -9,53 +9,33 @@ import {
   FormLabel,
   Button,
 } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   createRound,
   deleteRound,
   editRound,
   setCurrentRound,
+  setShowRoundsModal,
 } from "../../redux/actions/index.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEdit } from "@fortawesome/fontawesome-free-solid";
-export const LevelsList = () => {
-  const levels = useSelector((state) => state.tournament.blinds);
 
-  return (
-    <Row>
-      <Col xs={12}>
-        <ListGroup>
-          <ListGroup.Item
-            className="d-flex bg-warning"
-            style={{ fontWeight: "bold" }}
-          >
-            <Col className="p-0 small-screen">#</Col>
-            <Col className="p-0">SB</Col>
-            <Col className="p-0">BB</Col>
-            <Col className="p-0">Time</Col>
-          </ListGroup.Item>
-          {levels.map((round, index) => (
-            <LevelsListDetails key={index} round={round} index={index} />
-          ))}
-        </ListGroup>
-      </Col>
-    </Row>
-  );
-};
-
-export const LevelsListDetails = ({ round, index }) => {
+export const LevelModal = () => {
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
-  const handleShowModal = () => setShowModal(!showModal);
+  const modal = useSelector((state) => state.modal);
 
   const [level, setlevel] = useState({
     name: "",
-    duration: round.duration,
-    ante: round.ante,
-    sb: round.sb,
-    bb: round.bb,
-    break: round.break,
+    duration: "",
+    ante: "",
+    sb: "",
+    bb: "",
+    break: "",
   });
+
+  useEffect(() => {
+    setlevel(modal.temp ? modal.temp : "", { level });
+  }, [modal.temp]);
 
   const handleInput = (e, propertyName) => {
     setlevel({
@@ -67,37 +47,25 @@ export const LevelsListDetails = ({ round, index }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(editRound(index, level));
+    if (modal.temp) {
+      dispatch(editRound(modal.index, level));
+    } else {
+      dispatch(createRound(level));
+    }
 
-    setShowModal(false);
+    dispatch(setShowRoundsModal(!modal.rounds));
   };
 
   return (
     <>
-      <ListGroup.Item
-        action
-        onClick={handleShowModal}
-        className="d-flex bg-dark text-light"
-        style={{ borderColor: "#484848" }}
+      <Modal
+        show={modal.rounds}
+        onHide={() => dispatch(setShowRoundsModal(!modal.rounds))}
       >
-        {round.break ? (
-          <>
-            <Col className="small-screen">Break</Col>
-            <Col></Col>
-            <Col></Col>
-            <Col></Col>
-          </>
-        ) : (
-          <>
- 
-          </>
-        )}
-
-        <Col className="p-0">{round.duration} '</Col>
-      </ListGroup.Item>
-      <Modal show={showModal} onHide={handleShowModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit round</Modal.Title>
+          <Modal.Title>
+            {modal.temp ? "Edit Round " + (modal.index + 1) : "Add new round"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
@@ -112,7 +80,7 @@ export const LevelsListDetails = ({ round, index }) => {
                     value={level.ante}
                     onChange={(e) => handleInput(e, "ante")}
                     disabled={level.break}
-                    required
+                    disabled
                   />
                 </FormGroup>
               </Col>
@@ -170,16 +138,28 @@ export const LevelsListDetails = ({ round, index }) => {
                     />
                   </Form.Group>
                 </Col>
-                <Col className="d-flex justify-content-end">
-                  <Button
-                    onClick={() => dispatch(deleteRound(index))}
-                    className="mx-3"
-                  >
-                    <FontAwesomeIcon icon={faTrash} />
-                  </Button>
-                  <Button type="submit">
-                    <FontAwesomeIcon icon={faEdit} />
-                  </Button>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Col xs={12} className="d-flex justify-content-between">
+                  <div>
+                    {modal.temp && (
+                      <button
+                        
+                        className="btn-button"
+                        onClick={() => {
+                          dispatch(setShowRoundsModal());
+                          dispatch(deleteRound(modal.index));
+                        }}
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </div>
+                  <button className="btn-button" type="submit">
+                    {modal.temp ? "Edit" : "Create"}
+                  </button>
                 </Col>
               </Col>
             </Row>

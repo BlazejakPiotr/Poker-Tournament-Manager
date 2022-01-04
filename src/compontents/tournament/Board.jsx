@@ -1,5 +1,5 @@
 import { Row, Col, ProgressBar, ListGroup, Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   CurrentLocalTime,
@@ -18,11 +18,24 @@ import {
 } from "./clock/functions.js";
 import { TournamentTimer } from "./clock/index.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCogs, faExternalLinkAlt, faSquareFull } from "@fortawesome/fontawesome-free-solid";
+import {
+  faCogs,
+  faExternalLinkAlt,
+  faSquareFull,
+} from "@fortawesome/fontawesome-free-solid";
 import { FaSquareFull } from "react-icons/fa";
+import { LevelModal } from "./levels.js";
+import {
+  clearRounds,
+  setCurrentRound,
+  setShowRoundsModal,
+} from "../../redux/actions/index.js";
+import { useEffect } from "react";
 
 const Board = () => {
   const tournament = useSelector((state) => state.tournament);
+  const modal = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -47,11 +60,19 @@ const Board = () => {
 
             <Col xs={4} md={6} lg={12} className="p-0 board">
               <div>Small blind</div>
-              <p>{tournament.blinds[tournament.data.state.currentRound].sb}</p>
+              <p>
+                {tournament.blinds.length > 0
+                  ? tournament.blinds[tournament.data.state.currentRound].sb
+                  : "-"}
+              </p>
             </Col>
             <Col xs={4} md={6} lg={12} className="p-0 board">
               <div>Big blind</div>
-              <p>{tournament.blinds[tournament.data.state.currentRound].bb}</p>
+              <p>
+                {tournament.blinds.length > 0
+                  ? tournament.blinds[tournament.data.state.currentRound].bb
+                  : "-"}
+              </p>
             </Col>
             <Col xs={4} md={6} lg={12} className="p-0 board">
               <div>Ante</div>
@@ -64,8 +85,6 @@ const Board = () => {
         <Col md={12} lg={6}>
           <Row className="h-100">
             <TournamentTimer />
-            <div className="d-flex justify-content-between align-items-center"><Button>Blinds structure</Button><Button>Players manager</Button><Button>General settings</Button></div>
-            
           </Row>
         </Col>
 
@@ -135,27 +154,49 @@ const Board = () => {
       {/* BOTTOM */}
 
       <Row>
-        <Col md={12} lg={3} className="p-0 board">
-          {/* <div style={{position: "relative"}} >Structure<span style={{position: "absolute", right: "5px"}}><FontAwesomeIcon icon={faExternalLinkAlt} /></span></div> */}
-          <div className="flex-content">
-            <div className="p-0 bg-dark scrollable-content-wrapper">
+        <Col md={12} lg={6} className="p-0 board">
+          <div>Structure</div>
+          <div className="p-3 bg-dark d-flex justify-content-between">
+            <button
+              className="btn-button"
+              onClick={() => dispatch(clearRounds())}
+            >
+              Clear blinds
+            </button>
+            <button
+              className="button-btn"
+              onClick={() => dispatch(setShowRoundsModal(!modal.rounds))}
+            >
+              Add round
+            </button>
+
+            {/* <button>Calculate blinds</button> */}
+          </div>
+          <div className="flex-content  bg-dark ">
+            <div className="p-0 bg-dark scrollable-content-wrapper my-1 ">
               <LevelsTable />
             </div>
           </div>
         </Col>
         <Col md={12} lg={6} className="p-0 board">
-        <div className="flex-content">
-          <div className="p-0 bg-dark scrollable-content-wrapper">
-            <PlayersTable />
+          <div style={{ position: "relative" }}>
+            Players
+            <span style={{ position: "absolute", right: "5px" }}>
+              <FontAwesomeIcon icon={faExternalLinkAlt} />
+            </span>
           </div>
+          <div className="flex-content">
+            <div className="p-0 bg-dark scrollable-content-wrapper">
+              <PlayersTable />
+            </div>
           </div>
         </Col>
-        <Col md={12} lg={3} className="board">
+        {/* <Col md={12} lg={3} className="board">
         
           <div className="p-0 bg-dark d-flex">
             <PrizesTable />
           </div>
-        </Col>
+        </Col> */}
         {/* <Col md={12} lg={2} className="board">
           <div>Prizes</div>
           <div className="p-0 bg-dark d-flex">
@@ -163,6 +204,7 @@ const Board = () => {
           </div>
         </Col> */}
       </Row>
+      <LevelModal />
     </>
   );
 };

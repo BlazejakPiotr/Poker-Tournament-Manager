@@ -5,6 +5,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import localStorage from "redux-persist/es/storage";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 import userReducer from "../reducers/user.js";
+import modalReducer from "../reducers/modal.js";
 
 const composeEnchancers =
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -15,6 +16,12 @@ export const initialState = {
     players: [],
     blinds: [],
     tables: [],
+  },
+  modal: {
+    rounds: false,
+    players: false,
+    settings: false,
+    temp: {}
   },
   user: {},
 };
@@ -33,6 +40,7 @@ const persistConfig = {
 };
 
 const bigReducer = combineReducers({
+  modal: modalReducer,
   tournament: tournamentReducer,
   user: userReducer,
 });

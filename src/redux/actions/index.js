@@ -288,6 +288,7 @@ export const EDIT_ROUND = "EDIT_ROUND";
 export const DELETE_ROUND = "DELETE_ROUND";
 export const SET_CURRENT_ROUND = "SET_CURRENT_ROUND";
 
+
 export const createRound = (round) => ({
   type: CREATE_NEW_ROUND,
   payload: round,
@@ -316,7 +317,16 @@ export const setCurrentRound = (index) => ({
   payload: index,
 });
 
-//TOURNAMENT ALERTS
+
+// MODALS 
+
+export const SHOW_ROUNDS_MODAL = "SHOW_ROUNDS_MODAL"
+
+export const setShowRoundsModal = (bool, round, index) => ({
+  type: SHOW_ROUNDS_MODAL,
+  payload: {bool, round, index}
+})
+
 export const SHOW_DANGER_ALERT = "SHOW_DANGER_ALERT";
 export const displayDangerAlert = (alert) => ({
   type: SHOW_DANGER_ALERT,

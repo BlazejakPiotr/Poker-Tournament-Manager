@@ -1,7 +1,11 @@
+import { useEffect } from "react";
 import { Container } from "react-bootstrap";
+import { setCurrentRound } from "../redux/actions/index.js";
 import { CreateNewTournament, Footer, HomepageHeader } from "./home/index.js";
 
+
 const Home = () => {
+  useEffect(() => setCurrentRound(0), [])
   return (
     <>
       <div className="header">
