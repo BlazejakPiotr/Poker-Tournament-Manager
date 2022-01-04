@@ -89,9 +89,7 @@ export const LevelsListDetails = ({ round, index }) => {
           </>
         ) : (
           <>
-            <Col className="p-0">{index + 1}</Col>
-            <Col className="p-0">{round.sb}</Col>
-            <Col className="p-0">{round.bb}</Col>
+ 
           </>
         )}
 

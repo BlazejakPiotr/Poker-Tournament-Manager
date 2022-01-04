@@ -81,7 +81,7 @@ export const LevelsTable = () => {
           {blinds.ante && <th>A</th>}
           <th>SB</th>
           <th>BB</th>
-          <th>Duration</th>
+          <th>Dur</th>
         </tr>
       </thead>
       <tbody>
@@ -111,13 +111,14 @@ export const LevelsTableItem = ({ index, round, currentLevel }) => {
 };
 
 export const PlayersTable = () => {
+  const players = useSelector((state) => state.tournament.players);
   return (
     <Table
       striped
       borderless
       hover
       variant="dark"
-      className="m-0"
+      className="m-0 scrollable-content"
       style={{ border: "0px" }}
     >
       <thead>
@@ -125,36 +126,30 @@ export const PlayersTable = () => {
           <th style={{ textAlign: "left" }}>Name</th>
           <th>Buyin</th>
           <th>Rebuy</th>
-          <th>Add-on</th>
           <th>Cost</th>
           <th>Status</th>
         </tr>
       </thead>
-      <PlayersTableItem />
+      <tbody>
+        {players.map((player, index )=> (<PlayersTableItem key={index} index={index} player={player}/>))}
+      </tbody>
+      
     </Table>
   );
 };
 
-export const PlayersTableItem = () => {
+export const PlayersTableItem = ({index, player}) => {
   return (
-    <tbody>
+ 
       <tr>
-        <td style={{ textAlign: "left" }}>Sir fuck you</td>
-        <td>Buyin</td>
+        <td style={{ textAlign: "left" }}>{player.name}</td>
+        <td>{player.buyin}</td>
         <td>Rebuy</td>
-        <td>Add-on</td>
         <td>Cost</td>
         <td>Status</td>
       </tr>
-      <tr>
-        <td style={{ textAlign: "left" }}>Sir fuck you</td>
-        <td>Buyin</td>
-        <td>Rebuy</td>
-        <td>Add-on</td>
-        <td>Cost</td>
-        <td>Status</td>
-      </tr>
-    </tbody>
+     
+
   );
 };
 

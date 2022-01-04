@@ -289,7 +289,7 @@ export const PlayerListTable = () => {
 
 const PlayersListTableItem = ({ player, index }) => {
   const data = useSelector((state) => state.tournament.data);
-  const [details, setDetails] = useState(false);
+  const [details, setDetails] = useState(true);
   return (
     <>
       <tr onClick={() => setDetails(!details)}>

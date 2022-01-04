@@ -1,4 +1,4 @@
-import { Row, Col, ProgressBar, ListGroup } from "react-bootstrap";
+import { Row, Col, ProgressBar, ListGroup, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 import {
@@ -17,6 +17,9 @@ import {
   CalculateTotalPot,
 } from "./clock/functions.js";
 import { TournamentTimer } from "./clock/index.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCogs, faExternalLinkAlt, faSquareFull } from "@fortawesome/fontawesome-free-solid";
+import { FaSquareFull } from "react-icons/fa";
 
 const Board = () => {
   const tournament = useSelector((state) => state.tournament);
@@ -43,11 +46,11 @@ const Board = () => {
             </Col>
 
             <Col xs={4} md={6} lg={12} className="p-0 board">
-              <div>SB</div>
+              <div>Small blind</div>
               <p>{tournament.blinds[tournament.data.state.currentRound].sb}</p>
             </Col>
             <Col xs={4} md={6} lg={12} className="p-0 board">
-              <div>BB</div>
+              <div>Big blind</div>
               <p>{tournament.blinds[tournament.data.state.currentRound].bb}</p>
             </Col>
             <Col xs={4} md={6} lg={12} className="p-0 board">
@@ -61,6 +64,8 @@ const Board = () => {
         <Col md={12} lg={6}>
           <Row className="h-100">
             <TournamentTimer />
+            <div className="d-flex justify-content-between align-items-center"><Button>Blinds structure</Button><Button>Players manager</Button><Button>General settings</Button></div>
+            
           </Row>
         </Col>
 
@@ -131,21 +136,22 @@ const Board = () => {
 
       <Row>
         <Col md={12} lg={3} className="p-0 board">
-          <div>Blinds structure</div>
+          {/* <div style={{position: "relative"}} >Structure<span style={{position: "absolute", right: "5px"}}><FontAwesomeIcon icon={faExternalLinkAlt} /></span></div> */}
           <div className="flex-content">
             <div className="p-0 bg-dark scrollable-content-wrapper">
               <LevelsTable />
             </div>
           </div>
         </Col>
-        <Col md={12} lg={6} className="board pb-5 ">
-          <div>Players</div>
-          <div className="p-0 bg-dark">
+        <Col md={12} lg={6} className="p-0 board">
+        <div className="flex-content">
+          <div className="p-0 bg-dark scrollable-content-wrapper">
             <PlayersTable />
+          </div>
           </div>
         </Col>
         <Col md={12} lg={3} className="board">
-          <div>Prizes</div>
+        
           <div className="p-0 bg-dark d-flex">
             <PrizesTable />
           </div>

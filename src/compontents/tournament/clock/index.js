@@ -106,35 +106,38 @@ export const TournamentTimer = () => {
     return "";
   }
   return (
-    <Col xs={12} className="p-0  d-flex flex-column justify-content-between">
+    <Col xs={12} className="p-0 ">
       <div className="p-0 board" style={{ borderBottom: "0px" }}>
         <div>Timer</div>
-
-        <p style={{ fontSize: "4rem", margin: "0px" }}>{data.state.status}</p>
+        <p style={{ fontSize: "4rem", margin: "0px", padding: "0px", lineHeight: "5rem" }}>{data.state.status}</p>
+       
       </div>
       <div
-        className="board m-0 p-0 h-50 d-flex justify-content-center align-items-center"
-        style={{ borderTop: "0px", borderBottom: "0px", fontSize: "10rem" }}
+        className="board m-0 p-0 d-flex justify-content-center align-items-center"
+        style={{ borderTop: "0px", borderBottom: "0px", fontSize: "10rem", lineHeight: "10rem" }}
       >
         {roundEndSwitch
-          ? " Blinds up"
+          ? (<h4>Blinds Up!</h4>)
           : twoDigits(minutesToDisplay) + ":" + twoDigits(secondsToDisplay)}
       </div>
       <p
-        className="p-3 board m-0 p-0 h-25 d-flex justify-content-evenly "
+        className="board text-center"
         style={{
           backgroundColor: "inherit",
           borderTop: "0px",
+          borderBottom: "0px",
           fontSize: "1.5rem",
+          lineHeight: "4rem",
+          marginBottom: "0px"
         }}
       >
-        <button className="time-controls">
+        {/* <button className="time-controls">
           <FontAwesomeIcon
             icon={faVolumeUp}
             onClick={handleStart}
             onClick={handleReset}
           />
-        </button>
+        </button> */}
         <button
           className="time-controls"
           onClick={() => {
@@ -147,11 +150,11 @@ export const TournamentTimer = () => {
         </button>
 
         {status === TOURNAMENT_STATUS.LIVE ? (
-          <button className="time-controls " onClick={handleStop}>
+          <button className="time-controls  px-5" onClick={handleStop}>
             <FontAwesomeIcon icon={faPause} />
           </button>
         ) : (
-          <button className="time-controls " onClick={handleStart}>
+          <button className="time-controls  px-5" onClick={handleStart}>
             <FontAwesomeIcon icon={faPlay} />
           </button>
         )}
@@ -166,13 +169,13 @@ export const TournamentTimer = () => {
             }}
           />
         </button>
-        <button className="time-controls">
+        {/* <button className="time-controls">
           <FontAwesomeIcon
             icon={faCogs}
             onClick={handleStart}
             onClick={handleReset}
           />
-        </button>
+        </button> */}
       </p>
     </Col>
   );
