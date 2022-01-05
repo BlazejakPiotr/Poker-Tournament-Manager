@@ -31,6 +31,7 @@ import {
   setShowRoundsModal,
 } from "../../redux/actions/index.js";
 import { useEffect } from "react";
+import { CreatePlayer } from "./players.js";
 
 const Board = () => {
   const tournament = useSelector((state) => state.tournament);
@@ -158,13 +159,13 @@ const Board = () => {
           <div>Structure</div>
           <div className="p-3 bg-dark d-flex justify-content-between">
             <button
-              className="btn-button"
+              className="button-btn"
               onClick={() => dispatch(clearRounds())}
             >
               Clear blinds
             </button>
             <button
-              className="button-btn"
+              className="btn-button"
               onClick={() => dispatch(setShowRoundsModal(!modal.rounds))}
             >
               Add round
@@ -179,11 +180,17 @@ const Board = () => {
           </div>
         </Col>
         <Col md={12} lg={6} className="p-0 board">
-          <div style={{ position: "relative" }}>
-            Players
-            <span style={{ position: "absolute", right: "5px" }}>
-              <FontAwesomeIcon icon={faExternalLinkAlt} />
-            </span>
+          <div>Players</div>
+          <div className="p-3 bg-dark d-flex justify-content-between">
+          <span></span>  {/* <button
+              className="btn-button"
+              // onClick={() => dispatch(clearRounds())}
+            >
+              Clear blinds
+            </button> */}
+            <CreatePlayer />
+
+            {/* <button>Calculate blinds</button> */}
           </div>
           <div className="flex-content">
             <div className="p-0 bg-dark scrollable-content-wrapper">

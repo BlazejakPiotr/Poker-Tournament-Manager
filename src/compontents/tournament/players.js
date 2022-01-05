@@ -14,6 +14,7 @@ import {
   addonPlayer,
   bustoutPlayer,
   buyinPlayer,
+  createPlayer,
   editPlayer,
   rebuyPlayer,
   removePlayer,
@@ -217,6 +218,71 @@ export const PlayersListDetails = ({ player, index }) => {
               onSubmit={() => handleShowModal(showModal)}
             >
               Edit
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
+    </>
+  );
+};
+
+export const CreatePlayer = () => {
+  const dispatch = useDispatch();
+
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => setShowModal(!showModal);
+
+  const [playerState, setPlayerState] = useState({
+    name: "",
+    buyin: false,
+    rebuy: 0,
+    addon: false,
+    status: "Registered",
+    cost: 0,
+    place: null,
+  });
+  const handleInput = (e) => {
+    setPlayerState({
+      ...playerState,
+      name: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createPlayer(playerState));  
+    handleShowModal();
+  };
+
+  return (
+    <>
+      <button className="btn-button" onClick={handleShowModal}>
+        Add player
+      </button>
+      <Modal show={showModal} onHide={handleShowModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add new player</Modal.Title>
+        </Modal.Header>
+        <Form onSubmit={handleSubmit}>
+          <Modal.Body>
+            <Row>
+              <Col xs={8}>
+                <FormGroup className="d-flex align-items-center mb-2">
+                  <Form.Label>Name </Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Add new player"
+                    required
+                    style={{ margin: "0px 1rem" }}
+                    onChange={(e) => handleInput(e)}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+          </Modal.Body>
+          <Modal.Footer className="d-flex justify-content-end">
+            <Button variant="danger" type="submit">
+              Add player
             </Button>
           </Modal.Footer>
         </Form>
