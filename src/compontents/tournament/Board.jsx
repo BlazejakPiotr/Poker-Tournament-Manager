@@ -157,7 +157,7 @@ const Board = () => {
       <Row>
         <Col md={12} lg={6} className="p-0 board">
           <div>Structure</div>
-          <div className="p-3 bg-dark d-flex justify-content-between">
+          <div className="p-2 bg-dark d-flex justify-content-between">
             <button
               className="button-btn"
               onClick={() => dispatch(clearRounds())}
@@ -181,7 +181,7 @@ const Board = () => {
         </Col>
         <Col md={12} lg={6} className="p-0 board">
           <div>Players</div>
-          <div className="p-3 bg-dark d-flex justify-content-between">
+          <div className="p-2 bg-dark d-flex justify-content-between">
           <span></span>  {/* <button
               className="btn-button"
               // onClick={() => dispatch(clearRounds())}
