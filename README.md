@@ -1,5 +1,7 @@
 # POKER TOURNAMENT MANAGER
 
+https://pt-manager.vercel.app/
+
 `Introduction`
 PTM is a free web app to manage home-made poker tournaments made by Strive School student as a capstone project.
 
